@@ -1,0 +1,4 @@
+rootProject.name = 'jsp-api'
+include 'api-spec'
+include 'api-client'
+include 'jsp-api-test-builder'
