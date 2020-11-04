@@ -4,22 +4,40 @@ import java.time.OffsetDateTime
 import java.util.*
 import javax.persistence.*
 
-/**
- * JPA entity representing Image
- *
- * @author Antti Leinonen
- */
 @Entity
-class Image {
-
+class CustomerOrder {
     @Id
     var id: UUID? = null
 
-    var url: String? = null
+    @Column(nullable = false)
+    var additionalInformation: String? = null
 
-    var name: String? = null
+    @Column(nullable = false)
+    var deliveryTime: OffsetDateTime? = null
 
-    var description: String? = null
+    @Column(nullable = false)
+    var room: String? = null
+
+    @Column(nullable = false)
+    var socialMediaPermission: Boolean? = null
+
+    @Column(nullable = false)
+    var city: String? = null
+
+    @Column(nullable = false)
+    var phoneNumber: String? = null
+
+    @Column(nullable = false)
+    var deliveryAddress: String? = null
+
+    @Column(nullable = false)
+    var email: String? = null
+
+    @Column(nullable = false)
+    var customer: String? = null
+
+    @Column(nullable = false)
+    var moreInformation: String? = null
 
     @Column(nullable = false)
     var createdAt: OffsetDateTime? = null

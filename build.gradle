@@ -97,7 +97,6 @@ dependencies {
   implementation "org.hibernate:hibernate-spatial:$hibernate_spatial_version"
 
   testImplementation project(':api-client')
-  testImplementation project(':jsp-api-test-builder')
 
   testImplementation "org.apache.commons:commons-lang3"
   testImplementation 'junit:junit:4.12'
@@ -184,6 +183,10 @@ allOpen {
 test {
   dependsOn tasks.composeUp
   finalizedBy tasks.composeDown
+
+  testLogging {
+    showStandardStreams = true
+  }
 
   doFirst {
     waitUrl("http://localhost:8080/auth")

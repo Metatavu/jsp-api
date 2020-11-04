@@ -1,6 +1,3 @@
 [submodule "jsp-api-spec"]
 	path = jsp-api-spec
 	url = git@github.com:Metatavu/jsp-api-spec.git
-[submodule "jsp-api-test-builder"]
-	path = jsp-api-test-builder
-	url = git@github.com:Metatavu/jsp-api-test-builder.git

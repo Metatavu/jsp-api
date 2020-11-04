@@ -1,60 +1,58 @@
 package fi.metatavu.jsp.api.test.functional.settings
 
-import fi.metatavu.jsp.api.test.builder.Settings
-
 /**
  * Settings implementation for test builder
  *
  * @author Antti Leppä
  */
-class ApiTestSettings() : Settings {
+object TestSettings {
 
     /**
      * Returns API service base path
      */
-    override val apiBasePath: String
+    val apiBasePath: String
         get() = "http://localhost:1234/v1"
 
     /**
      * Returns API service base path
      */
-    override val filesBasePath: String
+    val filesBasePath: String
         get() = "http://localhost:1234/files"
 
     /**
      * Returns Keycloak host
      */
-    override val keycloakHost: String
+    val keycloakHost: String
         get() = "http://test-keycloak:8080/auth"
 
     /**
      * Returns Keycloak realm
      */
-    override val keycloakRealm: String
+    val keycloakRealm: String
         get() = "jsp"
 
     /**
      * Returns Keycloak client id
      */
-    override val keycloakClientId: String
+    val keycloakClientId: String
         get() = "test"
 
     /**
      * Returns Keycloak client secret
      */
-    override val keycloakClientSecret: String?
+    val keycloakClientSecret: String?
         get() = null
 
     /**
      * Returns Keycloak admin user
      */
-    override val keycloakAdminUser: String
+    val keycloakAdminUser: String
         get() = "admin"
 
     /**
      * Returns Keycloak admin password
      */
-    override val keycloakAdminPass: String
+    val keycloakAdminPass: String
         get() = "test"
 
 }

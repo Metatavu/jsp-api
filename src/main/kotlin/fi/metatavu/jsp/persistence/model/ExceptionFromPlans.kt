@@ -3,22 +3,17 @@ package fi.metatavu.jsp.persistence.model
 import java.time.OffsetDateTime
 import java.util.*
 import javax.persistence.*
-import javax.validation.constraints.NotEmpty
 
-/**
- * JPA entity representing Tag
- *
- * @author Antti Leinonen
- */
 @Entity
-class Tag {
-
+class ExceptionFromPlans {
     @Id
     var id: UUID? = null
 
-    @NotEmpty
+    @ManyToOne(optional = false)
+    var customerOrder: CustomerOrder? = null
+
     @Column(nullable = false)
-    var name: String? = null
+    var note: String? = null
 
     @Column(nullable = false)
     var createdAt: OffsetDateTime? = null
