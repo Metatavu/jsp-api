@@ -3,13 +3,10 @@
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
 
-    <changeSet id="tags" author="antti.leinonen">
-        <createTable tableName="tag">
+    <changeSet id="customerorders" author="Simeon Platonov">
+        <createTable tableName="customerorder">
             <column name="id" type="binary(16)">
                 <constraints nullable="false" primaryKey="true"/>
-            </column>
-            <column name="name" type="varchar(191)">
-                <constraints nullable="false"/>
             </column>
             <column name="createdat" type="datetime(6)">
                 <constraints nullable="false"/>
@@ -21,6 +18,60 @@
                 <constraints nullable="false"/>
             </column>
             <column name="lastmodifierid" type="binary(16)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="customer" type="longtext">
+               <constraints nullable="false"/>
+            </column>
+            <column name="email" type="longtext">
+                <constraints nullable="false"/>
+            </column>
+            <column name="deliveryaddress" type="longtext">
+                <constraints nullable="false"/>
+            </column>
+            <column name="phonenumber" type="longtext">
+                <constraints nullable="false"/>
+            </column>
+            <column name="city" type="longtext">
+                <constraints nullable="false"/>
+            </column>
+            <column name="socialmediapermission" type="boolean">
+                <constraints nullable="false"/>
+            </column>
+            <column name="room" type="longtext">
+                <constraints nullable="false"/>
+            </column>
+            <column name="deliverytime" type="datetime(6)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="additionalinformation" type="longtext">
+                <constraints nullable="false"/>
+            </column>
+            <column name="moreinformation" type="longtext">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        
+        <createTable tableName="exceptionalnote">
+            <column name="id" type="binary(16)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="createdat" type="datetime(6)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modifiedat" type="datetime(6)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="creatorid" type="binary(16)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="lastmodifierid" type="binary(16)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="customerorder_id" type="binary(16)">
+                <constraints nullable="false" foreignKeyName="FK_EXCEPTIONAL_NOTE_CUSTOMER_ORDER_ID" referencedTableName="customerorder" referencedColumnNames="id"/>
+            </column>
+            <column name="note" type="longtext">
                 <constraints nullable="false"/>
             </column>
         </createTable>
