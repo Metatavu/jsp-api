@@ -64,7 +64,6 @@ class ExceptionalNoteDAO: AbstractDAO<ExceptionalNote>() {
         val restrictions = ArrayList<Predicate>()
         restrictions.add(criteriaBuilder.equal(root.get(ExceptionalNote_.customerOrder), customerOrder))
 
-
         criteria.where(criteriaBuilder.and(*restrictions.toTypedArray()));
 
         val query = entityManager.createQuery(criteria)
