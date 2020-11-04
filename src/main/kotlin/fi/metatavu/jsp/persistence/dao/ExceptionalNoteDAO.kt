@@ -52,7 +52,7 @@ class ExceptionalNoteDAO: AbstractDAO<ExceptionalNote>() {
      *
      * @param customerOrder list only notes that belong to this order
      *
-     * @return notes
+     * @return list of notes
      */
     fun list (customerOrder: CustomerOrder): List<ExceptionalNote> {
         val entityManager = getEntityManager()
