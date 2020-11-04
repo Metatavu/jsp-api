@@ -56,7 +56,7 @@ class OrderTranslator: AbstractTranslator<CustomerOrder, Order>() {
         order.installation = installation
         order.handles = ArrayList()
         order.counterTops = ArrayList()
-        order.exceptionalNotes = ordersController.listExceptionalNotes(entity).map { note -> note.note }
+        order.exceptionsFromPlans = ordersController.listExceptionsFromPlans(entity).map { note -> note.note }
         order.domesticAppliances = ArrayList()
         order.otherProducts = ArrayList()
         order.intermediateSpaces = ArrayList()

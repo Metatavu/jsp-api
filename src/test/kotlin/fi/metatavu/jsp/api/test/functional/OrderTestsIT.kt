@@ -7,6 +7,9 @@ import org.junit.Assert.assertNotNull
 import org.junit.Test
 import java.time.OffsetDateTime
 
+/**
+ * Tests for orders
+ */
 class OrderTestsIT: AbstractFunctionalTest() {
     @Test
     fun createOrderTest() {
@@ -24,7 +27,7 @@ class OrderTestsIT: AbstractFunctionalTest() {
             assertEquals(testOrder.orderInfo!!.deliveryTime.split(".")[0], createdOrder.orderInfo!!.deliveryTime.split(".")[0])
             assertEquals(testOrder.orderInfo!!.additionalInformation, createdOrder.orderInfo!!.additionalInformation)
             assertEquals(testOrder.moreInformation, createdOrder.moreInformation)
-            assertEquals(testOrder.exceptionalNotes!![0], createdOrder.exceptionalNotes!![0])
+            assertEquals(testOrder.exceptionsFromPlans!![0], createdOrder.exceptionsFromPlans!![0])
         }
     }
 
@@ -46,15 +49,15 @@ class OrderTestsIT: AbstractFunctionalTest() {
                     testDate,
                     "ABCD")
 
-            val exceptionalNotes = ArrayList<String>()
-            exceptionalNotes.add("Updated notes")
+            val exceptionsFromPlans = ArrayList<String>()
+            exceptionsFromPlans.add("Updated notes")
 
             val orderToUpdate = Order(createdOrder.id,
                     orderInfo2,
                     null,
                     null,
                     null,
-                    exceptionalNotes.toTypedArray(),
+                    exceptionsFromPlans.toTypedArray(),
                     null,
                     null,
                     null,
@@ -75,7 +78,7 @@ class OrderTestsIT: AbstractFunctionalTest() {
             assertEquals(testDate.split(".")[0], updatedOrder.orderInfo!!.deliveryTime.split(".")[0])
             assertEquals("ABCD", updatedOrder.orderInfo!!.additionalInformation)
             assertEquals("*** Updated information ***", updatedOrder.moreInformation)
-            assertEquals("Updated notes", updatedOrder.exceptionalNotes!![0])
+            assertEquals("Updated notes", updatedOrder.exceptionsFromPlans!![0])
         }
     }
 
@@ -115,8 +118,8 @@ class OrderTestsIT: AbstractFunctionalTest() {
                 "ABC")
 
 
-        val exceptionalNotes = ArrayList<String>()
-        exceptionalNotes.add("-------------")
+        val exceptionsFromPlans = ArrayList<String>()
+        exceptionsFromPlans.add("-------------")
 
         return Order(
                 null,
@@ -124,7 +127,7 @@ class OrderTestsIT: AbstractFunctionalTest() {
                 null,
                 null,
                 null,
-                exceptionalNotes.toTypedArray(),
+                exceptionsFromPlans.toTypedArray(),
                 null,
                 null,
                 null,

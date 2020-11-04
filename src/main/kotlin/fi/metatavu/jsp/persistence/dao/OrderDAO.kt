@@ -22,6 +22,7 @@ class OrderDAO: AbstractDAO<CustomerOrder>() {
      * @param phoneNumber customer phone number
      * @param deliveryAddress delivery address
      * @param emailAddress customer email address
+     * @param customer customer name
      * @param moreInformation more information
      * @param creatorId id of the user who creates this order
      *

@@ -36,7 +36,7 @@ class OrdersApiImpl: OrdersApi, AbstractApi() {
                 orderInfo.email,
                 orderInfo.customer,
                 order.moreInformation,
-                order.exceptionalNotes,
+                order.exceptionsFromPlans,
                 loggerUserId!!
         )
         val translatedOrder = orderTranslator.translate(createdOrder)
@@ -74,7 +74,7 @@ class OrdersApiImpl: OrdersApi, AbstractApi() {
                 orderInfo.email,
                 orderInfo.customer,
                 order.moreInformation,
-                order.exceptionalNotes,
+                order.exceptionsFromPlans,
                 loggerUserId!!
         )
         val translatedOrder = orderTranslator.translate(updatedOrder)

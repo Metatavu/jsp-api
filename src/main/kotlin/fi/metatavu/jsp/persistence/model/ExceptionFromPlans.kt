@@ -5,7 +5,7 @@ import java.util.*
 import javax.persistence.*
 
 @Entity
-class ExceptionalNote {
+class ExceptionFromPlans {
     @Id
     var id: UUID? = null
 

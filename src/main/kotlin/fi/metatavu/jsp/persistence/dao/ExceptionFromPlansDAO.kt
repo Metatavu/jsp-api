@@ -1,7 +1,7 @@
 package fi.metatavu.jsp.persistence.dao
 
 import fi.metatavu.jsp.persistence.model.CustomerOrder
-import fi.metatavu.jsp.persistence.model.ExceptionalNote
+import fi.metatavu.jsp.persistence.model.ExceptionFromPlans
 import fi.metatavu.jsp.persistence.model.ExceptionalNote_
 import java.util.*
 import javax.enterprise.context.ApplicationScoped
@@ -11,9 +11,9 @@ import javax.persistence.criteria.Predicate
  * A DAO-class for exceptional notes
  */
 @ApplicationScoped
-class ExceptionalNoteDAO: AbstractDAO<ExceptionalNote>() {
+class ExceptionFromPlansDAO: AbstractDAO<ExceptionFromPlans>() {
     /**
-     * Saves a new exceptional note to the database
+     * Saves a new exception note to the database
      *
      * @param id An UUID for identification
      * @param customerOrder order that this note is related to
@@ -22,8 +22,8 @@ class ExceptionalNoteDAO: AbstractDAO<ExceptionalNote>() {
      *
      * @return a new note
      */
-    fun create (id: UUID, customerOrder: CustomerOrder, note: String, creatorId: UUID): ExceptionalNote {
-        val exceptionalNote = ExceptionalNote()
+    fun create (id: UUID, customerOrder: CustomerOrder, note: String, creatorId: UUID): ExceptionFromPlans {
+        val exceptionalNote = ExceptionFromPlans()
         exceptionalNote.id = id
         exceptionalNote.customerOrder = customerOrder
         exceptionalNote.note = note
@@ -33,32 +33,32 @@ class ExceptionalNoteDAO: AbstractDAO<ExceptionalNote>() {
     }
 
     /**
-     * Updates an exceptional note
+     * Updates an exception note
      *
-     * @param exceptionalNote a note to update
+     * @param exceptionFromPlans a note to update
      * @param note a new note value
      * @param modifierId id of the user who is updating this note
      *
      * @return an update note
      */
-    fun updateNote (exceptionalNote: ExceptionalNote, note: String, modifierId: UUID): ExceptionalNote {
-        exceptionalNote.note = note
-        exceptionalNote.lastModifierId = modifierId
-        return persist(exceptionalNote)
+    fun updateNote (exceptionFromPlans: ExceptionFromPlans, note: String, modifierId: UUID): ExceptionFromPlans {
+        exceptionFromPlans.note = note
+        exceptionFromPlans.lastModifierId = modifierId
+        return persist(exceptionFromPlans)
     }
 
     /**
-     * Lists exceptional notes
+     * Lists exception notes
      *
      * @param customerOrder list only notes that belong to this order
      *
      * @return notes
      */
-    fun list (customerOrder: CustomerOrder): List<ExceptionalNote> {
+    fun list (customerOrder: CustomerOrder): List<ExceptionFromPlans> {
         val entityManager = getEntityManager()
         val criteriaBuilder = entityManager.criteriaBuilder
-        val criteria = criteriaBuilder.createQuery(ExceptionalNote::class.java)
-        val root = criteria.from(ExceptionalNote::class.java)
+        val criteria = criteriaBuilder.createQuery(ExceptionFromPlans::class.java)
+        val root = criteria.from(ExceptionFromPlans::class.java)
 
         criteria.select(root)
         val restrictions = ArrayList<Predicate>()

@@ -1,9 +1,9 @@
 package fi.metatavu.jsp.orders
 
-import fi.metatavu.jsp.persistence.dao.ExceptionalNoteDAO
+import fi.metatavu.jsp.persistence.dao.ExceptionFromPlansDAO
 import fi.metatavu.jsp.persistence.dao.OrderDAO
 import fi.metatavu.jsp.persistence.model.CustomerOrder
-import fi.metatavu.jsp.persistence.model.ExceptionalNote
+import fi.metatavu.jsp.persistence.model.ExceptionFromPlans
 import java.time.OffsetDateTime
 import java.util.*
 import javax.enterprise.context.ApplicationScoped
@@ -18,7 +18,7 @@ class OrdersController {
     private lateinit var orderDAO: OrderDAO
 
     @Inject
-    private lateinit var exceptionalNoteDAO: ExceptionalNoteDAO
+    private lateinit var exceptionFromPlansDAO: ExceptionFromPlansDAO
 
     /**
      * Lists all orders
@@ -44,12 +44,12 @@ class OrdersController {
      * @param customerOrder order to be deleted
      */
     fun delete (customerOrder: CustomerOrder) {
-        val notes = listExceptionalNotes(customerOrder)
-
-        notes.forEach { note ->
-            exceptionalNoteDAO.delete(note)
-        }
+        val notes = listExceptionsFromPlans(customerOrder)
         
+        notes.forEach { note ->
+            exceptionFromPlansDAO.delete(note)
+        }
+
         return orderDAO.delete(customerOrder)
     }
 
@@ -64,7 +64,9 @@ class OrdersController {
      * @param phoneNumber customer phone number
      * @param deliveryAddress delivery address
      * @param emailAddress customer email address
+     * @param customer customer name
      * @param moreInformation more information
+     * @param exceptionsFromPlans exceptions from plans
      * @param creatorId id of the user who creates this order
      *
      * @return a new order
@@ -79,12 +81,12 @@ class OrdersController {
                 emailAddress: String,
                 customer: String,
                 moreInformation: String,
-                exceptionalNotes: List<String>,
+                exceptionsFromPlans: List<String>,
                 creatorId: UUID): CustomerOrder {
         val createdOrder = orderDAO.create(UUID.randomUUID(), additionalInformation, deliveryTime, room, socialMediaPermission, city, phoneNumber, deliveryAddress, emailAddress, customer, moreInformation, creatorId)
 
-        for (note in exceptionalNotes) {
-            exceptionalNoteDAO.create(UUID.randomUUID(), createdOrder, note, creatorId)
+        for (note in exceptionsFromPlans) {
+            exceptionFromPlansDAO.create(UUID.randomUUID(), createdOrder, note, creatorId)
         }
 
         return createdOrder
@@ -102,10 +104,11 @@ class OrdersController {
      * @param phoneNumber customer phone number
      * @param deliveryAddress delivery address
      * @param emailAddress customer email address
+     * @param customer new customer name
      * @param moreInformation a new value for moreInformation-field
      * @param modifierId id of the user who updates this order
      *
-     * @return a new order
+     * @return an updated order
      */
     fun update (customerOrder: CustomerOrder,
                 additionalInformation: String,
@@ -118,7 +121,7 @@ class OrdersController {
                 emailAddress: String,
                 customer: String,
                 moreInformation: String,
-                exceptionalNotes: List<String>,
+                exceptionalsFromPlans: List<String>,
                 modifierId: UUID): CustomerOrder {
 
         orderDAO.updateAdditionalInformation(customerOrder, additionalInformation, modifierId)
@@ -132,27 +135,27 @@ class OrdersController {
         orderDAO.updateSocialMediaPermission(customerOrder, socialMediaPermission, modifierId)
         orderDAO.updateMoreInformation(customerOrder, moreInformation, modifierId)
 
-        val existingNotes = listExceptionalNotes(customerOrder)
+        val existingNotes = listExceptionsFromPlans(customerOrder)
 
         for (note in existingNotes) {
-            exceptionalNoteDAO.delete(note)
+            exceptionFromPlansDAO.delete(note)
         }
 
-        for (note in exceptionalNotes) {
-            exceptionalNoteDAO.create(UUID.randomUUID(), customerOrder, note, modifierId)
+        for (note in exceptionalsFromPlans) {
+            exceptionFromPlansDAO.create(UUID.randomUUID(), customerOrder, note, modifierId)
         }
 
         return customerOrder
     }
 
     /**
-     * Lists exceptional notes
+     * Lists exception notes
      *
      * @param customerOrder list only notes that belong to this order
      *
      * @return notes
      */
-    fun listExceptionalNotes (customerOrder: CustomerOrder): List<ExceptionalNote> {
-        return exceptionalNoteDAO.list(customerOrder)
+    fun listExceptionsFromPlans (customerOrder: CustomerOrder): List<ExceptionFromPlans> {
+        return exceptionFromPlansDAO.list(customerOrder)
     }
 }
