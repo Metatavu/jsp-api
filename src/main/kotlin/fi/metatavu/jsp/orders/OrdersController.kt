@@ -106,6 +106,7 @@ class OrdersController {
      * @param emailAddress customer email address
      * @param customer new customer name
      * @param moreInformation a new value for moreInformation-field
+     * @param exceptionsFromPlans exceptions from plans
      * @param modifierId id of the user who updates this order
      *
      * @return an updated order
@@ -121,7 +122,7 @@ class OrdersController {
                 emailAddress: String,
                 customer: String,
                 moreInformation: String,
-                exceptionalsFromPlans: List<String>,
+                exceptionsFromPlans: List<String>,
                 modifierId: UUID): CustomerOrder {
 
         orderDAO.updateAdditionalInformation(customerOrder, additionalInformation, modifierId)
@@ -141,7 +142,7 @@ class OrdersController {
             exceptionFromPlansDAO.delete(note)
         }
 
-        for (note in exceptionalsFromPlans) {
+        for (note in exceptionsFromPlans) {
             exceptionFromPlansDAO.create(UUID.randomUUID(), customerOrder, note, modifierId)
         }
 
