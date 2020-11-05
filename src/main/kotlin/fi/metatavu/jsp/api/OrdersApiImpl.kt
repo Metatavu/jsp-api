@@ -77,12 +77,21 @@ class OrdersApiImpl: OrdersApi, AbstractApi() {
      */
     private fun createGenericProducts (products: List<GenericProduct>, order: CustomerOrder, requiredType: GenericProductType): Any? {
         for (product in products) {
-            val type = product.type
-            if (type != requiredType) {
+            if (product.type != requiredType) {
                 return null
             }
+        }
 
-            genericProductsController.create(product.name, type, product.supplier, order, loggerUserId!!)
+        for (product in products) {
+            if (product.id != null) {
+                val existingProduct = genericProductsController.find(product.id)
+                if (existingProduct != null) {
+                    genericProductsController.update(existingProduct, product.name, product.supplier, loggerUserId!!)
+                }
+            } else {
+                genericProductsController.create(product.name, product.type, product.supplier, order, loggerUserId!!)
+
+            }
         }
 
         return {}
@@ -112,7 +121,17 @@ class OrdersApiImpl: OrdersApi, AbstractApi() {
         val genericProducts = genericProductsController.list(null, existingOrder)
 
         genericProducts.forEach { genericProduct ->
-            genericProductsController.delete(genericProduct)
+            val products = order.electricProducts
+            products.addAll(order.sinks)
+            products.addAll(order.intermediateSpaces)
+            products.addAll(order.otherProducts)
+            products.addAll(order.domesticAppliances)
+
+            val save = products.any { product -> product.id == genericProduct.id }
+
+            if (!save) {
+                genericProductsController.delete(genericProduct)
+            }
         }
 
         val orderInfo = order.orderInfo
