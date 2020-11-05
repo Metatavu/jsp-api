@@ -75,7 +75,7 @@ class OrdersApiImpl: OrdersApi, AbstractApi() {
      *
      * @return empty object if all type checks are successful and null if any of them fails
      */
-    private fun createGenericProducts (products: List<GenericProduct>, order: CustomerOrder, requiredType: GenericProductType): Any? {
+    private fun createGenericProducts (products: List<GenericProduct>, order: CustomerOrder, requiredType: GenericProductType): Boolean? {
         for (product in products) {
             if (product.type != requiredType) {
                 return null
@@ -90,11 +90,10 @@ class OrdersApiImpl: OrdersApi, AbstractApi() {
                 }
             } else {
                 genericProductsController.create(product.name, product.type, product.supplier, order, loggerUserId!!)
-
             }
         }
 
-        return {}
+        return true
     }
 
     override fun deleteOrder(orderId: UUID): Response {
