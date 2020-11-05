@@ -14,7 +14,7 @@ class OrderTestsIT: AbstractFunctionalTest() {
     @Test
     fun createOrderTest() {
         TestBuilder().use { testBuilder ->
-            val testOrder = constructTestOrder()
+            val testOrder = testBuilder.admin().orders().constructTestOrder()
             val createdOrder = testBuilder.admin().orders().create(testOrder)
 
             assertEquals(testOrder.orderInfo!!.customer, createdOrder.orderInfo!!.customer)
@@ -28,13 +28,28 @@ class OrderTestsIT: AbstractFunctionalTest() {
             assertEquals(testOrder.orderInfo!!.additionalInformation, createdOrder.orderInfo!!.additionalInformation)
             assertEquals(testOrder.moreInformation, createdOrder.moreInformation)
             assertEquals(testOrder.exceptionsFromPlans!![0], createdOrder.exceptionsFromPlans!![0])
+
+            assertNotNull(createdOrder.sinks?.get(0))
+            testBuilder.admin().genericProducts().assertGenericProductsEqual(testOrder.sinks!![0], createdOrder.sinks!![0])
+
+            assertNotNull(createdOrder.electricProducts?.get(0))
+            testBuilder.admin().genericProducts().assertGenericProductsEqual(testOrder.electricProducts!![0], createdOrder.electricProducts!![0])
+
+            assertNotNull(createdOrder.domesticAppliances?.get(0))
+            testBuilder.admin().genericProducts().assertGenericProductsEqual(testOrder.domesticAppliances!![0], createdOrder.domesticAppliances!![0])
+
+            assertNotNull(createdOrder.otherProducts?.get(0))
+            testBuilder.admin().genericProducts().assertGenericProductsEqual(testOrder.otherProducts!![0], createdOrder.otherProducts!![0])
+
+            assertNotNull(createdOrder.intermediateSpaces?.get(0))
+            testBuilder.admin().genericProducts().assertGenericProductsEqual(testOrder.intermediateSpaces!![0], createdOrder.intermediateSpaces!![0])
         }
     }
 
     @Test
     fun updateOrderTest() {
         TestBuilder().use { testBuilder ->
-            val testOrder = constructTestOrder()
+            val testOrder = testBuilder.admin().orders().constructTestOrder()
             val createdOrder = testBuilder.admin().orders().create(testOrder)
 
             val testDate = OffsetDateTime.now().plusDays(23).toString().replace("+02:00", "Z").replace("+03:00", "Z")
@@ -52,6 +67,21 @@ class OrderTestsIT: AbstractFunctionalTest() {
             val exceptionsFromPlans = ArrayList<String>()
             exceptionsFromPlans.add("Updated notes")
 
+            val domesticAppliances = ArrayList<GenericProduct>()
+            domesticAppliances.add(GenericProduct("Domestic appliance 2", "INC_1_U", GenericProductType.dOMESTICAPPLIANCE))
+
+            val otherProducts = ArrayList<GenericProduct>()
+            otherProducts.add(GenericProduct("Other product 2", "INC_2_U", GenericProductType.oTHER))
+
+            val sinks = ArrayList<GenericProduct>()
+            sinks.add(GenericProduct("Sink 2", "INC_3_U", GenericProductType.sINK))
+
+            val intermediateSpaces = ArrayList<GenericProduct>()
+            intermediateSpaces.add(GenericProduct("Intermediate space 2", "INC_4_U", GenericProductType.iNTERMEDIATESPACE))
+
+            val electricProducts = ArrayList<GenericProduct>()
+            electricProducts.add(GenericProduct("Electric product 2", "INC_5_U", GenericProductType.eLECTRIC))
+
             val orderToUpdate = Order(createdOrder.id,
                     orderInfo2,
                     null,
@@ -59,11 +89,11 @@ class OrderTestsIT: AbstractFunctionalTest() {
                     null,
                     exceptionsFromPlans.toTypedArray(),
                     null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
+                    domesticAppliances.toTypedArray(),
+                    otherProducts.toTypedArray(),
+                    intermediateSpaces.toTypedArray(),
+                    sinks.toTypedArray(),
+                    electricProducts.toTypedArray(),
                     null,
                     "*** Updated information ***")
             val updatedOrder = testBuilder.admin().orders().update(orderToUpdate)
@@ -79,13 +109,28 @@ class OrderTestsIT: AbstractFunctionalTest() {
             assertEquals("ABCD", updatedOrder.orderInfo!!.additionalInformation)
             assertEquals("*** Updated information ***", updatedOrder.moreInformation)
             assertEquals("Updated notes", updatedOrder.exceptionsFromPlans!![0])
+
+            assertNotNull(updatedOrder.sinks?.get(0))
+            testBuilder.admin().genericProducts().assertGenericProductsEqual(orderToUpdate.sinks!![0], updatedOrder.sinks!![0])
+
+            assertNotNull(updatedOrder.electricProducts?.get(0))
+            testBuilder.admin().genericProducts().assertGenericProductsEqual(orderToUpdate.electricProducts!![0], updatedOrder.electricProducts!![0])
+
+            assertNotNull(updatedOrder.domesticAppliances?.get(0))
+            testBuilder.admin().genericProducts().assertGenericProductsEqual(orderToUpdate.domesticAppliances!![0], updatedOrder.domesticAppliances!![0])
+
+            assertNotNull(updatedOrder.otherProducts?.get(0))
+            testBuilder.admin().genericProducts().assertGenericProductsEqual(orderToUpdate.otherProducts!![0], updatedOrder.otherProducts!![0])
+
+            assertNotNull(updatedOrder.intermediateSpaces?.get(0))
+            testBuilder.admin().genericProducts().assertGenericProductsEqual(orderToUpdate.intermediateSpaces!![0], updatedOrder.intermediateSpaces!![0])
         }
     }
 
     @Test
     fun findOrderTest() {
         TestBuilder().use { testBuilder ->
-            val orderId = testBuilder.admin().orders().create(constructTestOrder()).id!!
+            val orderId = testBuilder.admin().orders().create().id!!
             assertNotNull(testBuilder.admin().orders().find(orderId))
         }
     }
@@ -93,49 +138,15 @@ class OrderTestsIT: AbstractFunctionalTest() {
     @Test
     fun listOrdersTest() {
         TestBuilder().use { testBuilder ->
-            val order = constructTestOrder()
-            testBuilder.admin().orders().create(order)
-            testBuilder.admin().orders().create(order)
-            testBuilder.admin().orders().create(order)
-            testBuilder.admin().orders().create(order)
-            testBuilder.admin().orders().create(order)
+            testBuilder.admin().orders().create()
+            testBuilder.admin().orders().create()
+            testBuilder.admin().orders().create()
+            testBuilder.admin().orders().create()
+            testBuilder.admin().orders().create()
 
             val orders = testBuilder.admin().orders().list()
             assertEquals(5, orders.size)
         }
-    }
-
-    private fun constructTestOrder(): Order {
-        val orderInfo = OrderInfo(
-                "Asiakas Tommi",
-                "tommi@tommi.tommi",
-                "Hallituskatu 7",
-                "1111111",
-                "Mikkeli",
-                false,
-                "3",
-                OffsetDateTime.now().toString().replace("+02:00", "Z").replace("+03:00", "Z"),
-                "ABC")
-
-
-        val exceptionsFromPlans = ArrayList<String>()
-        exceptionsFromPlans.add("-------------")
-
-        return Order(
-                null,
-                orderInfo,
-                null,
-                null,
-                null,
-                exceptionsFromPlans.toTypedArray(),
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                "*** More information ***")
     }
 }
 

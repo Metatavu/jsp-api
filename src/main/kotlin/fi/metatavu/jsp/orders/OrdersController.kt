@@ -4,6 +4,7 @@ import fi.metatavu.jsp.persistence.dao.ExceptionFromPlansDAO
 import fi.metatavu.jsp.persistence.dao.OrderDAO
 import fi.metatavu.jsp.persistence.model.CustomerOrder
 import fi.metatavu.jsp.persistence.model.ExceptionFromPlans
+import fi.metatavu.jsp.products.GenericProductsController
 import java.time.OffsetDateTime
 import java.util.*
 import javax.enterprise.context.ApplicationScoped
@@ -20,6 +21,9 @@ class OrdersController {
     @Inject
     private lateinit var exceptionFromPlansDAO: ExceptionFromPlansDAO
 
+    @Inject
+    private lateinit var genericProductsController: GenericProductsController
+
     /**
      * Lists all orders
      *
@@ -33,6 +37,8 @@ class OrdersController {
      * Finds all orders
      *
      * @param orderId id of the order to find
+     *
+     * @return found product or null if not found
      */
     fun find (orderId: UUID): CustomerOrder? {
         return orderDAO.findById(orderId)
@@ -45,6 +51,12 @@ class OrdersController {
      */
     fun delete (customerOrder: CustomerOrder) {
         val notes = listExceptionsFromPlans(customerOrder)
+
+        val products = genericProductsController.list(null, customerOrder)
+
+        products.forEach { product ->
+            genericProductsController.delete(product)
+        }
         
         notes.forEach { note ->
             exceptionFromPlansDAO.delete(note)
