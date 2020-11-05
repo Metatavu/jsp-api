@@ -5,6 +5,7 @@ import fi.metatavu.jsp.api.test.functional.builder.TestBuilder
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Test
+import java.util.*
 
 /**
  * Tests for generic products
@@ -16,6 +17,8 @@ class GenericProductTestsIT: AbstractFunctionalTest() {
             val productId = testBuilder.admin().orders().create().sinks!![0].id
             val foundProduct = testBuilder.admin().genericProducts().find(productId!!)
             assertNotNull(foundProduct)
+
+            testBuilder.admin().genericProducts().assertFindFailStatus(UUID.randomUUID())
         }
     }
 
@@ -28,6 +31,8 @@ class GenericProductTestsIT: AbstractFunctionalTest() {
 
             val domesticAppliances = testBuilder.admin().genericProducts().list("DOMESTIC_APPLIANCE")
             assertEquals(1, domesticAppliances.size)
+
+            testBuilder.admin().genericProducts().assertListFailStatus()
         }
     }
 }

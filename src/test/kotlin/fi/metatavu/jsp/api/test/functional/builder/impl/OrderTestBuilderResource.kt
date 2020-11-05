@@ -90,6 +90,8 @@ class OrderTestBuilderResource(testBuilder: AbstractTestBuilder<ApiClient?>?, pr
 
     /**
      * Tests that find request fails correctly
+     *
+     * @param orderId id of an order to test
      */
     fun assertFindFailStatus (orderId: UUID) {
         try {
@@ -128,6 +130,8 @@ class OrderTestBuilderResource(testBuilder: AbstractTestBuilder<ApiClient?>?, pr
 
     /**
      * Tests that delete request fails correctly
+     *
+     * @param orderId id of an order to test
      */
     fun assertDeleteFailStatus (orderId: UUID) {
         try {
