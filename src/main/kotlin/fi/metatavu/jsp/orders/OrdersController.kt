@@ -38,7 +38,7 @@ class OrdersController {
      *
      * @param orderId id of the order to find
      *
-     * @return found product or null if not found
+     * @return found order or null if not found
      */
     fun find (orderId: UUID): CustomerOrder? {
         return orderDAO.findById(orderId)

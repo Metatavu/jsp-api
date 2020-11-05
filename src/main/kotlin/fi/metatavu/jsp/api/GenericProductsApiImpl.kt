@@ -33,7 +33,7 @@ class GenericProductsApiImpl: GenericProductsApi, AbstractApi() {
         val products = ArrayList<GenericProduct>()
         if (productType == null) {
             products.addAll(genericProductsController.list(null, null))
-        } else if (productType != "ELECTRIC" && productType != "DOMESTIC_APPLIANCE" && productType != "ELECTRIC" && productType != "SINK" && productType != "INTERMEDIATE_SPACE") {
+        } else if (!GenericProductType.values().any { it.name == productType }) {
             return createBadRequest("Unrecognized type $productType")
         } else  {
             products.addAll(genericProductsController.list(GenericProductType.fromValue(productType), null))
