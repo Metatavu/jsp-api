@@ -32,6 +32,21 @@ class OrdersApiImpl: OrdersApi, AbstractApi() {
     override fun createOrder(order: Order): Response {
         val orderInfo = order.orderInfo
 
+        checkGenericProductsType(order.electricProducts, GenericProductType.ELECTRIC)
+                ?: return createBadRequest("Electric products list can only contain products of type ELECTRIC")
+
+        checkGenericProductsType(order.sinks, GenericProductType.SINK)
+                ?: return createBadRequest("Sinks list can only contain products of type SINK")
+
+        checkGenericProductsType(order.domesticAppliances, GenericProductType.DOMESTIC_APPLIANCE)
+                ?: return createBadRequest("Domestic appliances list can only contain products of type DOMESTIC_APPLIANCE")
+
+        checkGenericProductsType(order.intermediateSpaces, GenericProductType.INTERMEDIATE_SPACE)
+                ?: return createBadRequest("Intermediate spaces list can only contain products of type INTERMEDIATE_SPACE")
+
+        checkGenericProductsType(order.otherProducts, GenericProductType.OTHER)
+                ?: return createBadRequest("Other products list can only contain products of type OTHER")
+
         val createdOrder = ordersController.create(
                 orderInfo.additionalInformation,
                 orderInfo.deliveryTime,
@@ -47,41 +62,25 @@ class OrdersApiImpl: OrdersApi, AbstractApi() {
                 loggerUserId!!
         )
 
-        createGenericProducts(order.sinks, createdOrder, GenericProductType.SINK)
-                ?: return createBadRequest("Sinks list can only contain products of type SINK")
-
-        createGenericProducts(order.otherProducts, createdOrder, GenericProductType.OTHER)
-                ?: return createBadRequest("Other products list can only contain products of type OTHER")
-
-        createGenericProducts(order.domesticAppliances, createdOrder, GenericProductType.DOMESTIC_APPLIANCE)
-                ?: return createBadRequest("Domestic appliances list can only contain products of type DOMESTIC_APPLIANCE")
-
-        createGenericProducts(order.electricProducts, createdOrder, GenericProductType.ELECTRIC)
-                ?: return createBadRequest("Electric products list can only contain products of type ELECTRIC")
-
-        createGenericProducts(order.intermediateSpaces, createdOrder, GenericProductType.INTERMEDIATE_SPACE)
-                ?: return createBadRequest("Intermediate spaces list can only contain products of type INTERMEDIATE_SPACE")
+        createGenericProducts(order.sinks, createdOrder)
+        createGenericProducts(order.otherProducts, createdOrder)
+        createGenericProducts(order.domesticAppliances, createdOrder)
+        createGenericProducts(order.electricProducts, createdOrder)
+        createGenericProducts(order.intermediateSpaces, createdOrder)
 
         val translatedOrder = orderTranslator.translate(createdOrder)
         return createOk(translatedOrder)
     }
 
     /**
-     * Checks that products match a required type and saves generic products to a database from a list
+     * Saves generic products to a database from a list
      *
      * @param products products to save
      * @param order the order that these products are related to
-     * @param requiredType required type
      *
      * @return empty object if all type checks are successful and null if any of them fails
      */
-    private fun createGenericProducts (products: List<GenericProduct>, order: CustomerOrder, requiredType: GenericProductType): Boolean? {
-        for (product in products) {
-            if (product.type != requiredType) {
-                return null
-            }
-        }
-
+    private fun createGenericProducts (products: List<GenericProduct>, order: CustomerOrder) {
         for (product in products) {
             if (product.id != null) {
                 val existingProduct = genericProductsController.find(product.id)
@@ -90,6 +89,22 @@ class OrdersApiImpl: OrdersApi, AbstractApi() {
                 }
             } else {
                 genericProductsController.create(product.name, product.type, product.supplier, order, loggerUserId!!)
+            }
+        }
+    }
+
+    /**
+     * Checks that products match required type
+     *
+     * @param products products to check
+     * @param requiredType required type
+     *
+     * @return null if failed and true if successful
+     */
+    private fun checkGenericProductsType (products: List<GenericProduct>, requiredType: GenericProductType): Boolean? {
+        for (product in products) {
+            if (product.type != requiredType) {
+                return null
             }
         }
 
@@ -118,6 +133,21 @@ class OrdersApiImpl: OrdersApi, AbstractApi() {
         val existingOrder = ordersController.find(orderId) ?: return createNotFound("Order with id $orderId not found!")
 
         val genericProducts = genericProductsController.list(null, existingOrder)
+
+        checkGenericProductsType(order.electricProducts, GenericProductType.ELECTRIC)
+                ?: return createBadRequest("Electric products list can only contain products of type ELECTRIC")
+
+        checkGenericProductsType(order.sinks, GenericProductType.SINK)
+                ?: return createBadRequest("Sinks list can only contain products of type SINK")
+
+        checkGenericProductsType(order.domesticAppliances, GenericProductType.DOMESTIC_APPLIANCE)
+                ?: return createBadRequest("Domestic appliances list can only contain products of type DOMESTIC_APPLIANCE")
+
+        checkGenericProductsType(order.intermediateSpaces, GenericProductType.INTERMEDIATE_SPACE)
+                ?: return createBadRequest("Intermediate spaces list can only contain products of type INTERMEDIATE_SPACE")
+
+        checkGenericProductsType(order.otherProducts, GenericProductType.OTHER)
+                ?: return createBadRequest("Other products list can only contain products of type OTHER")
 
         genericProducts.forEach { genericProduct ->
             val products = order.electricProducts
@@ -148,20 +178,11 @@ class OrdersApiImpl: OrdersApi, AbstractApi() {
                 loggerUserId!!
         )
 
-        createGenericProducts(order.sinks, updatedOrder, GenericProductType.SINK)
-                ?: return createBadRequest("Sinks list can only contain products of type SINK")
-
-        createGenericProducts(order.otherProducts, updatedOrder, GenericProductType.OTHER)
-                ?: return createBadRequest("Other products list can only contain products of type OTHER")
-
-        createGenericProducts(order.domesticAppliances, updatedOrder, GenericProductType.DOMESTIC_APPLIANCE)
-                ?: return createBadRequest("Domestic appliances list can only contain products of type DOMESTIC_APPLIANCE")
-
-        createGenericProducts(order.electricProducts, updatedOrder, GenericProductType.ELECTRIC)
-                ?: return createBadRequest("Electric products list can only contain products of type ELECTRIC")
-
-        createGenericProducts(order.intermediateSpaces, updatedOrder, GenericProductType.INTERMEDIATE_SPACE)
-                ?: return createBadRequest("Intermediate spaces list can only contain products of type INTERMEDIATE_SPACE")
+        createGenericProducts(order.sinks, updatedOrder)
+        createGenericProducts(order.otherProducts, updatedOrder)
+        createGenericProducts(order.domesticAppliances, updatedOrder)
+        createGenericProducts(order.electricProducts, updatedOrder)
+        createGenericProducts(order.intermediateSpaces, updatedOrder)
 
         val translatedOrder = orderTranslator.translate(updatedOrder)
         return createOk(translatedOrder)

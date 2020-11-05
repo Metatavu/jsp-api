@@ -43,6 +43,8 @@ class OrderTestsIT: AbstractFunctionalTest() {
 
             assertNotNull(createdOrder.intermediateSpaces?.get(0))
             testBuilder.admin().genericProducts().assertGenericProductsEqual(testOrder.intermediateSpaces!![0], createdOrder.intermediateSpaces!![0])
+
+            testBuilder.admin().orders().assertCreateFailStatus()
         }
     }
 
@@ -68,7 +70,8 @@ class OrderTestsIT: AbstractFunctionalTest() {
             exceptionsFromPlans.add("Updated notes")
 
             val domesticAppliances = ArrayList<GenericProduct>()
-            domesticAppliances.add(GenericProduct("Domestic appliance 2", "INC_1_U", GenericProductType.dOMESTICAPPLIANCE))
+            domesticAppliances.addAll(createdOrder.domesticAppliances!!)
+            domesticAppliances[0] = GenericProduct("Domestic appliance 2", "INC_1_U", GenericProductType.dOMESTICAPPLIANCE)
 
             val otherProducts = ArrayList<GenericProduct>()
             otherProducts.add(GenericProduct("Other product 2", "INC_2_U", GenericProductType.oTHER))
@@ -124,6 +127,8 @@ class OrderTestsIT: AbstractFunctionalTest() {
 
             assertNotNull(updatedOrder.intermediateSpaces?.get(0))
             testBuilder.admin().genericProducts().assertGenericProductsEqual(orderToUpdate.intermediateSpaces!![0], updatedOrder.intermediateSpaces!![0])
+
+            testBuilder.admin().orders().assertUpdateFailStatus()
         }
     }
 
@@ -147,6 +152,18 @@ class OrderTestsIT: AbstractFunctionalTest() {
             val orders = testBuilder.admin().orders().list()
             assertEquals(5, orders.size)
         }
+    }
+
+    @Test
+    fun deleteOrderTest() {
+
+        TestBuilder().use { testBuilder ->
+            val orderId = testBuilder.admin().orders().create().id!!
+            testBuilder.admin().orders().delete(orderId)
+            testBuilder.admin().orders().assertFindFailStatus(orderId)
+            testBuilder.admin().orders().assertDeleteFailStatus(orderId)
+        }
+
     }
 }
 

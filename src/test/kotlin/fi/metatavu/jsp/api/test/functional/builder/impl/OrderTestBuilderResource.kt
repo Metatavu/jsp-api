@@ -4,6 +4,7 @@ import fi.metatavu.jaxrs.test.functional.builder.AbstractTestBuilder
 import fi.metatavu.jaxrs.test.functional.builder.auth.AccessTokenProvider
 import fi.metatavu.jsp.api.client.apis.OrdersApi
 import fi.metatavu.jsp.api.client.infrastructure.ApiClient
+import fi.metatavu.jsp.api.client.infrastructure.ClientException
 import fi.metatavu.jsp.api.client.models.*
 import fi.metatavu.jsp.api.test.functional.settings.TestSettings
 import java.time.OffsetDateTime
@@ -35,6 +36,21 @@ class OrderTestBuilderResource(testBuilder: AbstractTestBuilder<ApiClient?>?, pr
         return addClosable(api.createOrder(order))
     }
 
+
+    /**
+     * Tests that create request fails correctly
+     */
+    fun assertCreateFailStatus() {
+        val order = constructTestOrder()
+        order.intermediateSpaces!![0] = GenericProduct("a", "a", GenericProductType.dOMESTICAPPLIANCE)
+        try {
+            api.createOrder(order)
+            throw Exception("Should have failed with status 400")
+        } catch (exception: ClientException) {
+            assertClientExceptionStatus(400, exception)
+        }
+    }
+
     /**
      * Sends a request to the API to update an order
      *
@@ -44,6 +60,21 @@ class OrderTestBuilderResource(testBuilder: AbstractTestBuilder<ApiClient?>?, pr
      */
     fun update (order: Order): Order {
         return api.updateOrder(order.id!!, order)
+    }
+
+    /**
+     * Tests that update request fails correctly
+     */
+    fun assertUpdateFailStatus() {
+        val order = constructTestOrder()
+        val createdOrder = addClosable(api.createOrder(order))
+        createdOrder.intermediateSpaces!![0] = GenericProduct("a", "a", GenericProductType.dOMESTICAPPLIANCE)
+        try {
+            api.updateOrder(createdOrder.id!!, createdOrder)
+            throw Exception("Should have failed with status 400")
+        } catch (exception: ClientException) {
+            assertClientExceptionStatus(400, exception)
+        }
     }
 
     /**
@@ -58,12 +89,53 @@ class OrderTestBuilderResource(testBuilder: AbstractTestBuilder<ApiClient?>?, pr
     }
 
     /**
+     * Tests that find request fails correctly
+     */
+    fun assertFindFailStatus (orderId: UUID) {
+        try {
+            api.findOrder(orderId)
+            throw Exception("Should have failed with status 404")
+        } catch (exception: ClientException) {
+            assertClientExceptionStatus(404, exception)
+        }
+    }
+
+    /**
      * Sends a request to the API to list orders
      *
      * @return an array of orders
      */
     fun list(): Array<Order> {
         return api.listOrders()
+    }
+
+    /**
+     * Sends a request to the API to delete an order
+     *
+     * @param orderId the id of an order to delete
+     */
+    fun delete (orderId: UUID) {
+        api.deleteOrder(orderId)
+        removeCloseable { closable: Any ->
+            if (closable !is Order) {
+                return@removeCloseable false
+            }
+
+            val closeableTask: Order = closable
+            closeableTask.id!! == orderId
+        }
+    }
+
+    /**
+     * Tests that delete request fails correctly
+     */
+    fun assertDeleteFailStatus (orderId: UUID) {
+        try {
+            api.deleteOrder(orderId)
+            throw Exception("Should have failed with status 404")
+        } catch (exception: ClientException) {
+            assertClientExceptionStatus(404, exception)
+        }
     }
 
     override fun getApi(): OrdersApi {
