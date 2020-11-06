@@ -76,4 +76,36 @@
             </column>
         </createTable>
     </changeSet>
+
+    <changeSet id="Generic products" author="Simeon Platonov">
+        <createTable tableName="genericproduct">
+            <column name="id" type="binary(16)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="createdat" type="datetime(6)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modifiedat" type="datetime(6)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="creatorid" type="binary(16)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="lastmodifierid" type="binary(16)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="customerorder_id" type="binary(16)">
+                <constraints nullable="false" foreignKeyName="FK_GENERIC_PRODUCT_CUSTOMER_ORDER_ID" referencedTableName="customerorder" referencedColumnNames="id"/>
+            </column>
+            <column name="productname" type="longtext">
+                <constraints nullable="false"/>
+            </column>
+            <column name="supplier" type="longtext">
+                <constraints nullable="false"/>
+            </column>
+            <column name="producttype" type="varchar(128)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
 </databaseChangeLog>

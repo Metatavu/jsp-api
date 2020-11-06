@@ -3,6 +3,7 @@ package fi.metatavu.jsp.api.translate
 import fi.metatavu.jsp.api.spec.model.*
 import fi.metatavu.jsp.orders.OrdersController
 import fi.metatavu.jsp.persistence.model.CustomerOrder
+import fi.metatavu.jsp.products.GenericProductsController
 import javax.inject.Inject
 
 /**
@@ -11,6 +12,12 @@ import javax.inject.Inject
 class OrderTranslator: AbstractTranslator<CustomerOrder, Order>() {
     @Inject
     private lateinit var ordersController: OrdersController
+
+    @Inject
+    private lateinit var genericProductTranslator: GenericProductTranslator
+
+    @Inject
+    private lateinit var genericProductsController: GenericProductsController
 
     /**
      * Translates JPA orders into REST orders
@@ -57,11 +64,13 @@ class OrderTranslator: AbstractTranslator<CustomerOrder, Order>() {
         order.handles = ArrayList()
         order.counterTops = ArrayList()
         order.exceptionsFromPlans = ordersController.listExceptionsFromPlans(entity).map { note -> note.note }
-        order.domesticAppliances = ArrayList()
-        order.otherProducts = ArrayList()
-        order.intermediateSpaces = ArrayList()
-        order.sinks = ArrayList()
-        order.electricProducts = ArrayList()
+
+        order.domesticAppliances = genericProductsController.list(GenericProductType.DOMESTIC_APPLIANCE, entity).map(genericProductTranslator::translate)
+        order.otherProducts = genericProductsController.list(GenericProductType.OTHER, entity).map(genericProductTranslator::translate)
+        order.intermediateSpaces = genericProductsController.list(GenericProductType.INTERMEDIATE_SPACE, entity).map(genericProductTranslator::translate)
+        order.sinks = genericProductsController.list(GenericProductType.SINK, entity).map(genericProductTranslator::translate)
+        order.electricProducts = genericProductsController.list(GenericProductType.ELECTRIC, entity).map(genericProductTranslator::translate)
+
         order.moreInformation = entity.moreInformation
         order.customerFiles = ArrayList()
         order.orderFiles = ArrayList()
