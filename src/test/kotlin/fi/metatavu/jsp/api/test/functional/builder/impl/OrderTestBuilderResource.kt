@@ -39,15 +39,17 @@ class OrderTestBuilderResource(testBuilder: AbstractTestBuilder<ApiClient?>?, pr
 
     /**
      * Tests that create request fails correctly
+     *
+     * @param status expected status code
      */
-    fun assertCreateFailStatus() {
+    fun assertCreateFailStatus(status: Int) {
         val order = constructTestOrder()
         order.intermediateSpaces!![0] = GenericProduct("a", "a", GenericProductType.dOMESTICAPPLIANCE)
         try {
             api.createOrder(order)
-            throw Exception("Should have failed with status 400")
+            throw Exception("Should have failed with status $status")
         } catch (exception: ClientException) {
-            assertClientExceptionStatus(400, exception)
+            assertClientExceptionStatus(status, exception)
         }
     }
 
@@ -64,16 +66,18 @@ class OrderTestBuilderResource(testBuilder: AbstractTestBuilder<ApiClient?>?, pr
 
     /**
      * Tests that update request fails correctly
+     *
+     * @param status expected status code
      */
-    fun assertUpdateFailStatus() {
+    fun assertUpdateFailStatus(status: Int) {
         val order = constructTestOrder()
         val createdOrder = addClosable(api.createOrder(order))
         createdOrder.intermediateSpaces!![0] = GenericProduct("a", "a", GenericProductType.dOMESTICAPPLIANCE)
         try {
             api.updateOrder(createdOrder.id!!, createdOrder)
-            throw Exception("Should have failed with status 400")
+            throw Exception("Should have failed with status $status")
         } catch (exception: ClientException) {
-            assertClientExceptionStatus(400, exception)
+            assertClientExceptionStatus(status, exception)
         }
     }
 
@@ -92,13 +96,14 @@ class OrderTestBuilderResource(testBuilder: AbstractTestBuilder<ApiClient?>?, pr
      * Tests that find request fails correctly
      *
      * @param orderId id of an order to test
+     * @param status expected status code
      */
-    fun assertFindFailStatus (orderId: UUID) {
+    fun assertFindFailStatus (orderId: UUID, status: Int) {
         try {
             api.findOrder(orderId)
-            throw Exception("Should have failed with status 404")
+            throw Exception("Should have failed with status $status")
         } catch (exception: ClientException) {
-            assertClientExceptionStatus(404, exception)
+            assertClientExceptionStatus(status, exception)
         }
     }
 
@@ -132,13 +137,14 @@ class OrderTestBuilderResource(testBuilder: AbstractTestBuilder<ApiClient?>?, pr
      * Tests that delete request fails correctly
      *
      * @param orderId id of an order to test
+     * @param status expected status code
      */
-    fun assertDeleteFailStatus (orderId: UUID) {
+    fun assertDeleteFailStatus (orderId: UUID, status: Int) {
         try {
             api.deleteOrder(orderId)
-            throw Exception("Should have failed with status 404")
+            throw Exception("Should have failed with status $status")
         } catch (exception: ClientException) {
-            assertClientExceptionStatus(404, exception)
+            assertClientExceptionStatus(status, exception)
         }
     }
 

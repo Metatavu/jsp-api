@@ -34,13 +34,16 @@ class GenericProductTestBuilderResource (testBuilder: AbstractTestBuilder<ApiCli
 
     /**
      * Tests that find request fails correctly
+     *
+     * @param productId an id to test
+     * @param status expected status code
      */
-    fun assertFindFailStatus (productId: UUID) {
+    fun assertFindFailStatus (productId: UUID, status: Int) {
         try {
             api.findGenericProduct(productId)
-            throw Exception("Should have failed with status 404")
+            throw Exception("Should have failed with status $status")
         } catch (exception: ClientException) {
-            assertClientExceptionStatus(404, exception)
+            assertClientExceptionStatus(status, exception)
         }
     }
 
@@ -57,13 +60,15 @@ class GenericProductTestBuilderResource (testBuilder: AbstractTestBuilder<ApiCli
 
     /**
      * Tests that list request fails correctly
+     *
+     * @param status expected status code
      */
-    fun assertListFailStatus () {
+    fun assertListFailStatus (status: Int) {
         try {
             api.listGenericProducts("FAILURE")
-            throw Exception("Should have failed with status 400")
+            throw Exception("Should have failed with status $status")
         } catch (exception: ClientException) {
-            assertClientExceptionStatus(400, exception)
+            assertClientExceptionStatus(status, exception)
         }
     }
 

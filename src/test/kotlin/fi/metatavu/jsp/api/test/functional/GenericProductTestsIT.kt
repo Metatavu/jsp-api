@@ -18,7 +18,7 @@ class GenericProductTestsIT: AbstractFunctionalTest() {
             val foundProduct = testBuilder.admin().genericProducts().find(productId!!)
             assertNotNull(foundProduct)
 
-            testBuilder.admin().genericProducts().assertFindFailStatus(UUID.randomUUID())
+            testBuilder.admin().genericProducts().assertFindFailStatus(UUID.randomUUID(), 404)
         }
     }
 
@@ -32,7 +32,7 @@ class GenericProductTestsIT: AbstractFunctionalTest() {
             val domesticAppliances = testBuilder.admin().genericProducts().list("DOMESTIC_APPLIANCE")
             assertEquals(1, domesticAppliances.size)
 
-            testBuilder.admin().genericProducts().assertListFailStatus()
+            testBuilder.admin().genericProducts().assertListFailStatus(400)
         }
     }
 }
