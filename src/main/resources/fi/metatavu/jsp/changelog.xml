@@ -29,6 +29,15 @@
             <column name="deliveryaddress" type="longtext">
                 <constraints nullable="false"/>
             </column>
+            <column name="homeaddress" type="longtext">
+                <constraints nullable="false"/>
+            </column>
+            <column name="billingaddress" type="longtext">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ishomebillingaddress" type="boolean">
+                <constraints nullable="false"/>
+            </column>
             <column name="phonenumber" type="longtext">
                 <constraints nullable="false"/>
             </column>
@@ -50,28 +59,19 @@
             <column name="moreinformation" type="longtext">
                 <constraints nullable="false"/>
             </column>
-        </createTable>
-        
-        <createTable tableName="exceptionfromplans">
-            <column name="id" type="binary(16)">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-            <column name="createdat" type="datetime(6)">
+            <column name="domesticappliancesinformation" type="longtext">
                 <constraints nullable="false"/>
             </column>
-            <column name="modifiedat" type="datetime(6)">
+            <column name="otherproductsinformation" type="longtext">
                 <constraints nullable="false"/>
             </column>
-            <column name="creatorid" type="binary(16)">
+            <column name="intermediatespacesinformation" type="longtext">
                 <constraints nullable="false"/>
             </column>
-            <column name="lastmodifierid" type="binary(16)">
+            <column name="sinksinformation" type="longtext">
                 <constraints nullable="false"/>
             </column>
-            <column name="customerorder_id" type="binary(16)">
-                <constraints nullable="false" foreignKeyName="FK_EXCEPTIONAL_NOTE_CUSTOMER_ORDER_ID" referencedTableName="customerorder" referencedColumnNames="id"/>
-            </column>
-            <column name="note" type="longtext">
+            <column name="electricproductsinformation" type="longtext">
                 <constraints nullable="false"/>
             </column>
         </createTable>

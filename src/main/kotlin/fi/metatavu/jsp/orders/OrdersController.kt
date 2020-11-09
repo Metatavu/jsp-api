@@ -1,9 +1,7 @@
 package fi.metatavu.jsp.orders
 
-import fi.metatavu.jsp.persistence.dao.ExceptionFromPlansDAO
 import fi.metatavu.jsp.persistence.dao.OrderDAO
 import fi.metatavu.jsp.persistence.model.CustomerOrder
-import fi.metatavu.jsp.persistence.model.ExceptionFromPlans
 import fi.metatavu.jsp.products.GenericProductsController
 import java.time.OffsetDateTime
 import java.util.*
@@ -17,9 +15,6 @@ import javax.inject.Inject
 class OrdersController {
     @Inject
     private lateinit var orderDAO: OrderDAO
-
-    @Inject
-    private lateinit var exceptionFromPlansDAO: ExceptionFromPlansDAO
 
     @Inject
     private lateinit var genericProductsController: GenericProductsController
@@ -50,16 +45,10 @@ class OrdersController {
      * @param customerOrder order to be deleted
      */
     fun delete (customerOrder: CustomerOrder) {
-        val notes = listExceptionsFromPlans(customerOrder)
-
         val products = genericProductsController.list(null, customerOrder)
 
         products.forEach { product ->
             genericProductsController.delete(product)
-        }
-        
-        notes.forEach { note ->
-            exceptionFromPlansDAO.delete(note)
         }
 
         return orderDAO.delete(customerOrder)
@@ -75,10 +64,21 @@ class OrdersController {
      * @param city city
      * @param phoneNumber customer phone number
      * @param deliveryAddress delivery address
+     *
+     * @param homeAddress home address
+     * @param billingAddress billing address
+     * @param isHomeBillingAddress is home address billing address
+     *
      * @param emailAddress customer email address
      * @param customer customer name
      * @param moreInformation more information
-     * @param exceptionsFromPlans exceptions from plans
+     *
+     * @param sinksInformation sinks additional information
+     * @param otherProductsInformation other products additional information
+     * @param electricProductsInformation electric products additional information
+     * @param domesticAppliancesInformation domestic appliances additional information
+     * @param intermediateSpacesInformation intermediate spaces additional information
+     *
      * @param creatorId id of the user who creates this order
      *
      * @return a new order
@@ -90,18 +90,23 @@ class OrdersController {
                 city: String,
                 phoneNumber: String,
                 deliveryAddress: String,
+                homeAddress: String,
+                billingAddress: String,
+                isHomeBillingAddress: Boolean,
                 emailAddress: String,
                 customer: String,
                 moreInformation: String,
-                exceptionsFromPlans: List<String>,
+                sinksInformation: String,
+                otherProductsInformation: String,
+                electricProductsInformation: String,
+                domesticAppliancesInformation: String,
+                intermediateSpacesInformation: String,
                 creatorId: UUID): CustomerOrder {
-        val createdOrder = orderDAO.create(UUID.randomUUID(), additionalInformation, deliveryTime, room, socialMediaPermission, city, phoneNumber, deliveryAddress, emailAddress, customer, moreInformation, creatorId)
 
-        for (note in exceptionsFromPlans) {
-            exceptionFromPlansDAO.create(UUID.randomUUID(), createdOrder, note, creatorId)
-        }
-
-        return createdOrder
+        return orderDAO.create(
+                UUID.randomUUID(), additionalInformation, deliveryTime, room, socialMediaPermission, city, phoneNumber, deliveryAddress, homeAddress, billingAddress, isHomeBillingAddress, emailAddress, customer, moreInformation,
+                sinksInformation, otherProductsInformation, electricProductsInformation, domesticAppliancesInformation, intermediateSpacesInformation, creatorId
+        )
     }
 
     /**
@@ -115,10 +120,21 @@ class OrdersController {
      * @param city city
      * @param phoneNumber customer phone number
      * @param deliveryAddress delivery address
+     *
+     * @param homeAddress home address
+     * @param billingAddress billing address
+     * @param isHomeBillingAddress is home address billing address
+     *
      * @param emailAddress customer email address
      * @param customer new customer name
      * @param moreInformation a new value for moreInformation-field
-     * @param exceptionsFromPlans exceptions from plans
+     *
+     * @param sinksInformation sinks additional information
+     * @param otherProductsInformation other products additional information
+     * @param electricProductsInformation electric products additional information
+     * @param domesticAppliancesInformation domestic appliances additional information
+     * @param intermediateSpacesInformation intermediate spaces additional information
+     *
      * @param modifierId id of the user who updates this order
      *
      * @return an updated order
@@ -131,10 +147,17 @@ class OrdersController {
                 city: String,
                 phoneNumber: String,
                 deliveryAddress: String,
+                homeAddress: String,
+                billingAddress: String,
+                isHomeBillingAddress: Boolean,
                 emailAddress: String,
                 customer: String,
                 moreInformation: String,
-                exceptionsFromPlans: List<String>,
+                sinksInformation: String,
+                otherProductsInformation: String,
+                electricProductsInformation: String,
+                domesticAppliancesInformation: String,
+                intermediateSpacesInformation: String,
                 modifierId: UUID): CustomerOrder {
 
         orderDAO.updateAdditionalInformation(customerOrder, additionalInformation, modifierId)
@@ -148,27 +171,18 @@ class OrdersController {
         orderDAO.updateSocialMediaPermission(customerOrder, socialMediaPermission, modifierId)
         orderDAO.updateMoreInformation(customerOrder, moreInformation, modifierId)
 
-        val existingNotes = listExceptionsFromPlans(customerOrder)
+        orderDAO.updateDomesticAppliancesInformation(customerOrder, domesticAppliancesInformation, modifierId)
+        orderDAO.updateSinksInformation(customerOrder, sinksInformation, modifierId)
+        orderDAO.updateOtherProductsInformation(customerOrder, otherProductsInformation, modifierId)
+        orderDAO.updateElectricProductsInformation(customerOrder, electricProductsInformation, modifierId)
+        orderDAO.updateIntermediateSpacesInformation(customerOrder, intermediateSpacesInformation, modifierId)
 
-        for (note in existingNotes) {
-            exceptionFromPlansDAO.delete(note)
-        }
-
-        for (note in exceptionsFromPlans) {
-            exceptionFromPlansDAO.create(UUID.randomUUID(), customerOrder, note, modifierId)
-        }
+        orderDAO.updateHomeAddress(customerOrder, homeAddress, modifierId)
+        orderDAO.updateIsHomeBillingAddress(customerOrder, isHomeBillingAddress, modifierId)
+        orderDAO.updateBillingAddress(customerOrder, billingAddress, modifierId)
 
         return customerOrder
     }
 
-    /**
-     * Lists exception notes
-     *
-     * @param customerOrder list only notes that belong to this order
-     *
-     * @return notes
-     */
-    fun listExceptionsFromPlans (customerOrder: CustomerOrder): List<ExceptionFromPlans> {
-        return exceptionFromPlansDAO.list(customerOrder)
-    }
+
 }

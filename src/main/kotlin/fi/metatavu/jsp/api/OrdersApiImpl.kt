@@ -55,10 +55,17 @@ class OrdersApiImpl: OrdersApi, AbstractApi() {
                 orderInfo.city,
                 orderInfo.phoneNumber,
                 orderInfo.deliveryAddress,
+                orderInfo.homeAddress,
+                orderInfo.billingAddress,
+                orderInfo.isHomeBillingAddress,
                 orderInfo.email,
                 orderInfo.customer,
                 order.moreInformation,
-                order.exceptionsFromPlans,
+                order.sinksAdditionalInformation,
+                order.otherProductsAdditionalInformation,
+                order.electricProductsAdditionalInformation,
+                order.domesticAppliancesAdditionalInformation,
+                order.intermediateSpacesAdditionalInformation,
                 loggerUserId!!
         )
 
@@ -171,10 +178,17 @@ class OrdersApiImpl: OrdersApi, AbstractApi() {
                 orderInfo.socialMediaPermission, orderInfo.city,
                 orderInfo.phoneNumber,
                 orderInfo.deliveryAddress,
+                orderInfo.homeAddress,
+                orderInfo.billingAddress,
+                orderInfo.isHomeBillingAddress,
                 orderInfo.email,
                 orderInfo.customer,
                 order.moreInformation,
-                order.exceptionsFromPlans,
+                order.sinksAdditionalInformation,
+                order.otherProductsAdditionalInformation,
+                order.electricProductsAdditionalInformation,
+                order.domesticAppliancesAdditionalInformation,
+                order.intermediateSpacesAdditionalInformation,
                 loggerUserId!!
         )
 

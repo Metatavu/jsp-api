@@ -35,17 +35,16 @@ class OrderTranslator: AbstractTranslator<CustomerOrder, Order>() {
         orderInfo.city = entity.city
         orderInfo.customer = entity.customer
         orderInfo.deliveryAddress = entity.deliveryAddress
+        orderInfo.homeAddress = entity.homeAddress
+        orderInfo.billingAddress = entity.billingAddress
+        orderInfo.isHomeBillingAddress = entity.isHomeBillingAddress
+
         orderInfo.deliveryTime = entity.deliveryTime
         orderInfo.email = entity.email
         orderInfo.additionalInformation = entity.additionalInformation
         orderInfo.phoneNumber = entity.phoneNumber
         orderInfo.room = entity.room
         orderInfo.socialMediaPermission = entity.socialMediaPermission
-
-        val doorsInfo = DoorsInfo()
-        doorsInfo.isGlassDoor = false
-        doorsInfo.doorModels = ArrayList()
-        doorsInfo.glassColor = ""
 
         val drawersInfo = DrawersInfo()
         drawersInfo.additionalInformation = ""
@@ -57,19 +56,36 @@ class OrderTranslator: AbstractTranslator<CustomerOrder, Order>() {
         installation.isCustomerInstallation = false
         installation.additionalInformation = ""
 
+        val counterFrame = CounterFrame()
+        counterFrame.color = ""
+        counterFrame.cornerStripe = ""
+        counterFrame.extraSide = ""
+        counterFrame.plinth = ""
+        counterFrame.additionalInformation = ""
+
         order.orderInfo = orderInfo
-        order.doors = doorsInfo
+        order.doors = ArrayList()
         order.drawersInfo = drawersInfo
         order.installation = installation
         order.handles = ArrayList()
         order.counterTops = ArrayList()
-        order.exceptionsFromPlans = ordersController.listExceptionsFromPlans(entity).map { note -> note.note }
+        order.counterFrame = counterFrame
 
         order.domesticAppliances = genericProductsController.list(GenericProductType.DOMESTIC_APPLIANCE, entity).map(genericProductTranslator::translate)
         order.otherProducts = genericProductsController.list(GenericProductType.OTHER, entity).map(genericProductTranslator::translate)
         order.intermediateSpaces = genericProductsController.list(GenericProductType.INTERMEDIATE_SPACE, entity).map(genericProductTranslator::translate)
         order.sinks = genericProductsController.list(GenericProductType.SINK, entity).map(genericProductTranslator::translate)
         order.electricProducts = genericProductsController.list(GenericProductType.ELECTRIC, entity).map(genericProductTranslator::translate)
+
+        order.domesticAppliancesAdditionalInformation = entity.domesticAppliancesInformation
+        order.intermediateSpacesAdditionalInformation = entity.intermediateSpacesInformation
+        order.sinksAdditionalInformation = entity.sinksInformation
+        order.otherProductsAdditionalInformation = entity.otherProductsInformation
+        order.electricProductsAdditionalInformation = entity.electricProductsInformation
+
+        order.doorsAdditionalInformation = ""
+        order.handlesAdditionalInformation = ""
+        order.counterTopsAdditionalInformation = ""
 
         order.moreInformation = entity.moreInformation
         order.customerFiles = ArrayList()
