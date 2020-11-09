@@ -14,7 +14,7 @@ class GenericProductTestsIT: AbstractFunctionalTest() {
     @Test
     fun testFindGenericProduct() {
         TestBuilder().use { testBuilder ->
-            val productId = testBuilder.admin().orders().create().sinks!![0].id
+            val productId = testBuilder.admin().orders().create().sinks[0].id
             val foundProduct = testBuilder.admin().genericProducts().find(productId!!)
             assertNotNull(foundProduct)
 

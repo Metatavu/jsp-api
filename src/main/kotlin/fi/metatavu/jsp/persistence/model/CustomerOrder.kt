@@ -31,6 +31,15 @@ class CustomerOrder {
     var deliveryAddress: String? = null
 
     @Column(nullable = false)
+    var homeAddress: String? = null
+
+    @Column(nullable = false)
+    var billingAddress: String? = null
+
+    @Column(nullable = false)
+    var isHomeBillingAddress: Boolean? = null
+
+    @Column(nullable = false)
     var email: String? = null
 
     @Column(nullable = false)
@@ -38,6 +47,21 @@ class CustomerOrder {
 
     @Column(nullable = false)
     var moreInformation: String? = null
+
+    @Column(nullable = false)
+    var sinksInformation: String? = null
+
+    @Column(nullable = false)
+    var electricProductsInformation: String? = null
+
+    @Column(nullable = false)
+    var domesticAppliancesInformation: String? = null
+
+    @Column(nullable = false)
+    var otherProductsInformation: String? = null
+
+    @Column(nullable = false)
+    var intermediateSpacesInformation: String? = null
 
     @Column(nullable = false)
     var createdAt: OffsetDateTime? = null

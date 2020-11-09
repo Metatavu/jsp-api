@@ -44,7 +44,7 @@ class OrderTestBuilderResource(testBuilder: AbstractTestBuilder<ApiClient?>?, pr
      */
     fun assertCreateFailStatus(status: Int) {
         val order = constructTestOrder()
-        order.intermediateSpaces!![0] = GenericProduct("a", "a", GenericProductType.dOMESTICAPPLIANCE)
+        order.intermediateSpaces[0] = GenericProduct("a", "a", GenericProductType.dOMESTICAPPLIANCE)
         try {
             api.createOrder(order)
             throw Exception("Should have failed with status $status")
@@ -72,7 +72,7 @@ class OrderTestBuilderResource(testBuilder: AbstractTestBuilder<ApiClient?>?, pr
     fun assertUpdateFailStatus(status: Int) {
         val order = constructTestOrder()
         val createdOrder = addClosable(api.createOrder(order))
-        createdOrder.intermediateSpaces!![0] = GenericProduct("a", "a", GenericProductType.dOMESTICAPPLIANCE)
+        createdOrder.intermediateSpaces[0] = GenericProduct("a", "a", GenericProductType.dOMESTICAPPLIANCE)
         try {
             api.updateOrder(createdOrder.id!!, createdOrder)
             throw Exception("Should have failed with status $status")
@@ -161,13 +161,15 @@ class OrderTestBuilderResource(testBuilder: AbstractTestBuilder<ApiClient?>?, pr
                 "Asiakas Tommi",
                 "tommi@tommi.tommi",
                 "Hallituskatu 7",
+                "Hallituskatu 8",
+                "Hallituskatu 9",
+                false,
                 "1111111",
                 "Mikkeli",
                 false,
                 "3",
                 OffsetDateTime.now().toString().replace("+02:00", "Z").replace("+03:00", "Z"),
                 "ABC")
-
 
         val exceptionsFromPlans = ArrayList<String>()
         exceptionsFromPlans.add("-------------")
@@ -187,20 +189,35 @@ class OrderTestBuilderResource(testBuilder: AbstractTestBuilder<ApiClient?>?, pr
         val electricProducts = ArrayList<GenericProduct>()
         electricProducts.add(GenericProduct("Electric product", "INC_5", GenericProductType.eLECTRIC))
 
+        val doors = ArrayList<Door>()
+        val handles = ArrayList<Handle>()
+        val counterTops = ArrayList<CounterTop>()
+        val orderFiles = ArrayList<FileInformation>()
+
         return Order(
-                null,
                 orderInfo,
-                null,
-                null,
-                null,
-                exceptionsFromPlans.toTypedArray(),
-                null,
+                CounterFrame("", "", "", "", "", null),
+                doors.toTypedArray(),
+                "",
+                handles.toTypedArray(),
+                "",
+                counterTops.toTypedArray(),
+                "",
+                DrawersInfo("", "" , false, ""),
                 domesticAppliances.toTypedArray(),
+                "Domestic appliances additional information",
                 otherProducts.toTypedArray(),
+                "Other products additional information",
                 intermediateSpaces.toTypedArray(),
+                "Intermediate spaces additional information",
                 sinks.toTypedArray(),
+                "Sinks additional information",
                 electricProducts.toTypedArray(),
-                null,
-                "*** More information ***")
+                "Electric products additional information",
+                Installation(false, null, ""),
+                "More information",
+                orderFiles.toTypedArray(),
+                orderFiles.toTypedArray()
+                )
     }
 }

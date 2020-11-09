@@ -21,9 +21,19 @@ class OrderDAO: AbstractDAO<CustomerOrder>() {
      * @param city city
      * @param phoneNumber customer phone number
      * @param deliveryAddress delivery address
+     * @param homeAddress home address
+     * @param billingAddress billing address
+     * @param isHomeBillingAddress is home address billing address
      * @param emailAddress customer email address
      * @param customer customer name
      * @param moreInformation more information
+     *
+     * @param sinksInformation sinks additional information
+     * @param otherProductsInformation other products additional information
+     * @param electricProductsInformation electric products additional information
+     * @param domesticAppliancesInformation domestic appliances additional information
+     * @param intermediateSpacesInformation intermediate spaces additional information
+     *
      * @param creatorId id of the user who creates this order
      *
      * @return a new order
@@ -36,9 +46,17 @@ class OrderDAO: AbstractDAO<CustomerOrder>() {
                 city: String,
                 phoneNumber: String,
                 deliveryAddress: String,
+                homeAddress: String,
+                billingAddress: String,
+                isHomeBillingAddress: Boolean,
                 emailAddress: String,
                 customer: String,
                 moreInformation: String,
+                sinksInformation: String,
+                otherProductsInformation: String,
+                electricProductsInformation: String,
+                domesticAppliancesInformation: String,
+                intermediateSpacesInformation: String,
                 creatorId: UUID): CustomerOrder {
 
         val order = CustomerOrder()
@@ -50,13 +68,98 @@ class OrderDAO: AbstractDAO<CustomerOrder>() {
         order.city = city
         order.phoneNumber = phoneNumber
         order.deliveryAddress = deliveryAddress
+        order.homeAddress = homeAddress
+        order.billingAddress = billingAddress
+        order.isHomeBillingAddress = isHomeBillingAddress
         order.email = emailAddress
         order.customer = customer
         order.creatorId = creatorId
         order.moreInformation = moreInformation
+
+        order.intermediateSpacesInformation = intermediateSpacesInformation
+        order.domesticAppliancesInformation = domesticAppliancesInformation
+        order.electricProductsInformation = electricProductsInformation
+        order.sinksInformation = sinksInformation
+        order.otherProductsInformation = otherProductsInformation
+
         order.lastModifierId = creatorId
 
         return persist(order)
+    }
+
+    /**
+     * Updates intermediate spaces information
+     *
+     * @param customerOrder an order to be updated
+     * @param additionalInformation a new additional information
+     * @param modifierId of the user who modifies this order
+     *
+     * @return an updated order
+     */
+    fun updateIntermediateSpacesInformation (customerOrder: CustomerOrder, additionalInformation: String, modifierId: UUID): CustomerOrder {
+        customerOrder.intermediateSpacesInformation = additionalInformation
+        customerOrder.lastModifierId = modifierId
+        return persist(customerOrder)
+    }
+
+    /**
+     * Updates domestic appliances information
+     *
+     * @param customerOrder an order to be updated
+     * @param additionalInformation a new additional information
+     * @param modifierId of the user who modifies this order
+     *
+     * @return an updated order
+     */
+    fun updateDomesticAppliancesInformation (customerOrder: CustomerOrder, additionalInformation: String, modifierId: UUID): CustomerOrder {
+        customerOrder.domesticAppliancesInformation = additionalInformation
+        customerOrder.lastModifierId = modifierId
+        return persist(customerOrder)
+    }
+
+    /**
+     * Updates electric products information
+     *
+     * @param customerOrder an order to be updated
+     * @param additionalInformation a new additional information
+     * @param modifierId of the user who modifies this order
+     *
+     * @return an updated order
+     */
+    fun updateElectricProductsInformation (customerOrder: CustomerOrder, additionalInformation: String, modifierId: UUID): CustomerOrder {
+        customerOrder.electricProductsInformation = additionalInformation
+        customerOrder.lastModifierId = modifierId
+        return persist(customerOrder)
+    }
+
+    /**
+     * Updates other products information
+     *
+     * @param customerOrder an order to be updated
+     * @param additionalInformation a new additional information
+     * @param modifierId of the user who modifies this order
+     *
+     * @return an updated order
+     */
+    fun updateOtherProductsInformation (customerOrder: CustomerOrder, additionalInformation: String, modifierId: UUID): CustomerOrder {
+        customerOrder.otherProductsInformation = additionalInformation
+        customerOrder.lastModifierId = modifierId
+        return persist(customerOrder)
+    }
+
+    /**
+     * Updates sinks information
+     *
+     * @param customerOrder an order to be updated
+     * @param additionalInformation a new additional information
+     * @param modifierId of the user who modifies this order
+     *
+     * @return an updated order
+     */
+    fun updateSinksInformation (customerOrder: CustomerOrder, additionalInformation: String, modifierId: UUID): CustomerOrder {
+        customerOrder.sinksInformation = additionalInformation
+        customerOrder.lastModifierId = modifierId
+        return persist(customerOrder)
     }
 
     /**
@@ -160,6 +263,51 @@ class OrderDAO: AbstractDAO<CustomerOrder>() {
      */
     fun updateDeliveryAddress (customerOrder: CustomerOrder, deliveryAddress: String, modifierId: UUID): CustomerOrder {
         customerOrder.deliveryAddress = deliveryAddress
+        customerOrder.lastModifierId = modifierId
+        return persist(customerOrder)
+    }
+
+    /**
+     * Updates home address
+     *
+     * @param customerOrder an order to be updated
+     * @param homeAddress a new home address
+     * @param modifierId of the user who modifies this order
+     *
+     * @return an updated order
+     */
+    fun updateHomeAddress (customerOrder: CustomerOrder, homeAddress: String, modifierId: UUID): CustomerOrder {
+        customerOrder.homeAddress = homeAddress
+        customerOrder.lastModifierId = modifierId
+        return persist(customerOrder)
+    }
+
+    /**
+     * Updates billing address
+     *
+     * @param customerOrder an order to be updated
+     * @param billingAddress a new billing address
+     * @param modifierId of the user who modifies this order
+     *
+     * @return an updated order
+     */
+    fun updateBillingAddress (customerOrder: CustomerOrder, billingAddress: String, modifierId: UUID): CustomerOrder {
+        customerOrder.billingAddress = billingAddress
+        customerOrder.lastModifierId = modifierId
+        return persist(customerOrder)
+    }
+
+    /**
+     * Updates a value for isHomeBillingAddress
+     *
+     * @param customerOrder an order to be updated
+     * @param isHomeBillingAddress a new boolean value
+     * @param modifierId of the user who modifies this order
+     *
+     * @return an updated order
+     */
+    fun updateIsHomeBillingAddress (customerOrder: CustomerOrder, isHomeBillingAddress: Boolean, modifierId: UUID): CustomerOrder {
+        customerOrder.isHomeBillingAddress = isHomeBillingAddress
         customerOrder.lastModifierId = modifierId
         return persist(customerOrder)
     }

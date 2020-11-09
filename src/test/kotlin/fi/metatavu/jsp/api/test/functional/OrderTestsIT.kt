@@ -17,32 +17,41 @@ class OrderTestsIT: AbstractFunctionalTest() {
             val testOrder = testBuilder.admin().orders().constructTestOrder()
             val createdOrder = testBuilder.admin().orders().create(testOrder)
 
-            assertEquals(testOrder.orderInfo!!.customer, createdOrder.orderInfo!!.customer)
-            assertEquals(testOrder.orderInfo!!.email, createdOrder.orderInfo!!.email)
-            assertEquals(testOrder.orderInfo!!.deliveryAddress, createdOrder.orderInfo!!.deliveryAddress)
-            assertEquals(testOrder.orderInfo!!.phoneNumber, createdOrder.orderInfo!!.phoneNumber)
-            assertEquals(testOrder.orderInfo!!.city, createdOrder.orderInfo!!.city)
-            assertEquals(testOrder.orderInfo!!.socialMediaPermission, createdOrder.orderInfo!!.socialMediaPermission)
-            assertEquals(testOrder.orderInfo!!.room, createdOrder.orderInfo!!.room)
-            assertEquals(testOrder.orderInfo!!.deliveryTime.split(".")[0], createdOrder.orderInfo!!.deliveryTime.split(".")[0])
-            assertEquals(testOrder.orderInfo!!.additionalInformation, createdOrder.orderInfo!!.additionalInformation)
+            assertEquals(testOrder.orderInfo.customer, createdOrder.orderInfo.customer)
+            assertEquals(testOrder.orderInfo.email, createdOrder.orderInfo.email)
+            assertEquals(testOrder.orderInfo.deliveryAddress, createdOrder.orderInfo.deliveryAddress)
+            assertEquals(testOrder.orderInfo.phoneNumber, createdOrder.orderInfo.phoneNumber)
+            assertEquals(testOrder.orderInfo.city, createdOrder.orderInfo.city)
+            assertEquals(testOrder.orderInfo.socialMediaPermission, createdOrder.orderInfo.socialMediaPermission)
+            assertEquals(testOrder.orderInfo.room, createdOrder.orderInfo.room)
+            assertEquals(testOrder.orderInfo.deliveryTime.split(".")[0], createdOrder.orderInfo.deliveryTime.split(".")[0])
+            assertEquals(testOrder.orderInfo.additionalInformation, createdOrder.orderInfo.additionalInformation)
             assertEquals(testOrder.moreInformation, createdOrder.moreInformation)
-            assertEquals(testOrder.exceptionsFromPlans!![0], createdOrder.exceptionsFromPlans!![0])
+            assertEquals(testOrder.orderInfo.homeAddress, createdOrder.orderInfo.homeAddress)
+            assertEquals(testOrder.orderInfo.billingAddress, createdOrder.orderInfo.billingAddress)
+            assertEquals(testOrder.orderInfo.isHomeBillingAddress, createdOrder.orderInfo.isHomeBillingAddress)
 
-            assertNotNull(createdOrder.sinks?.get(0))
-            testBuilder.admin().genericProducts().assertGenericProductsEqual(testOrder.sinks!![0], createdOrder.sinks!![0])
+            assertEquals(testOrder.sinksAdditionalInformation, createdOrder.sinksAdditionalInformation)
+            assertEquals(testOrder.intermediateSpacesAdditionalInformation, createdOrder.intermediateSpacesAdditionalInformation)
+            assertEquals(testOrder.otherProductsAdditionalInformation, createdOrder.otherProductsAdditionalInformation)
+            assertEquals(testOrder.electricProductsAdditionalInformation, createdOrder.electricProductsAdditionalInformation)
+            assertEquals(testOrder.domesticAppliancesAdditionalInformation, createdOrder.domesticAppliancesAdditionalInformation)
 
-            assertNotNull(createdOrder.electricProducts?.get(0))
-            testBuilder.admin().genericProducts().assertGenericProductsEqual(testOrder.electricProducts!![0], createdOrder.electricProducts!![0])
 
-            assertNotNull(createdOrder.domesticAppliances?.get(0))
-            testBuilder.admin().genericProducts().assertGenericProductsEqual(testOrder.domesticAppliances!![0], createdOrder.domesticAppliances!![0])
+            assertNotNull(createdOrder.sinks[0])
+            testBuilder.admin().genericProducts().assertGenericProductsEqual(testOrder.sinks[0], createdOrder.sinks[0])
 
-            assertNotNull(createdOrder.otherProducts?.get(0))
-            testBuilder.admin().genericProducts().assertGenericProductsEqual(testOrder.otherProducts!![0], createdOrder.otherProducts!![0])
+            assertNotNull(createdOrder.electricProducts[0])
+            testBuilder.admin().genericProducts().assertGenericProductsEqual(testOrder.electricProducts[0], createdOrder.electricProducts[0])
 
-            assertNotNull(createdOrder.intermediateSpaces?.get(0))
-            testBuilder.admin().genericProducts().assertGenericProductsEqual(testOrder.intermediateSpaces!![0], createdOrder.intermediateSpaces!![0])
+            assertNotNull(createdOrder.domesticAppliances[0])
+            testBuilder.admin().genericProducts().assertGenericProductsEqual(testOrder.domesticAppliances[0], createdOrder.domesticAppliances[0])
+
+            assertNotNull(createdOrder.otherProducts[0])
+            testBuilder.admin().genericProducts().assertGenericProductsEqual(testOrder.otherProducts[0], createdOrder.otherProducts[0])
+
+            assertNotNull(createdOrder.intermediateSpaces[0])
+            testBuilder.admin().genericProducts().assertGenericProductsEqual(testOrder.intermediateSpaces[0], createdOrder.intermediateSpaces[0])
 
             testBuilder.admin().orders().assertCreateFailStatus(400)
         }
@@ -51,14 +60,16 @@ class OrderTestsIT: AbstractFunctionalTest() {
     @Test
     fun updateOrderTest() {
         TestBuilder().use { testBuilder ->
-            val testOrder = testBuilder.admin().orders().constructTestOrder()
-            val createdOrder = testBuilder.admin().orders().create(testOrder)
+            val createdOrder = testBuilder.admin().orders().create()
 
             val testDate = OffsetDateTime.now().plusDays(23).toString().replace("+02:00", "Z").replace("+03:00", "Z")
             val orderInfo2 = OrderInfo(
                     "Asiakas Matti",
                     "matti@matti.matti",
                     "Hallituskatu 712",
+                    "Hallituskatu 713",
+                    "Hallituskatu 714",
+                    true,
                     "222222",
                     "Otava",
                     true,
@@ -70,7 +81,7 @@ class OrderTestsIT: AbstractFunctionalTest() {
             exceptionsFromPlans.add("Updated notes")
 
             val domesticAppliances = ArrayList<GenericProduct>()
-            domesticAppliances.addAll(createdOrder.domesticAppliances!!)
+            domesticAppliances.addAll(createdOrder.domesticAppliances)
             domesticAppliances[0] = GenericProduct("Domestic appliance 2", "INC_1_U", GenericProductType.dOMESTICAPPLIANCE)
 
             val otherProducts = ArrayList<GenericProduct>()
@@ -85,48 +96,72 @@ class OrderTestsIT: AbstractFunctionalTest() {
             val electricProducts = ArrayList<GenericProduct>()
             electricProducts.add(GenericProduct("Electric product 2", "INC_5_U", GenericProductType.eLECTRIC))
 
-            val orderToUpdate = Order(createdOrder.id,
+            val doors = ArrayList<Door>()
+            val handles = ArrayList<Handle>()
+            val counterTops = ArrayList<CounterTop>()
+            val orderFiles = ArrayList<FileInformation>()
+
+            val orderToUpdate = Order(
                     orderInfo2,
-                    null,
-                    null,
-                    null,
-                    exceptionsFromPlans.toTypedArray(),
-                    null,
+                    CounterFrame("", "", "", "", "", null),
+                    doors.toTypedArray(),
+                    "",
+                    handles.toTypedArray(),
+                    "",
+                    counterTops.toTypedArray(),
+                    "",
+                    DrawersInfo("", "" , false, ""),
                     domesticAppliances.toTypedArray(),
+                    "Domestic appliances additional information 2",
                     otherProducts.toTypedArray(),
+                    "Other products additional information 2",
                     intermediateSpaces.toTypedArray(),
+                    "Intermediate spaces additional information 2",
                     sinks.toTypedArray(),
+                    "Sinks additional information 2",
                     electricProducts.toTypedArray(),
-                    null,
-                    "*** Updated information ***")
+                    "Electric products additional information 2",
+                    Installation(false, null, ""),
+                    "*** Updated information ***",
+                    orderFiles.toTypedArray(),
+                    orderFiles.toTypedArray(),
+                    createdOrder.id)
             val updatedOrder = testBuilder.admin().orders().update(orderToUpdate)
 
-            assertEquals("Asiakas Matti", updatedOrder.orderInfo!!.customer)
-            assertEquals("matti@matti.matti", updatedOrder.orderInfo!!.email)
-            assertEquals("Hallituskatu 712", updatedOrder.orderInfo!!.deliveryAddress)
-            assertEquals("222222", updatedOrder.orderInfo!!.phoneNumber)
-            assertEquals("Otava", updatedOrder.orderInfo!!.city)
-            assertEquals(true, updatedOrder.orderInfo!!.socialMediaPermission)
-            assertEquals("32", updatedOrder.orderInfo!!.room)
-            assertEquals(testDate.split(".")[0], updatedOrder.orderInfo!!.deliveryTime.split(".")[0])
-            assertEquals("ABCD", updatedOrder.orderInfo!!.additionalInformation)
+            assertEquals("Asiakas Matti", updatedOrder.orderInfo.customer)
+            assertEquals("matti@matti.matti", updatedOrder.orderInfo.email)
+            assertEquals("Hallituskatu 712", updatedOrder.orderInfo.deliveryAddress)
+            assertEquals("Hallituskatu 713", updatedOrder.orderInfo.homeAddress)
+            assertEquals("Hallituskatu 714", updatedOrder.orderInfo.billingAddress)
+            assertEquals(true, updatedOrder.orderInfo.isHomeBillingAddress)
+            assertEquals("222222", updatedOrder.orderInfo.phoneNumber)
+            assertEquals("Otava", updatedOrder.orderInfo.city)
+            assertEquals(true, updatedOrder.orderInfo.socialMediaPermission)
+            assertEquals("32", updatedOrder.orderInfo.room)
+            assertEquals(testDate.split(".")[0], updatedOrder.orderInfo.deliveryTime.split(".")[0])
+            assertEquals("ABCD", updatedOrder.orderInfo.additionalInformation)
             assertEquals("*** Updated information ***", updatedOrder.moreInformation)
-            assertEquals("Updated notes", updatedOrder.exceptionsFromPlans!![0])
 
-            assertNotNull(updatedOrder.sinks?.get(0))
-            testBuilder.admin().genericProducts().assertGenericProductsEqual(orderToUpdate.sinks!![0], updatedOrder.sinks!![0])
+            assertEquals("Domestic appliances additional information 2", updatedOrder.domesticAppliancesAdditionalInformation)
+            assertEquals("Other products additional information 2", updatedOrder.otherProductsAdditionalInformation)
+            assertEquals("Intermediate spaces additional information 2", updatedOrder.intermediateSpacesAdditionalInformation)
+            assertEquals("Sinks additional information 2", updatedOrder.sinksAdditionalInformation)
+            assertEquals("Electric products additional information 2", updatedOrder.electricProductsAdditionalInformation)
 
-            assertNotNull(updatedOrder.electricProducts?.get(0))
-            testBuilder.admin().genericProducts().assertGenericProductsEqual(orderToUpdate.electricProducts!![0], updatedOrder.electricProducts!![0])
+            assertNotNull(updatedOrder.sinks[0])
+            testBuilder.admin().genericProducts().assertGenericProductsEqual(orderToUpdate.sinks[0], updatedOrder.sinks[0])
 
-            assertNotNull(updatedOrder.domesticAppliances?.get(0))
-            testBuilder.admin().genericProducts().assertGenericProductsEqual(orderToUpdate.domesticAppliances!![0], updatedOrder.domesticAppliances!![0])
+            assertNotNull(updatedOrder.electricProducts[0])
+            testBuilder.admin().genericProducts().assertGenericProductsEqual(orderToUpdate.electricProducts[0], updatedOrder.electricProducts[0])
 
-            assertNotNull(updatedOrder.otherProducts?.get(0))
-            testBuilder.admin().genericProducts().assertGenericProductsEqual(orderToUpdate.otherProducts!![0], updatedOrder.otherProducts!![0])
+            assertNotNull(updatedOrder.domesticAppliances[0])
+            testBuilder.admin().genericProducts().assertGenericProductsEqual(orderToUpdate.domesticAppliances[0], updatedOrder.domesticAppliances[0])
 
-            assertNotNull(updatedOrder.intermediateSpaces?.get(0))
-            testBuilder.admin().genericProducts().assertGenericProductsEqual(orderToUpdate.intermediateSpaces!![0], updatedOrder.intermediateSpaces!![0])
+            assertNotNull(updatedOrder.otherProducts[0])
+            testBuilder.admin().genericProducts().assertGenericProductsEqual(orderToUpdate.otherProducts[0], updatedOrder.otherProducts[0])
+
+            assertNotNull(updatedOrder.intermediateSpaces[0])
+            testBuilder.admin().genericProducts().assertGenericProductsEqual(orderToUpdate.intermediateSpaces[0], updatedOrder.intermediateSpaces[0])
 
             testBuilder.admin().orders().assertUpdateFailStatus(400)
         }
