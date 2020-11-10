@@ -8,6 +8,7 @@ import javax.enterprise.context.ApplicationScoped
  */
 @ApplicationScoped
 class HandleTranslator: AbstractTranslator<fi.metatavu.jsp.persistence.model.Handle, Handle>() {
+
     /**
      * Translates JPA handles into REST handles
      *
