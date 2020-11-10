@@ -7,6 +7,7 @@ import javax.persistence.*
 
 @Entity
 class Handle {
+
     @Id
     var id: UUID? = null
 
