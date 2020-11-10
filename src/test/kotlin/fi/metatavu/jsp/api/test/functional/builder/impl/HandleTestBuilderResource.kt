@@ -10,6 +10,10 @@ import fi.metatavu.jsp.api.test.functional.settings.TestSettings
 import org.junit.Assert.assertEquals
 import java.util.*
 
+/**
+ * A test builder resource for handles
+ *
+ */
 class HandleTestBuilderResource (testBuilder: AbstractTestBuilder<ApiClient?>?, private val accessTokenProvider: AccessTokenProvider?, apiClient: ApiClient): ApiTestBuilderResource<Handle, ApiClient>(testBuilder, apiClient) {
     override fun clean(t: Handle?) {}
 
