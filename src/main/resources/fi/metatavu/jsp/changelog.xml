@@ -109,6 +109,38 @@
         </createTable>
     </changeSet>
 
+    <changeSet id="Handles" author="Simeon Platonov">
+        <createTable tableName="handle">
+            <column name="id" type="binary(16)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="createdat" type="datetime(6)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modifiedat" type="datetime(6)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="creatorid" type="binary(16)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="lastmodifierid" type="binary(16)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="customerorder_id" type="binary(16)">
+             <constraints nullable="false" foreignKeyName="FK_HANDLE_CUSTOMER_ORDER_ID" referencedTableName="customerorder" referencedColumnNames="id"/>
+            </column>
+            <column name="doormodelname" type="longtext">
+                <constraints nullable="false"/>
+            </column>
+            <column name="color" type="longtext">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ismarkedinimages" type="boolean">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
     <changeSet id="Counter frames" author="Simeon Platonov">
         <createTable tableName="counterframe">
             <column name="id" type="binary(16)">

@@ -1,10 +1,12 @@
 package fi.metatavu.jsp.api.translate
 
 import fi.metatavu.jsp.api.spec.model.GenericProduct
+import javax.enterprise.context.ApplicationScoped
 
 /**
  * A translator class for generic products
  */
+@ApplicationScoped
 class GenericProductTranslator: AbstractTranslator<fi.metatavu.jsp.persistence.model.GenericProduct, GenericProduct>() {
 
     /**

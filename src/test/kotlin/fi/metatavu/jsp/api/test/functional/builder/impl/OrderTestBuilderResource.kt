@@ -190,7 +190,10 @@ class OrderTestBuilderResource(testBuilder: AbstractTestBuilder<ApiClient?>?, pr
         electricProducts.add(GenericProduct("Electric product", "INC_5", GenericProductType.eLECTRIC))
 
         val doors = ArrayList<Door>()
+
         val handles = ArrayList<Handle>()
+        handles.add(Handle("Door model", "Green", false))
+
         val counterTops = ArrayList<CounterTop>()
         val orderFiles = ArrayList<FileInformation>()
 
