@@ -7,6 +7,7 @@ import fi.metatavu.jsp.api.spec.model.CounterFrame
  */
 @ApplicationScoped
 class CounterFrameTranslator: AbstractTranslator<fi.metatavu.jsp.persistence.model.CounterFrame, CounterFrame>() {
+
     /**
      * Translates a JPA counter frame into a REST counter frame
      *
