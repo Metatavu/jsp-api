@@ -9,6 +9,7 @@ import javax.persistence.criteria.Predicate
 
 @ApplicationScoped
 class CounterFrameDAO: AbstractDAO<CounterFrame>() {
+
     /**
      * Saves a counter frame to a database
      *
