@@ -3,11 +3,13 @@ package fi.metatavu.jsp.api
 import fi.metatavu.jsp.api.spec.OrdersApi
 import fi.metatavu.jsp.api.spec.model.GenericProduct
 import fi.metatavu.jsp.api.spec.model.GenericProductType
+import fi.metatavu.jsp.api.spec.model.Handle
 import fi.metatavu.jsp.api.spec.model.Order
 import fi.metatavu.jsp.api.translate.OrderTranslator
 import fi.metatavu.jsp.orders.OrdersController
 import fi.metatavu.jsp.persistence.model.CustomerOrder
 import fi.metatavu.jsp.products.GenericProductsController
+import fi.metatavu.jsp.products.HandlesController
 import java.util.*
 import javax.ejb.Stateful
 import javax.enterprise.context.RequestScoped
@@ -25,6 +27,9 @@ class OrdersApiImpl: OrdersApi, AbstractApi() {
 
     @Inject
     private lateinit var genericProductsController: GenericProductsController
+
+    @Inject
+    private lateinit var handlesController: HandlesController
 
     @Inject
     private lateinit var orderTranslator: OrderTranslator
@@ -75,6 +80,8 @@ class OrdersApiImpl: OrdersApi, AbstractApi() {
         createGenericProducts(order.electricProducts, createdOrder)
         createGenericProducts(order.intermediateSpaces, createdOrder)
 
+        createHandles(order.handles, createdOrder)
+
         val translatedOrder = orderTranslator.translate(createdOrder)
         return createOk(translatedOrder)
     }
@@ -84,8 +91,6 @@ class OrdersApiImpl: OrdersApi, AbstractApi() {
      *
      * @param products products to save
      * @param order the order that these products are related to
-     *
-     * @return empty object if all type checks are successful and null if any of them fails
      */
     private fun createGenericProducts (products: List<GenericProduct>, order: CustomerOrder) {
         for (product in products) {
@@ -96,6 +101,25 @@ class OrdersApiImpl: OrdersApi, AbstractApi() {
                 }
             } else {
                 genericProductsController.create(product.name, product.type, product.supplier, order, loggerUserId!!)
+            }
+        }
+    }
+
+    /**
+     * Saves generic products to a database from a list
+     *
+     * @param handles products to save
+     * @param order the order that these products are related to
+     */
+    private fun createHandles (handles: List<Handle>, order: CustomerOrder) {
+        for (handle in handles) {
+            if (handle.id != null) {
+                val existingHandle = handlesController.find(handle.id!!)
+                if (existingHandle != null) {
+                    handlesController.update(existingHandle, handle.doorModelName, handle.color, handle.markedInImages, loggerUserId!!)
+                }
+            } else {
+                handlesController.create(handle.doorModelName, handle.color, handle.markedInImages, order, loggerUserId!!)
             }
         }
     }
@@ -139,7 +163,7 @@ class OrdersApiImpl: OrdersApi, AbstractApi() {
     override fun updateOrder(orderId: UUID, order: Order): Response {
         val existingOrder = ordersController.find(orderId) ?: return createNotFound("Order with id $orderId not found!")
 
-        val genericProducts = genericProductsController.list(null, existingOrder)
+        val existingGenericProducts = genericProductsController.list(null, existingOrder)
 
         checkGenericProductsType(order.electricProducts, GenericProductType.ELECTRIC)
                 ?: return createBadRequest("Electric products list can only contain products of type ELECTRIC")
@@ -156,7 +180,7 @@ class OrdersApiImpl: OrdersApi, AbstractApi() {
         checkGenericProductsType(order.otherProducts, GenericProductType.OTHER)
                 ?: return createBadRequest("Other products list can only contain products of type OTHER")
 
-        genericProducts.forEach { genericProduct ->
+        existingGenericProducts.forEach { genericProduct ->
             val products = order.electricProducts
             products.addAll(order.sinks)
             products.addAll(order.intermediateSpaces)
@@ -167,6 +191,16 @@ class OrdersApiImpl: OrdersApi, AbstractApi() {
 
             if (!save) {
                 genericProductsController.delete(genericProduct)
+            }
+        }
+
+        val existingHandles = handlesController.list(existingOrder)
+
+        existingHandles.forEach { handle ->
+            val save = order.handles.any { _handle -> _handle.id == handle.id }
+
+            if (!save) {
+                handlesController.delete(handle)
             }
         }
 
@@ -197,6 +231,8 @@ class OrdersApiImpl: OrdersApi, AbstractApi() {
         createGenericProducts(order.domesticAppliances, updatedOrder)
         createGenericProducts(order.electricProducts, updatedOrder)
         createGenericProducts(order.intermediateSpaces, updatedOrder)
+
+        createHandles(order.handles, updatedOrder)
 
         val translatedOrder = orderTranslator.translate(updatedOrder)
         return createOk(translatedOrder)

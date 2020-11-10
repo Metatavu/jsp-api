@@ -3,6 +3,7 @@ package fi.metatavu.jsp.orders
 import fi.metatavu.jsp.persistence.dao.OrderDAO
 import fi.metatavu.jsp.persistence.model.CustomerOrder
 import fi.metatavu.jsp.products.GenericProductsController
+import fi.metatavu.jsp.products.HandlesController
 import java.time.OffsetDateTime
 import java.util.*
 import javax.enterprise.context.ApplicationScoped
@@ -18,6 +19,9 @@ class OrdersController {
 
     @Inject
     private lateinit var genericProductsController: GenericProductsController
+
+    @Inject
+    private lateinit var handlesController: HandlesController
 
     /**
      * Lists all orders
@@ -49,6 +53,12 @@ class OrdersController {
 
         products.forEach { product ->
             genericProductsController.delete(product)
+        }
+
+        val handles = handlesController.list(customerOrder)
+
+        handles.forEach { handle ->
+            handlesController.delete(handle)
         }
 
         return orderDAO.delete(customerOrder)

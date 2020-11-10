@@ -5,6 +5,7 @@ import fi.metatavu.jaxrs.test.functional.builder.auth.AccessTokenProvider
 import fi.metatavu.jaxrs.test.functional.builder.auth.AuthorizedTestBuilderAuthentication
 import fi.metatavu.jsp.api.client.infrastructure.ApiClient
 import fi.metatavu.jsp.api.test.functional.builder.impl.GenericProductTestBuilderResource
+import fi.metatavu.jsp.api.test.functional.builder.impl.HandleTestBuilderResource
 import fi.metatavu.jsp.api.test.functional.builder.impl.OrderTestBuilderResource
 import fi.metatavu.jsp.api.test.functional.settings.TestSettings
 
@@ -20,6 +21,7 @@ class TestBuilderAuthentication(testBuilder: AbstractTestBuilder<ApiClient>, acc
     private var accessTokenProvider: AccessTokenProvider? = accessTokenProvider
     private var orders: OrderTestBuilderResource? = null
     private var genericProducts: GenericProductTestBuilderResource ?= null
+    private var handles: HandleTestBuilderResource? = null
 
     override fun createClient(accessToken: String?): ApiClient {
         val result = ApiClient(TestSettings.apiBasePath)
@@ -51,6 +53,19 @@ class TestBuilderAuthentication(testBuilder: AbstractTestBuilder<ApiClient>, acc
         }
 
         return genericProducts!!
+    }
+
+    /**
+     * Returns a test builder resource for handles
+     *
+     * @return a test builder resource for handles
+     */
+    fun handles(): HandleTestBuilderResource {
+        if (handles == null) {
+            handles = HandleTestBuilderResource(testBuilder, accessTokenProvider, createClient())
+        }
+
+        return handles!!
     }
 
 }

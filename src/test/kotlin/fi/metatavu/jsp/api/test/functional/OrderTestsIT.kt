@@ -53,6 +53,9 @@ class OrderTestsIT: AbstractFunctionalTest() {
             assertNotNull(createdOrder.intermediateSpaces[0])
             testBuilder.admin().genericProducts().assertGenericProductsEqual(testOrder.intermediateSpaces[0], createdOrder.intermediateSpaces[0])
 
+            assertNotNull(createdOrder.handles[0])
+            testBuilder.admin().handles().assertHandlesEqual(testOrder.handles[0], createdOrder.handles[0])
+
             testBuilder.admin().orders().assertCreateFailStatus(400)
         }
     }
@@ -97,7 +100,10 @@ class OrderTestsIT: AbstractFunctionalTest() {
             electricProducts.add(GenericProduct("Electric product 2", "INC_5_U", GenericProductType.eLECTRIC))
 
             val doors = ArrayList<Door>()
+
             val handles = ArrayList<Handle>()
+            handles.add(Handle("Door model 2", "Yellow", true))
+
             val counterTops = ArrayList<CounterTop>()
             val orderFiles = ArrayList<FileInformation>()
 
@@ -162,6 +168,9 @@ class OrderTestsIT: AbstractFunctionalTest() {
 
             assertNotNull(updatedOrder.intermediateSpaces[0])
             testBuilder.admin().genericProducts().assertGenericProductsEqual(orderToUpdate.intermediateSpaces[0], updatedOrder.intermediateSpaces[0])
+
+            assertNotNull(updatedOrder.handles[0])
+            testBuilder.admin().handles().assertHandlesEqual(orderToUpdate.handles[0], updatedOrder.handles[0])
 
             testBuilder.admin().orders().assertUpdateFailStatus(400)
         }
