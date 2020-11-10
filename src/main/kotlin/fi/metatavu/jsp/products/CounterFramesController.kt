@@ -12,6 +12,7 @@ import javax.inject.Inject
  */
 @ApplicationScoped
 class CounterFramesController {
+
     @Inject
     private lateinit var counterFrameDAO: CounterFrameDAO
 
