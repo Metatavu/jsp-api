@@ -9,6 +9,7 @@ import javax.persistence.criteria.Predicate
 
 @ApplicationScoped
 class HandleDAO: AbstractDAO<Handle>() {
+
     /**
      * Saves a handle to a database
      *
