@@ -53,6 +53,8 @@ class OrderTestsIT: AbstractFunctionalTest() {
             assertNotNull(createdOrder.intermediateSpaces[0])
             testBuilder.admin().genericProducts().assertGenericProductsEqual(testOrder.intermediateSpaces[0], createdOrder.intermediateSpaces[0])
 
+            testBuilder.admin().counterFrames().assertCounterFramesEqual(testOrder.counterFrame, createdOrder.counterFrame)
+
             testBuilder.admin().orders().assertCreateFailStatus(400)
         }
     }
@@ -103,7 +105,7 @@ class OrderTestsIT: AbstractFunctionalTest() {
 
             val orderToUpdate = Order(
                     orderInfo2,
-                    CounterFrame("", "", "", "", "", null),
+                    CounterFrame("Red", "Strip", "Plinth", "Extra side", "Information", createdOrder.counterFrame.id),
                     doors.toTypedArray(),
                     "",
                     handles.toTypedArray(),
@@ -162,6 +164,8 @@ class OrderTestsIT: AbstractFunctionalTest() {
 
             assertNotNull(updatedOrder.intermediateSpaces[0])
             testBuilder.admin().genericProducts().assertGenericProductsEqual(orderToUpdate.intermediateSpaces[0], updatedOrder.intermediateSpaces[0])
+
+            testBuilder.admin().counterFrames().assertCounterFramesEqual(orderToUpdate.counterFrame, updatedOrder.counterFrame)
 
             testBuilder.admin().orders().assertUpdateFailStatus(400)
         }
