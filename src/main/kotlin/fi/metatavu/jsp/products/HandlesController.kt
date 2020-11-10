@@ -12,6 +12,7 @@ import javax.inject.Inject
  */
 @ApplicationScoped
 class HandlesController {
+
     @Inject
     private lateinit var handleDAO: HandleDAO
 
