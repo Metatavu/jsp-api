@@ -1,14 +1,12 @@
 package fi.metatavu.jsp.api
 
 import fi.metatavu.jsp.api.spec.OrdersApi
-import fi.metatavu.jsp.api.spec.model.GenericProduct
-import fi.metatavu.jsp.api.spec.model.GenericProductType
-import fi.metatavu.jsp.api.spec.model.Handle
-import fi.metatavu.jsp.api.spec.model.Order
+import fi.metatavu.jsp.api.spec.model.*
 import fi.metatavu.jsp.api.translate.OrderTranslator
 import fi.metatavu.jsp.orders.OrdersController
 import fi.metatavu.jsp.persistence.model.CustomerOrder
 import fi.metatavu.jsp.products.CounterFramesController
+import fi.metatavu.jsp.products.CounterTopsController
 import fi.metatavu.jsp.products.GenericProductsController
 import fi.metatavu.jsp.products.HandlesController
 import java.util.*
@@ -37,6 +35,9 @@ class OrdersApiImpl: OrdersApi, AbstractApi() {
 
     @Inject
     private lateinit var counterFramesController: CounterFramesController
+
+    @Inject
+    private lateinit var counterTopsController: CounterTopsController
 
     override fun createOrder(order: Order): Response {
         val orderInfo = order.orderInfo
@@ -75,6 +76,8 @@ class OrdersApiImpl: OrdersApi, AbstractApi() {
                 order.electricProductsAdditionalInformation,
                 order.domesticAppliancesAdditionalInformation,
                 order.intermediateSpacesAdditionalInformation,
+                order.counterTopsAdditionalInformation,
+                order.handlesAdditionalInformation,
                 loggerUserId!!
         )
 
@@ -85,6 +88,7 @@ class OrdersApiImpl: OrdersApi, AbstractApi() {
         createGenericProducts(order.intermediateSpaces, createdOrder)
 
         createHandles(order.handles, createdOrder)
+        createCounterTops(order.counterTops, createdOrder)
       
         val counterFrame = order.counterFrame
         counterFramesController.create(
@@ -121,10 +125,10 @@ class OrdersApiImpl: OrdersApi, AbstractApi() {
     }
 
     /**
-     * Saves generic products to a database from a list
+     * Saves handles to a database from a list
      *
-     * @param handles products to save
-     * @param order the order that these products are related to
+     * @param handles handles to save
+     * @param order the order that these handles are related to
      */
     private fun createHandles (handles: List<Handle>, order: CustomerOrder) {
         for (handle in handles) {
@@ -135,6 +139,25 @@ class OrdersApiImpl: OrdersApi, AbstractApi() {
                 }
             } else {
                 handlesController.create(handle.doorModelName, handle.color, handle.markedInImages, order, loggerUserId!!)
+            }
+        }
+    }
+
+    /**
+     * Saves counter tops to a database from a list
+     *
+     * @param counterTops counter tops to save
+     * @param order the order that these counter tops are related to
+     */
+    private fun createCounterTops (counterTops: List<CounterTop>, order: CustomerOrder) {
+        for (counterTop in counterTops) {
+            if (counterTop.id != null) {
+                val existingCounterTop = counterTopsController.find(counterTop.id!!)
+                if (existingCounterTop != null) {
+                    counterTopsController.update(existingCounterTop, counterTop.type, counterTop.modelName, counterTop.thickness, loggerUserId!!)
+                }
+            } else {
+                counterTopsController.create(order, counterTop.type, counterTop.modelName, counterTop.thickness, loggerUserId!!)
             }
         }
     }
@@ -219,6 +242,16 @@ class OrdersApiImpl: OrdersApi, AbstractApi() {
             }
         }
 
+        val existingCounterTops = counterTopsController.list(existingOrder)
+
+        existingCounterTops.forEach { counterTop ->
+            val save = order.counterTops.any { _counterTop -> _counterTop.id == counterTop.id }
+
+            if (!save) {
+                counterTopsController.delete(counterTop)
+            }
+        }
+
         val orderInfo = order.orderInfo
         val updatedOrder = ordersController.update(
                 existingOrder,
@@ -238,6 +271,8 @@ class OrdersApiImpl: OrdersApi, AbstractApi() {
                 order.electricProductsAdditionalInformation,
                 order.domesticAppliancesAdditionalInformation,
                 order.intermediateSpacesAdditionalInformation,
+                order.counterTopsAdditionalInformation,
+                order.handlesAdditionalInformation,
                 loggerUserId!!
         )
 
@@ -248,6 +283,7 @@ class OrdersApiImpl: OrdersApi, AbstractApi() {
         createGenericProducts(order.intermediateSpaces, updatedOrder)
       
         createHandles(order.handles, updatedOrder)
+        createCounterTops(order.counterTops, updatedOrder)
 
         val counterFrame = order.counterFrame
         val existingCounterFrame = counterFramesController.find(order.counterFrame.id)!!

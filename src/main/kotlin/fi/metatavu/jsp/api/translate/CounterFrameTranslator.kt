@@ -1,6 +1,7 @@
 package fi.metatavu.jsp.api.translate
 
 import fi.metatavu.jsp.api.spec.model.CounterFrame
+import javax.enterprise.context.ApplicationScoped
 
 /**
  * A translator class for counter frames

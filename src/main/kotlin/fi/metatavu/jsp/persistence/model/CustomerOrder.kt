@@ -64,6 +64,12 @@ class CustomerOrder {
     var intermediateSpacesInformation: String? = null
 
     @Column(nullable = false)
+    var counterTopsInformation: String? = null
+
+    @Column(nullable = false)
+    var handlesInformation: String? = null
+
+    @Column(nullable = false)
     var createdAt: OffsetDateTime? = null
 
     @Column(nullable = false)

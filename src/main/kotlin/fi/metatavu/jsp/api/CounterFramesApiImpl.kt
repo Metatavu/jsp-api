@@ -4,6 +4,8 @@ import fi.metatavu.jsp.api.spec.CounterFramesApi
 import fi.metatavu.jsp.api.translate.CounterFrameTranslator
 import fi.metatavu.jsp.products.CounterFramesController
 import java.util.*
+import javax.ejb.Stateful
+import javax.enterprise.context.RequestScoped
 import javax.inject.Inject
 import javax.ws.rs.core.Response
 

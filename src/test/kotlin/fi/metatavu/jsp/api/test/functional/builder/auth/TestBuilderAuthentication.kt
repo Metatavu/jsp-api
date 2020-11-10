@@ -4,10 +4,7 @@ import fi.metatavu.jaxrs.test.functional.builder.AbstractTestBuilder
 import fi.metatavu.jaxrs.test.functional.builder.auth.AccessTokenProvider
 import fi.metatavu.jaxrs.test.functional.builder.auth.AuthorizedTestBuilderAuthentication
 import fi.metatavu.jsp.api.client.infrastructure.ApiClient
-import fi.metatavu.jsp.api.test.functional.builder.impl.CounterFrameTestBuilderResource
-import fi.metatavu.jsp.api.test.functional.builder.impl.GenericProductTestBuilderResource
-import fi.metatavu.jsp.api.test.functional.builder.impl.HandleTestBuilderResource
-import fi.metatavu.jsp.api.test.functional.builder.impl.OrderTestBuilderResource
+import fi.metatavu.jsp.api.test.functional.builder.impl.*
 import fi.metatavu.jsp.api.test.functional.settings.TestSettings
 
 /**
@@ -24,7 +21,7 @@ class TestBuilderAuthentication(testBuilder: AbstractTestBuilder<ApiClient>, acc
     private var genericProducts: GenericProductTestBuilderResource ?= null
     private var handles: HandleTestBuilderResource? = null
     private var counterFrames: CounterFrameTestBuilderResource? = null
-
+    private var counterTops: CounterTopTestBuilderResource? = null
 
     override fun createClient(accessToken: String?): ApiClient {
         val result = ApiClient(TestSettings.apiBasePath)
@@ -69,6 +66,7 @@ class TestBuilderAuthentication(testBuilder: AbstractTestBuilder<ApiClient>, acc
         }
 
         return handles!!
+    }
 
     /**
      * Returns a test builder resource for counter frames
@@ -81,6 +79,19 @@ class TestBuilderAuthentication(testBuilder: AbstractTestBuilder<ApiClient>, acc
         }
 
         return counterFrames!!
+    }
+
+    /**
+     * Returns a test builder resource for counter tops
+     *
+     * @return a test builder resource for counter tops
+     */
+    fun counterTops(): CounterTopTestBuilderResource {
+        if (counterTops == null) {
+            counterTops = CounterTopTestBuilderResource(testBuilder, accessTokenProvider, createClient())
+        }
+
+        return counterTops!!
     }
 
 }
