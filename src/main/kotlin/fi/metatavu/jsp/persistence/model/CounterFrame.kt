@@ -7,6 +7,7 @@ import javax.persistence.*
 
 @Entity
 class CounterFrame {
+
     @Id
     var id: UUID? = null
 
