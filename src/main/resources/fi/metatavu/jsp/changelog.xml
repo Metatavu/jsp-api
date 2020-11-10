@@ -108,4 +108,42 @@
             </column>
         </createTable>
     </changeSet>
+
+    <changeSet id="Counter frames" author="Simeon Platonov">
+        <createTable tableName="counterframe">
+            <column name="id" type="binary(16)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="createdat" type="datetime(6)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modifiedat" type="datetime(6)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="creatorid" type="binary(16)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="lastmodifierid" type="binary(16)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="customerorder_id" type="binary(16)">
+                <constraints nullable="false" foreignKeyName="FK_COUNTER_FRAME_CUSTOMER_ORDER_ID" referencedTableName="customerorder" referencedColumnNames="id"/>
+            </column>
+            <column name="color" type="longtext">
+                <constraints nullable="false"/>
+            </column>
+            <column name="cornerstripe" type="longtext">
+                <constraints nullable="false"/>
+            </column>
+            <column name="extraside" type="longtext">
+                <constraints nullable="false"/>
+            </column>
+            <column name="plinth" type="longtext">
+                <constraints nullable="false"/>
+            </column>
+            <column name="additionalinformation" type="longtext">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
 </databaseChangeLog>

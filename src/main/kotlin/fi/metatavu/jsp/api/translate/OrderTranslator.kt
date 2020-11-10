@@ -3,6 +3,7 @@ package fi.metatavu.jsp.api.translate
 import fi.metatavu.jsp.api.spec.model.*
 import fi.metatavu.jsp.orders.OrdersController
 import fi.metatavu.jsp.persistence.model.CustomerOrder
+import fi.metatavu.jsp.products.CounterFramesController
 import fi.metatavu.jsp.products.GenericProductsController
 import javax.inject.Inject
 
@@ -18,6 +19,12 @@ class OrderTranslator: AbstractTranslator<CustomerOrder, Order>() {
 
     @Inject
     private lateinit var genericProductsController: GenericProductsController
+
+    @Inject
+    private lateinit var counterFramesController: CounterFramesController
+
+    @Inject
+    private lateinit var counterFrameTranslator: CounterFrameTranslator
 
     /**
      * Translates JPA orders into REST orders
@@ -69,7 +76,7 @@ class OrderTranslator: AbstractTranslator<CustomerOrder, Order>() {
         order.installation = installation
         order.handles = ArrayList()
         order.counterTops = ArrayList()
-        order.counterFrame = counterFrame
+        order.counterFrame = counterFramesController.list(entity).map(counterFrameTranslator::translate)[0]
 
         order.domesticAppliances = genericProductsController.list(GenericProductType.DOMESTIC_APPLIANCE, entity).map(genericProductTranslator::translate)
         order.otherProducts = genericProductsController.list(GenericProductType.OTHER, entity).map(genericProductTranslator::translate)
