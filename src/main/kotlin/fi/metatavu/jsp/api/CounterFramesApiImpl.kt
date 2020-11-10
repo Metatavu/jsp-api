@@ -7,6 +7,9 @@ import java.util.*
 import javax.inject.Inject
 import javax.ws.rs.core.Response
 
+/**
+ * Endpoints for counter frames
+ */
 @RequestScoped
 @Stateful
 class CounterFramesApiImpl: CounterFramesApi, AbstractApi() {
