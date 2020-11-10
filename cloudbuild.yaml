@@ -15,8 +15,8 @@ steps:
     && echo "[default]" >> ~/.aws/credentials \
     && echo "aws_access_key_id = ${_AWS_ACCESS_KEY_ID}" >> ~/.aws/credentials \
     && echo "aws_secret_access_key = ${_AWS_SECRET_ACCESS_KEY}" >> ~/.aws/credentials \
-    && _UPDATED_TOKEN=$(aws ecr get-login-password --region eu-central-1) \
-    && echo "$(aws ecr get-login-password --region eu-central-1)" >> ~/.aws/test \
+    && _UPDATED_TOKEN=$(aws ecr get-login-password --region ${_AWS_REGION}) \
+    && echo "$(aws ecr get-login-password --region ${_AWS_REGION})" >> ~/.aws/test \
 
 - name: 'gcr.io/cloud-builders/docker'
   entrypoint: 'bash'
@@ -30,14 +30,14 @@ steps:
   args: 
   - '-c'
   - |
-    docker build -t ${_AWS_ID}.dkr.ecr.eu-central-1.amazonaws.com/${_PROJECT_ID}:$(echo ${BUILD_ID} | cut -b 1-8) .
+    docker build -t ${_AWS_ID}.dkr.ecr.${_AWS_REGION}.amazonaws.com/${_PROJECT_ID}:$(echo ${BUILD_ID} | cut -b 1-8) .
     
 - name: 'gcr.io/cloud-builders/docker'
   entrypoint: 'bash'
   args: 
   - '-c'
   - |
-    docker push ${_AWS_ID}.dkr.ecr.eu-central-1.amazonaws.com/${_PROJECT_ID}:$(echo ${BUILD_ID} | cut -b 1-8)
+    docker push ${_AWS_ID}.dkr.ecr.${_AWS_REGION}.amazonaws.com/${_PROJECT_ID}:$(echo ${BUILD_ID} | cut -b 1-8)
     
 - name: 'gcr.io/cloud-builders/kubectl'
   entrypoint: 'bash'
@@ -46,5 +46,5 @@ steps:
   - |
     ./awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws \
     && aws eks --region ${_AWS_REGION} update-kubeconfig --name production \
-    && kubectl -n ${_NAMESPACE} set image deployment/${_DEPLOYMENT_NAME} ${_DEPLOYMENT_NAME}=${_AWS_ID}.dkr.ecr.eu-central-1.amazonaws.com/${_PROJECT_ID}:$(echo ${BUILD_ID} | cut -b 1-8) \
+    && kubectl -n ${_NAMESPACE} set image deployment/${_DEPLOYMENT_NAME} ${_DEPLOYMENT_NAME}=${_AWS_ID}.dkr.ecr.${_AWS_REGION}.amazonaws.com/${_PROJECT_ID}:$(echo ${BUILD_ID} | cut -b 1-8) \
     
