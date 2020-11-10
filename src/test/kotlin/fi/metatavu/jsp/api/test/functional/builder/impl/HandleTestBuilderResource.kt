@@ -12,7 +12,6 @@ import java.util.*
 
 /**
  * A test builder resource for handles
- *
  */
 class HandleTestBuilderResource (testBuilder: AbstractTestBuilder<ApiClient?>?, private val accessTokenProvider: AccessTokenProvider?, apiClient: ApiClient): ApiTestBuilderResource<Handle, ApiClient>(testBuilder, apiClient) {
     override fun clean(t: Handle?) {}
@@ -31,6 +30,8 @@ class HandleTestBuilderResource (testBuilder: AbstractTestBuilder<ApiClient?>?, 
 
     /**
      * Sends a request to the API to list handles
+     *
+     * @return hadles
      */
     fun list (): Array<Handle> {
         return api.listHandles()
@@ -38,6 +39,8 @@ class HandleTestBuilderResource (testBuilder: AbstractTestBuilder<ApiClient?>?, 
 
     /**
      * Sends a request to the API to find a handle
+     * 
+     * @return found handle
      */
     fun find (handleId: UUID): Handle {
         return api.findHandle(handleId)
