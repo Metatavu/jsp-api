@@ -8,6 +8,7 @@ import fi.metatavu.jsp.api.spec.model.Order
 import fi.metatavu.jsp.api.translate.OrderTranslator
 import fi.metatavu.jsp.orders.OrdersController
 import fi.metatavu.jsp.persistence.model.CustomerOrder
+import fi.metatavu.jsp.products.CounterFramesController
 import fi.metatavu.jsp.products.GenericProductsController
 import fi.metatavu.jsp.products.HandlesController
 import java.util.*
@@ -33,6 +34,9 @@ class OrdersApiImpl: OrdersApi, AbstractApi() {
 
     @Inject
     private lateinit var orderTranslator: OrderTranslator
+
+    @Inject
+    private lateinit var counterFramesController: CounterFramesController
 
     override fun createOrder(order: Order): Response {
         val orderInfo = order.orderInfo
@@ -81,6 +85,17 @@ class OrdersApiImpl: OrdersApi, AbstractApi() {
         createGenericProducts(order.intermediateSpaces, createdOrder)
 
         createHandles(order.handles, createdOrder)
+      
+        val counterFrame = order.counterFrame
+        counterFramesController.create(
+            createdOrder, 
+            counterFrame.color, 
+            counterFrame.cornerStripe, 
+            counterFrame.extraSide, 
+            counterFrame.plinth, 
+            counterFrame.additionalInformation, 
+            loggerUserId!!
+        )
 
         val translatedOrder = orderTranslator.translate(createdOrder)
         return createOk(translatedOrder)
@@ -231,8 +246,20 @@ class OrdersApiImpl: OrdersApi, AbstractApi() {
         createGenericProducts(order.domesticAppliances, updatedOrder)
         createGenericProducts(order.electricProducts, updatedOrder)
         createGenericProducts(order.intermediateSpaces, updatedOrder)
-
+      
         createHandles(order.handles, updatedOrder)
+
+        val counterFrame = order.counterFrame
+        val existingCounterFrame = counterFramesController.find(order.counterFrame.id)!!
+        counterFramesController.update(
+            existingCounterFrame, 
+            counterFrame.color, 
+            counterFrame.cornerStripe, 
+            counterFrame.extraSide, 
+            counterFrame.plinth, 
+            counterFrame.additionalInformation, 
+            loggerUserId!!
+        )
 
         val translatedOrder = orderTranslator.translate(updatedOrder)
         return createOk(translatedOrder)

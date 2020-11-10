@@ -4,6 +4,7 @@ import fi.metatavu.jaxrs.test.functional.builder.AbstractTestBuilder
 import fi.metatavu.jaxrs.test.functional.builder.auth.AccessTokenProvider
 import fi.metatavu.jaxrs.test.functional.builder.auth.AuthorizedTestBuilderAuthentication
 import fi.metatavu.jsp.api.client.infrastructure.ApiClient
+import fi.metatavu.jsp.api.test.functional.builder.impl.CounterFrameTestBuilderResource
 import fi.metatavu.jsp.api.test.functional.builder.impl.GenericProductTestBuilderResource
 import fi.metatavu.jsp.api.test.functional.builder.impl.HandleTestBuilderResource
 import fi.metatavu.jsp.api.test.functional.builder.impl.OrderTestBuilderResource
@@ -22,6 +23,8 @@ class TestBuilderAuthentication(testBuilder: AbstractTestBuilder<ApiClient>, acc
     private var orders: OrderTestBuilderResource? = null
     private var genericProducts: GenericProductTestBuilderResource ?= null
     private var handles: HandleTestBuilderResource? = null
+    private var counterFrames: CounterFrameTestBuilderResource? = null
+
 
     override fun createClient(accessToken: String?): ApiClient {
         val result = ApiClient(TestSettings.apiBasePath)
@@ -66,6 +69,18 @@ class TestBuilderAuthentication(testBuilder: AbstractTestBuilder<ApiClient>, acc
         }
 
         return handles!!
+
+    /**
+     * Returns a test builder resource for counter frames
+     *
+     * @return a test builder resource for counter frames
+     */
+    fun counterFrames(): CounterFrameTestBuilderResource {
+        if (counterFrames == null) {
+            counterFrames = CounterFrameTestBuilderResource(testBuilder, accessTokenProvider, createClient())
+        }
+
+        return counterFrames!!
     }
 
 }

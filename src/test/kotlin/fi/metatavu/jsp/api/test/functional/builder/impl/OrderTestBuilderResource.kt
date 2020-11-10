@@ -199,7 +199,7 @@ class OrderTestBuilderResource(testBuilder: AbstractTestBuilder<ApiClient?>?, pr
 
         return Order(
                 orderInfo,
-                CounterFrame("", "", "", "", "", null),
+                CounterFrame("Red", "Strip", "Plinth", "Extra side", "Information", null),
                 doors.toTypedArray(),
                 "",
                 handles.toTypedArray(),
