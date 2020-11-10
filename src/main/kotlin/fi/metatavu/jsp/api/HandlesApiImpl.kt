@@ -15,6 +15,7 @@ import javax.ws.rs.core.Response
 @RequestScoped
 @Stateful
 class HandlesApiImpl: HandlesApi, AbstractApi() {
+
     @Inject
     private lateinit var handleTranslator: HandleTranslator
 
