@@ -13,6 +13,7 @@ import javax.ws.rs.core.Response
 @RequestScoped
 @Stateful
 class CounterFramesApiImpl: CounterFramesApi, AbstractApi() {
+
     @Inject
     private lateinit var counterFramesController: CounterFramesController
 
