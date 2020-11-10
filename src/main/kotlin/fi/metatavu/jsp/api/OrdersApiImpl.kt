@@ -80,7 +80,15 @@ class OrdersApiImpl: OrdersApi, AbstractApi() {
         createGenericProducts(order.intermediateSpaces, createdOrder)
 
         val counterFrame = order.counterFrame
-        counterFramesController.create(createdOrder, counterFrame.color, counterFrame.cornerStripe, counterFrame.extraSide, counterFrame.plinth, counterFrame.additionalInformation, loggerUserId!!)
+        counterFramesController.create(
+            createdOrder, 
+            counterFrame.color, 
+            counterFrame.cornerStripe, 
+            counterFrame.extraSide, 
+            counterFrame.plinth, 
+            counterFrame.additionalInformation, 
+            loggerUserId!!
+        )
 
         val translatedOrder = orderTranslator.translate(createdOrder)
         return createOk(translatedOrder)
