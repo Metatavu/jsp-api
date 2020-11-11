@@ -2,6 +2,7 @@ package fi.metatavu.jsp.orders
 
 import fi.metatavu.jsp.persistence.dao.OrderDAO
 import fi.metatavu.jsp.persistence.model.CustomerOrder
+import fi.metatavu.jsp.products.DoorsController
 import fi.metatavu.jsp.products.GenericProductsController
 import java.time.OffsetDateTime
 import java.util.*
@@ -18,6 +19,9 @@ class OrdersController {
 
     @Inject
     private lateinit var genericProductsController: GenericProductsController
+
+    @Inject
+    private lateinit var doorsController: DoorsController
 
     /**
      * Lists all orders
@@ -46,9 +50,14 @@ class OrdersController {
      */
     fun delete (customerOrder: CustomerOrder) {
         val products = genericProductsController.list(null, customerOrder)
+        val doors = doorsController.list(null)
 
         products.forEach { product ->
             genericProductsController.delete(product)
+        }
+
+        doors.forEach { door ->
+            doorsController.delete(door)
         }
 
         return orderDAO.delete(customerOrder)
