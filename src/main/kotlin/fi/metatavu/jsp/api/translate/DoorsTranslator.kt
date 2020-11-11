@@ -1,4 +1,4 @@
 package fi.metatavu.jsp.api.translate
 
-class OrderTranslator {
+class DoorsTranslator {
 }
