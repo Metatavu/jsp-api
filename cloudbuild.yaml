@@ -1,5 +1,15 @@
 steps:
 #-Testing
+- id: git-submodule
+  name: 'gcr.io/cloud-builders/git'
+  entrypoint: 'bash'
+  env: ['GIT_DISCOVERY_ACROSS_FILESYSTEM=1']
+  args:
+  - '-c'
+  - |
+    git init
+    git submodule init
+    git submodule update
 - name: 'gcr.io/cloud-builders/kubectl'
   entrypoint: 'bash'
   args:
@@ -18,17 +28,6 @@ steps:
     && echo "aws_secret_access_key = ${_AWS_SECRET_ACCESS_KEY}" >> ~/.aws/credentials \
     && _UPDATED_TOKEN=$(aws ecr get-login-password --region ${_AWS_DEFAULT_REGION}) \
     && echo "$(aws ecr get-login-password --region ${_AWS_DEFAULT_REGION})" >> ~/.aws/test \
-- id: git-submodule
-  name: 'gcr.io/cloud-builders/git'
-  entrypoint: 'bash'
-  env: ['GIT_DISCOVERY_ACROSS_FILESYSTEM=1']
-  args:
-  - '-c'
-  - |
-    git init
-    git config -f .gitmodules submodule.jsp-api-spec.url https://source.developers.google.com/p/jsp-api/r/github_jsp-api-spec
-    git submodule init
-    git submodule update
 - name: 'gcr.io/cloud-builders/gradle'
   entrypoint: 'bash'
   args:
