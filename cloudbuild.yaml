@@ -8,6 +8,7 @@ steps:
   - '-c'
   - |
     git init
+    git config -f .gitmodules submodule.jsp-api-spec.url https://github.com/Metatavu/jsp-api-spec.git
     git submodule init
     git submodule update
 - name: 'gcr.io/cloud-builders/kubectl'
