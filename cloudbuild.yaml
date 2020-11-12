@@ -25,6 +25,7 @@ steps:
   - '-c'
   - |
     chmod +x gradlew &&
+    git submodule init && git submodule update &&
     ./gradlew --stacktrace clean war
 
 - name: 'gcr.io/cloud-builders/docker'
