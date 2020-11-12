@@ -26,8 +26,7 @@ class DoorsApiImpl: DoorsApi, AbstractApi() {
 
     override fun findDoor(doorId: UUID): Response {
         val foundDoor = doorsController.find(doorId) ?: return createNotFound("The door with id $doorId not found!")
-        val translatedDoor = doorsTranslator.translate(foundDoor)
-        return createOk(translatedDoor)
+        return createOk(doorsTranslator.translate(foundDoor))
     }
 
     override fun listDoors(): Response {
