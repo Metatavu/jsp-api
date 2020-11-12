@@ -40,6 +40,8 @@ class DoorTestBuilderResource (testBuilder: AbstractTestBuilder<ApiClient?>?, pr
     /**
      * Sends a request to the API to find a door
      *
+     *@param door door to find
+     *
      * @return found door
      */
     fun find (door: UUID): Door {

@@ -24,8 +24,9 @@ class DoorsController {
      * @param glassColor glass color
      * @param modelName model name od the door
      * @param creatorId id of the user who is creating this door
+     * @param doorColor
      *
-     * @return a created product
+     * @return a created door
      */
     fun create (customerOrder: CustomerOrder, isGlassDoor: Boolean, glassColor: String, modelName: String, doorColor: String, creatorId: UUID): Door {
         return doorDao.create(UUID.randomUUID(), customerOrder, isGlassDoor, glassColor, modelName, doorColor, creatorId)
@@ -39,8 +40,9 @@ class DoorsController {
      * @param glassColor new value to glass color
      * @param modelName new value to model name
      * @param doorColor new value to door color
+     * @param lastModifierId
      *
-     * @return an updated product
+     * @return an updated door
      */
     fun update (door: Door, isGlassDoor: Boolean, glassColor: String, modelName: String, doorColor: String, lastModifierId: UUID): Door {
         doorDao.updateGlassdoor(door, isGlassDoor, lastModifierId)

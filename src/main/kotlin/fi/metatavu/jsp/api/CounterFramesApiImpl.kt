@@ -24,13 +24,11 @@ class CounterFramesApiImpl: CounterFramesApi, AbstractApi() {
 
     override fun findCounterFrame(counterFrameId: UUID): Response {
         val foundCounterFrame = counterFramesController.find(counterFrameId) ?: return createNotFound("A counter frame with id $counterFrameId not found!")
-        val translatedCounterFrame = counterFrameTranslator.translate(foundCounterFrame)
-        return createOk(translatedCounterFrame)
+        return createOk(counterFrameTranslator.translate(foundCounterFrame))
     }
 
     override fun listCounterFrames(): Response {
         val counterFrames = counterFramesController.list(null)
-        val translatedCounterFrames = counterFrames.map(counterFrameTranslator::translate)
-        return createOk(translatedCounterFrames)
+        return createOk(counterFrames.map(counterFrameTranslator::translate))
     }
 }

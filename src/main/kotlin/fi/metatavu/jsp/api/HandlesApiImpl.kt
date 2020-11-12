@@ -24,15 +24,12 @@ class HandlesApiImpl: HandlesApi, AbstractApi() {
 
     override fun findHandle(handleId: UUID): Response {
         val foundHandle = handlesController.find(handleId) ?: return createNotFound("A handle with id $handleId not found!")
-        val translatedHandle = handleTranslator.translate(foundHandle)
-
-        return createOk(translatedHandle)
+        return createOk(handleTranslator.translate(foundHandle))
     }
 
     override fun listHandles(): Response {
         val handles = handlesController.list(null)
-        val translatedHandles = handles.map(handleTranslator::translate)
 
-        return createOk(translatedHandles)
+        return createOk(handles.map(handleTranslator::translate))
     }
 }

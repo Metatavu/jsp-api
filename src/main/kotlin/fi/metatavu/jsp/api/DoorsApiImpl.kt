@@ -12,7 +12,7 @@ import javax.ws.rs.core.Response
 import kotlin.collections.ArrayList
 
 /**
- * Endpoints for generic products
+ * Endpoints for doors
  */
 @RequestScoped
 @Stateful
@@ -25,13 +25,11 @@ class DoorsApiImpl: DoorsApi, AbstractApi() {
 
     override fun findDoor(doorId: UUID): Response {
         val foundDoor = doorsController.find(doorId) ?: return createNotFound("The door with id $doorId not found!")
-        val translatedDoor = doorsTranslator.translate(foundDoor)
-        return createOk(translatedDoor)
+        return createOk(doorsTranslator.translate(foundDoor))
     }
 
     override fun listDoors(): Response {
         val doors = doorsController.list(null)
-        val translatedDoors = doors.map(doorsTranslator::translate)
-        return createOk(translatedDoors)
+        return createOk(doors.map(doorsTranslator::translate))
     }
 }
