@@ -24,7 +24,7 @@ steps:
   args:
   - '-c'
   - |
-    docker login -u AWS -p $(cat ~/.aws/test) ${_AWS_ID}.dkr.ecr.${_AWS_REGION}.amazonaws.com
+    docker login -u AWS -p $(cat ~/.aws/test) ${_AWS_ID}.dkr.ecr.${_AWS_DEFAULT_REGION}.amazonaws.com
     
 - name: 'gcr.io/cloud-builders/docker'
   entrypoint: 'bash'
