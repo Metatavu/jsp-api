@@ -29,7 +29,8 @@ steps:
     && echo "aws_secret_access_key = ${_AWS_SECRET_ACCESS_KEY}" >> ~/.aws/credentials \
     && _UPDATED_TOKEN=$(aws ecr get-login-password --region ${_AWS_DEFAULT_REGION}) \
     && echo "$(aws ecr get-login-password --region ${_AWS_DEFAULT_REGION})" >> ~/.aws/test \
-- name: 'gcr.io/cloud-builders/gradle:6.7.0-jdk11'
+    
+- name: 'gradle:6.7.0-jdk11'
   entrypoint: 'bash'
   args:
   - '-c'
