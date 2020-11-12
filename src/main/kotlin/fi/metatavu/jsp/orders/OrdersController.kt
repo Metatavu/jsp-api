@@ -1,13 +1,8 @@
-
 package fi.metatavu.jsp.orders
 
 import fi.metatavu.jsp.persistence.dao.OrderDAO
 import fi.metatavu.jsp.persistence.model.CustomerOrder
-import fi.metatavu.jsp.persistence.model.Door
-import fi.metatavu.jsp.products.CounterFramesController
-import fi.metatavu.jsp.products.DoorsController
-import fi.metatavu.jsp.products.GenericProductsController
-import fi.metatavu.jsp.products.HandlesController
+import fi.metatavu.jsp.products.*
 import java.time.OffsetDateTime
 import java.util.*
 import javax.enterprise.context.ApplicationScoped
@@ -31,7 +26,11 @@ class OrdersController {
     private lateinit var counterFramesController: CounterFramesController
 
     @Inject
+    private lateinit var counterTopsController: CounterTopsController
+
+    @Inject
     private lateinit var doorsController: DoorsController
+
 
     /**
      * Lists all orders
@@ -65,17 +64,22 @@ class OrdersController {
             genericProductsController.delete(product)
         }
 
-        val counterFrames = counterFramesController.list(customerOrder)
-
-        counterFrames.forEach { counterFrame ->
-            counterFramesController.delete(counterFrame)
-        }
-
         val handles = handlesController.list(customerOrder)
 
         handles.forEach { handle ->
             handlesController.delete(handle)
 
+        }
+        val counterTops = counterTopsController.list(customerOrder)
+
+        counterTops.forEach { counterTop ->
+            counterTopsController.delete(counterTop)
+        }
+
+        val counterFrames = counterFramesController.list(customerOrder)
+
+        counterFrames.forEach { counterFrame ->
+            counterFramesController.delete(counterFrame)
         }
 
         val doors = doorsController.list(customerOrder)
@@ -86,136 +90,154 @@ class OrdersController {
 
         orderDAO.delete(customerOrder)
     }
-        /**
-         * Saves a new order to the database
-         *
-         * @param additionalInformation additional information
-         * @param deliveryTime time of the delivery
-         * @param room room
-         * @param socialMediaPermission social media permission
-         * @param city city
-         * @param phoneNumber customer phone number
-         * @param deliveryAddress delivery address
-         *
-         * @param homeAddress home address
-         * @param billingAddress billing address
-         * @param isHomeBillingAddress is home address billing address
-         *
-         * @param emailAddress customer email address
-         * @param customer customer name
-         * @param moreInformation more information
-         *
-         * @param sinksInformation sinks additional information
-         * @param otherProductsInformation other products additional information
-         * @param electricProductsInformation electric products additional information
-         * @param domesticAppliancesInformation domestic appliances additional information
-         * @param intermediateSpacesInformation intermediate spaces additional information
-         *
-         * @param creatorId id of the user who creates this order
-         *
-         * @return a new order
-         */
-        fun create (additionalInformation: String,
-                    deliveryTime: OffsetDateTime,
-                    room: String,
-                    socialMediaPermission: Boolean,
-                    city: String,
-                    phoneNumber: String,
-                    deliveryAddress: String,
-                    homeAddress: String,
-                    billingAddress: String,
-                    isHomeBillingAddress: Boolean,
-                    emailAddress: String,
-                    customer: String,
-                    moreInformation: String,
-                    sinksInformation: String,
-                    otherProductsInformation: String,
-                    electricProductsInformation: String,
-                    domesticAppliancesInformation: String,
-                    intermediateSpacesInformation: String,
-                    doorInformation: String,
-                    creatorId: UUID): CustomerOrder {
 
-            return orderDAO.create(
-                    UUID.randomUUID(), additionalInformation, deliveryTime, room, socialMediaPermission, city, phoneNumber, deliveryAddress, homeAddress, billingAddress, isHomeBillingAddress, emailAddress, customer, moreInformation,
-                    sinksInformation, otherProductsInformation, electricProductsInformation, domesticAppliancesInformation, intermediateSpacesInformation, doorInformation, creatorId
-            )
-        }
+    /**
+     * Saves a new order to the database
+     *
+     * @param additionalInformation additional information
+     * @param deliveryTime time of the delivery
+     * @param room room
+     * @param socialMediaPermission social media permission
+     * @param city city
+     * @param phoneNumber customer phone number
+     * @param deliveryAddress delivery address
+     *
+     * @param homeAddress home address
+     * @param billingAddress billing address
+     * @param isHomeBillingAddress is home address billing address
+     *
+     * @param emailAddress customer email address
+     * @param customer customer name
+     * @param moreInformation more information
+     *
+     * @param sinksInformation sinks additional information
+     * @param otherProductsInformation other products additional information
+     * @param electricProductsInformation electric products additional information
+     * @param domesticAppliancesInformation domestic appliances additional information
+     * @param intermediateSpacesInformation intermediate spaces additional information
+     *
+     * @param counterTopsInformation counter tops information
+     * @param handlesInformation handles information
+     * @param doorsInformation
+     *
+     * @param creatorId id of the user who creates this order
+     *
+     * @return a new order
+     */
+    fun create (additionalInformation: String,
+                deliveryTime: OffsetDateTime,
+                room: String,
+                socialMediaPermission: Boolean,
+                city: String,
+                phoneNumber: String,
+                deliveryAddress: String,
+                homeAddress: String,
+                billingAddress: String,
+                isHomeBillingAddress: Boolean,
+                emailAddress: String,
+                customer: String,
+                moreInformation: String,
+                sinksInformation: String,
+                otherProductsInformation: String,
+                electricProductsInformation: String,
+                domesticAppliancesInformation: String,
+                intermediateSpacesInformation: String,
+                doorsInformation: String,
+                counterTopsInformation: String,
+                handlesInformation: String,
+                creatorId: UUID): CustomerOrder {
 
-        /**
-         * Updates order details to the database
-         *
-         * @param customerOrder an order to updated
-         * @param additionalInformation additional information
-         * @param deliveryTime time of the delivery
-         * @param room room
-         * @param socialMediaPermission social media permission
-         * @param city city
-         * @param phoneNumber customer phone number
-         * @param deliveryAddress delivery address
-         *
-         * @param homeAddress home address
-         * @param billingAddress billing address
-         * @param isHomeBillingAddress is home address billing address
-         *
-         * @param emailAddress customer email address
-         * @param customer new customer name
-         * @param moreInformation a new value for moreInformation-field
-         *
-         * @param sinksInformation sinks additional information
-         * @param otherProductsInformation other products additional information
-         * @param electricProductsInformation electric products additional information
-         * @param domesticAppliancesInformation domestic appliances additional information
-         * @param intermediateSpacesInformation intermediate spaces additional information
-         *
-         * @param modifierId id of the user who updates this order
-         *
-         * @return an updated order
-         */
-        fun update (customerOrder: CustomerOrder,
-                    additionalInformation: String,
-                    deliveryTime: OffsetDateTime,
-                    room: String,
-                    socialMediaPermission: Boolean,
-                    city: String,
-                    phoneNumber: String,
-                    deliveryAddress: String,
-                    homeAddress: String,
-                    billingAddress: String,
-                    isHomeBillingAddress: Boolean,
-                    emailAddress: String,
-                    customer: String,
-                    moreInformation: String,
-                    sinksInformation: String,
-                    otherProductsInformation: String,
-                    electricProductsInformation: String,
-                    domesticAppliancesInformation: String,
-                    intermediateSpacesInformation: String,
-                    doorInformation: String,
-                    modifierId: UUID): CustomerOrder {
-
-            orderDAO.updateAdditionalInformation(customerOrder, additionalInformation, modifierId)
-            orderDAO.updateCity(customerOrder, city, modifierId)
-            orderDAO.updateCustomer(customerOrder, customer, modifierId)
-            orderDAO.updateDeliveryAddress(customerOrder, deliveryAddress, modifierId)
-            orderDAO.updateDeliveryTime(customerOrder, deliveryTime, modifierId)
-            orderDAO.updateEmailAddress(customerOrder, emailAddress, modifierId)
-            orderDAO.updateRoom(customerOrder, room, modifierId)
-            orderDAO.updatePhoneNumber(customerOrder, phoneNumber, modifierId)
-            orderDAO.updateSocialMediaPermission(customerOrder, socialMediaPermission, modifierId)
-            orderDAO.updateMoreInformation(customerOrder, moreInformation, modifierId)
-
-            orderDAO.updateDomesticAppliancesInformation(customerOrder, domesticAppliancesInformation, modifierId)
-            orderDAO.updateSinksInformation(customerOrder, sinksInformation, modifierId)
-            orderDAO.updateOtherProductsInformation(customerOrder, otherProductsInformation, modifierId)
-            orderDAO.updateElectricProductsInformation(customerOrder, electricProductsInformation, modifierId)
-            orderDAO.updateIntermediateSpacesInformation(customerOrder, intermediateSpacesInformation, modifierId)
-            orderDAO.updateDoorsInfromation(customerOrder, doorInformation, modifierId)
-
-            orderDAO.updateHomeAddress(customerOrder, homeAddress, modifierId)
-            orderDAO.updateIsHomeBillingAddress(customerOrder, isHomeBillingAddress, modifierId)
-            orderDAO.updateBillingAddress(customerOrder, billingAddress, modifierId)
-
-            return customerOrder
-        }
+        return orderDAO.create(
+                UUID.randomUUID(), additionalInformation, deliveryTime, room, socialMediaPermission, city, phoneNumber, deliveryAddress, homeAddress, billingAddress, isHomeBillingAddress, emailAddress, customer, moreInformation,
+                sinksInformation, otherProductsInformation, electricProductsInformation, domesticAppliancesInformation, intermediateSpacesInformation, doorsInformation, counterTopsInformation, handlesInformation, creatorId
+        )
     }
+
+    /**
+     * Updates order details to the database
+     *
+     * @param customerOrder an order to updated
+     * @param additionalInformation additional information
+     * @param deliveryTime time of the delivery
+     * @param room room
+     * @param socialMediaPermission social media permission
+     * @param city city
+     * @param phoneNumber customer phone number
+     * @param deliveryAddress delivery address
+     *
+     * @param homeAddress home address
+     * @param billingAddress billing address
+     * @param isHomeBillingAddress is home address billing address
+     *
+     * @param emailAddress customer email address
+     * @param customer new customer name
+     * @param moreInformation a new value for moreInformation-field
+     *
+     * @param sinksInformation sinks additional information
+     * @param otherProductsInformation other products additional information
+     * @param electricProductsInformation electric products additional information
+     * @param domesticAppliancesInformation domestic appliances additional information
+     * @param intermediateSpacesInformation intermediate spaces additional information
+     *
+     * @param counterTopsInformation counter tops information
+     * @param handlesInformation handles information
+     * @param doorsInformation
+     *
+     * @param modifierId id of the user who updates this order
+     *
+     * @return an updated order
+     */
+    fun update (customerOrder: CustomerOrder,
+                additionalInformation: String,
+                deliveryTime: OffsetDateTime,
+                room: String,
+                socialMediaPermission: Boolean,
+                city: String,
+                phoneNumber: String,
+                deliveryAddress: String,
+                homeAddress: String,
+                billingAddress: String,
+                isHomeBillingAddress: Boolean,
+                emailAddress: String,
+                customer: String,
+                moreInformation: String,
+                sinksInformation: String,
+                otherProductsInformation: String,
+                electricProductsInformation: String,
+                domesticAppliancesInformation: String,
+                intermediateSpacesInformation: String,
+                doorsInformation: String,
+                counterTopsInformation: String,
+                handlesInformation: String,
+                modifierId: UUID): CustomerOrder {
+
+        orderDAO.updateAdditionalInformation(customerOrder, additionalInformation, modifierId)
+        orderDAO.updateCity(customerOrder, city, modifierId)
+        orderDAO.updateCustomer(customerOrder, customer, modifierId)
+        orderDAO.updateDeliveryAddress(customerOrder, deliveryAddress, modifierId)
+        orderDAO.updateDeliveryTime(customerOrder, deliveryTime, modifierId)
+        orderDAO.updateEmailAddress(customerOrder, emailAddress, modifierId)
+        orderDAO.updateRoom(customerOrder, room, modifierId)
+        orderDAO.updatePhoneNumber(customerOrder, phoneNumber, modifierId)
+        orderDAO.updateSocialMediaPermission(customerOrder, socialMediaPermission, modifierId)
+        orderDAO.updateMoreInformation(customerOrder, moreInformation, modifierId)
+
+        orderDAO.updateDomesticAppliancesInformation(customerOrder, domesticAppliancesInformation, modifierId)
+        orderDAO.updateSinksInformation(customerOrder, sinksInformation, modifierId)
+        orderDAO.updateOtherProductsInformation(customerOrder, otherProductsInformation, modifierId)
+        orderDAO.updateElectricProductsInformation(customerOrder, electricProductsInformation, modifierId)
+        orderDAO.updateIntermediateSpacesInformation(customerOrder, intermediateSpacesInformation, modifierId)
+
+        orderDAO.updateHomeAddress(customerOrder, homeAddress, modifierId)
+        orderDAO.updateIsHomeBillingAddress(customerOrder, isHomeBillingAddress, modifierId)
+        orderDAO.updateBillingAddress(customerOrder, billingAddress, modifierId)
+
+        orderDAO.updateCounterTopsInformation(customerOrder, counterTopsInformation, modifierId)
+        orderDAO.updateHandlesInformation(customerOrder, handlesInformation, modifierId)
+        orderDAO.updateDoorsInfromation(customerOrder, doorsInformation, modifierId)
+
+        return customerOrder
+    }
+
+
+}

@@ -5,6 +5,7 @@ import fi.metatavu.jsp.orders.OrdersController
 import fi.metatavu.jsp.persistence.model.CustomerOrder
 import fi.metatavu.jsp.products.CounterFramesController
 import fi.metatavu.jsp.products.DoorsController
+import fi.metatavu.jsp.products.CounterTopsController
 import fi.metatavu.jsp.products.GenericProductsController
 import fi.metatavu.jsp.products.HandlesController
 import javax.enterprise.context.ApplicationScoped
@@ -42,6 +43,12 @@ class OrderTranslator: AbstractTranslator<CustomerOrder, Order>() {
 
     @Inject
     private lateinit var doorsTranslator: DoorsTranslator
+
+    @Inject
+    private lateinit var counterTopTranslator: CounterTopTranslator
+
+    @Inject
+    private lateinit var counterTopsController: CounterTopsController
 
     /**
      * Translates JPA orders into REST orders
@@ -92,7 +99,7 @@ class OrderTranslator: AbstractTranslator<CustomerOrder, Order>() {
         order.drawersInfo = drawersInfo
         order.installation = installation
         order.handles = handlesController.list(entity).map(handleTranslator::translate)
-        order.counterTops = ArrayList()
+        order.counterTops = counterTopsController.list(entity).map(counterTopTranslator::translate)
         order.counterFrame = counterFramesController.list(entity).map(counterFrameTranslator::translate)[0]
 
         order.domesticAppliances = genericProductsController.list(GenericProductType.DOMESTIC_APPLIANCE, entity).map(genericProductTranslator::translate)
@@ -107,9 +114,9 @@ class OrderTranslator: AbstractTranslator<CustomerOrder, Order>() {
         order.otherProductsAdditionalInformation = entity.otherProductsInformation
         order.electricProductsAdditionalInformation = entity.electricProductsInformation
 
-        order.doorsAdditionalInformation = ""
-        order.handlesAdditionalInformation = ""
-        order.counterTopsAdditionalInformation = ""
+        order.doorsAdditionalInformation = entity.doorsInformation
+        order.handlesAdditionalInformation = entity.handlesInformation
+        order.counterTopsAdditionalInformation = entity.counterTopsInformation
 
         order.moreInformation = entity.moreInformation
         order.customerFiles = ArrayList()

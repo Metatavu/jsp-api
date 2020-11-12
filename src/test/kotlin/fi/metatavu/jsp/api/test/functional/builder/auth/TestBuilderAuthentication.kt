@@ -22,7 +22,7 @@ class TestBuilderAuthentication(testBuilder: AbstractTestBuilder<ApiClient>, acc
     private var handles: HandleTestBuilderResource? = null
     private var counterFrames: CounterFrameTestBuilderResource? = null
     private var doors: DoorTestBuilderResource? = null
-
+    private var counterTops: CounterTopTestBuilderResource? = null
 
     override fun createClient(accessToken: String?): ApiClient {
         val result = ApiClient(TestSettings.apiBasePath)
@@ -93,6 +93,19 @@ class TestBuilderAuthentication(testBuilder: AbstractTestBuilder<ApiClient>, acc
         }
 
         return doors!!
+    }
+
+    /**
+     * Returns a test builder resource for counter tops
+     *
+     * @return a test builder resource for counter tops
+     */
+    fun counterTops(): CounterTopTestBuilderResource {
+        if (counterTops == null) {
+            counterTops = CounterTopTestBuilderResource(testBuilder, accessTokenProvider, createClient())
+        }
+
+        return counterTops!!
     }
 }
 

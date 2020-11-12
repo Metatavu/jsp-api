@@ -66,6 +66,12 @@ class CustomerOrder {
     @Column(nullable = false)
     var doorsInformation: String? = null
 
+    @Column
+    var counterTopsInformation: String? = null
+
+    @Column(nullable = false)
+    var handlesInformation: String? = null
+
     @Column(nullable = false)
     var createdAt: OffsetDateTime? = null
 

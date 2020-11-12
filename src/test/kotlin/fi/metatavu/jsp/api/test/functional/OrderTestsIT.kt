@@ -36,7 +36,11 @@ class OrderTestsIT: AbstractFunctionalTest() {
             assertEquals(testOrder.otherProductsAdditionalInformation, createdOrder.otherProductsAdditionalInformation)
             assertEquals(testOrder.electricProductsAdditionalInformation, createdOrder.electricProductsAdditionalInformation)
             assertEquals(testOrder.domesticAppliancesAdditionalInformation, createdOrder.domesticAppliancesAdditionalInformation)
-            assertEquals(testOrder.doorsAdditionalInformation, createdOrder.doorsAdditionalInformation)
+
+
+            assertEquals(testOrder.handlesAdditionalInformation, createdOrder.handlesAdditionalInformation)
+            assertEquals(testOrder.counterTopsAdditionalInformation, createdOrder.counterTopsAdditionalInformation)
+
 
             assertNotNull(createdOrder.sinks[0])
             testBuilder.admin().genericProducts().assertGenericProductsEqual(testOrder.sinks[0], createdOrder.sinks[0])
@@ -54,7 +58,15 @@ class OrderTestsIT: AbstractFunctionalTest() {
             testBuilder.admin().genericProducts().assertGenericProductsEqual(testOrder.intermediateSpaces[0], createdOrder.intermediateSpaces[0])
                            
             assertNotNull(createdOrder.handles[0])
-            testBuilder.admin().handles().assertHandlesEqual(testOrder.handles[0], createdOrder.handles[0])          
+            testBuilder.admin().handles().assertHandlesEqual(testOrder.handles[0], createdOrder.handles[0])
+
+            assertNotNull(createdOrder.counterTops[0])
+            testBuilder.admin().counterTops().assertCounterTopsEqual(createdOrder.counterTops[0], createdOrder.counterTops[0])
+
+            assertNotNull(createdOrder.doors[0])
+            testBuilder.admin().doors().assertDoorsEqual(testOrder.doors[0], createdOrder.doors[0])
+
+
             testBuilder.admin().counterFrames().assertCounterFramesEqual(testOrder.counterFrame, createdOrder.counterFrame)
             testBuilder.admin().doors().assertDoorsEqual(testOrder.doors[0], createdOrder.doors[0])
 
@@ -101,22 +113,25 @@ class OrderTestsIT: AbstractFunctionalTest() {
             electricProducts.add(GenericProduct("Electric product 2", "INC_5_U", GenericProductType.eLECTRIC))
 
             val doors = ArrayList<Door>()
+            doors.add(Door("model name", "White", true, "green"))
 
             val handles = ArrayList<Handle>()
             handles.add(Handle("Door model 2", "Yellow", true))
 
             val counterTops = ArrayList<CounterTop>()
+            counterTops.add(CounterTop("Update counter top model", "55 mm", CounterTopType.sT))
+
             val orderFiles = ArrayList<FileInformation>()
 
             val orderToUpdate = Order(
                     orderInfo2,
                     CounterFrame("Red", "Strip", "Plinth", "Extra side", "Information", createdOrder.counterFrame.id),
                     doors.toTypedArray(),
-                    "",
+                    "Updated doors information",
                     handles.toTypedArray(),
-                    "",
+                    "Updated handles information",
                     counterTops.toTypedArray(),
-                    "",
+                    "Updated counter tops information",
                     DrawersInfo("", "" , false, ""),
                     domesticAppliances.toTypedArray(),
                     "Domestic appliances additional information 2",
@@ -154,6 +169,10 @@ class OrderTestsIT: AbstractFunctionalTest() {
             assertEquals("Intermediate spaces additional information 2", updatedOrder.intermediateSpacesAdditionalInformation)
             assertEquals("Sinks additional information 2", updatedOrder.sinksAdditionalInformation)
             assertEquals("Electric products additional information 2", updatedOrder.electricProductsAdditionalInformation)
+            assertEquals("Updated counter tops information", updatedOrder.counterTopsAdditionalInformation)
+            assertEquals("Updated handles information", updatedOrder.handlesAdditionalInformation)
+            assertEquals("Updated doors information", updatedOrder.doorsAdditionalInformation)
+
 
             assertNotNull(updatedOrder.sinks[0])
             testBuilder.admin().genericProducts().assertGenericProductsEqual(orderToUpdate.sinks[0], updatedOrder.sinks[0])
@@ -172,6 +191,10 @@ class OrderTestsIT: AbstractFunctionalTest() {
 
             assertNotNull(updatedOrder.handles[0])
             testBuilder.admin().handles().assertHandlesEqual(orderToUpdate.handles[0], updatedOrder.handles[0])
+
+            assertNotNull(updatedOrder.counterTops[0])
+            testBuilder.admin().counterTops().assertCounterTopsEqual(orderToUpdate.counterTops[0], updatedOrder.counterTops[0])
+
             testBuilder.admin().counterFrames().assertCounterFramesEqual(orderToUpdate.counterFrame, updatedOrder.counterFrame)
 
 
