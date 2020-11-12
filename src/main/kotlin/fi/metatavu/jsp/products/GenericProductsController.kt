@@ -1,7 +1,6 @@
 package fi.metatavu.jsp.products
 
 import fi.metatavu.jsp.api.spec.model.GenericProductType
-import fi.metatavu.jsp.api.spec.model.Product
 import fi.metatavu.jsp.persistence.dao.GenericProductDAO
 import fi.metatavu.jsp.persistence.model.CustomerOrder
 import fi.metatavu.jsp.persistence.model.GenericProduct
