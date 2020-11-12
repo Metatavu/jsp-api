@@ -34,6 +34,9 @@ class OrderDAO: AbstractDAO<CustomerOrder>() {
      * @param domesticAppliancesInformation domestic appliances additional information
      * @param intermediateSpacesInformation intermediate spaces additional information
      *
+     * @param counterTopsInformation counter tops information
+     * @param handlesInformation handles information
+     *
      * @param creatorId id of the user who creates this order
      *
      * @return a new order
@@ -57,6 +60,8 @@ class OrderDAO: AbstractDAO<CustomerOrder>() {
                 electricProductsInformation: String,
                 domesticAppliancesInformation: String,
                 intermediateSpacesInformation: String,
+                counterTopsInformation: String,
+                handlesInformation: String,
                 creatorId: UUID): CustomerOrder {
 
         val order = CustomerOrder()
@@ -81,6 +86,9 @@ class OrderDAO: AbstractDAO<CustomerOrder>() {
         order.electricProductsInformation = electricProductsInformation
         order.sinksInformation = sinksInformation
         order.otherProductsInformation = otherProductsInformation
+
+        order.counterTopsInformation = counterTopsInformation
+        order.handlesInformation = handlesInformation
 
         order.lastModifierId = creatorId
 
@@ -353,6 +361,36 @@ class OrderDAO: AbstractDAO<CustomerOrder>() {
      */
     fun updateMoreInformation (customerOrder: CustomerOrder, moreInformation: String, modifierId: UUID): CustomerOrder {
         customerOrder.moreInformation = moreInformation
+        customerOrder.lastModifierId = modifierId
+        return persist(customerOrder)
+    }
+
+    /**
+     * Updates counter tops information field
+     *
+     * @param customerOrder an order to be updated
+     * @param counterTopsInformation a new value for counterTopsInformation-field
+     * @param modifierId of the user who modifies this order
+     *
+     * @return an updated order
+     */
+    fun updateCounterTopsInformation (customerOrder: CustomerOrder, counterTopsInformation: String, modifierId: UUID): CustomerOrder {
+        customerOrder.counterTopsInformation = counterTopsInformation
+        customerOrder.lastModifierId = modifierId
+        return persist(customerOrder)
+    }
+
+    /**
+     * Updates handles information field
+     *
+     * @param customerOrder an order to be updated
+     * @param handlesInformation a new value for handlesInformation-field
+     * @param modifierId of the user who modifies this order
+     *
+     * @return an updated order
+     */
+    fun updateHandlesInformation (customerOrder: CustomerOrder, handlesInformation: String, modifierId: UUID): CustomerOrder {
+        customerOrder.handlesInformation = handlesInformation
         customerOrder.lastModifierId = modifierId
         return persist(customerOrder)
     }

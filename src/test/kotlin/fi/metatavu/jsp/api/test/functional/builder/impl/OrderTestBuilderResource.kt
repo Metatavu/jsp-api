@@ -195,6 +195,8 @@ class OrderTestBuilderResource(testBuilder: AbstractTestBuilder<ApiClient?>?, pr
         handles.add(Handle("Door model", "Green", false))
 
         val counterTops = ArrayList<CounterTop>()
+        counterTops.add(CounterTop("Counter top model", "35 mm", CounterTopType.aBS))
+
         val orderFiles = ArrayList<FileInformation>()
 
         return Order(
@@ -203,9 +205,9 @@ class OrderTestBuilderResource(testBuilder: AbstractTestBuilder<ApiClient?>?, pr
                 doors.toTypedArray(),
                 "",
                 handles.toTypedArray(),
-                "",
+                "Handles information",
                 counterTops.toTypedArray(),
-                "",
+                "Counter tops information",
                 DrawersInfo("", "" , false, ""),
                 domesticAppliances.toTypedArray(),
                 "Domestic appliances additional information",

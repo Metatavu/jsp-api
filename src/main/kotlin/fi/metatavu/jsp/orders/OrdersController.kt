@@ -3,6 +3,7 @@ package fi.metatavu.jsp.orders
 import fi.metatavu.jsp.persistence.dao.OrderDAO
 import fi.metatavu.jsp.persistence.model.CustomerOrder
 import fi.metatavu.jsp.products.CounterFramesController
+import fi.metatavu.jsp.products.CounterTopsController
 import fi.metatavu.jsp.products.GenericProductsController
 import fi.metatavu.jsp.products.HandlesController
 import java.time.OffsetDateTime
@@ -24,7 +25,11 @@ class OrdersController {
     @Inject
     private lateinit var handlesController: HandlesController
 
+    @Inject
     private lateinit var counterFramesController: CounterFramesController
+
+    @Inject
+    private lateinit var counterTopsController: CounterTopsController
 
 
     /**
@@ -64,13 +69,20 @@ class OrdersController {
         handles.forEach { handle ->
             handlesController.delete(handle)
                          
+        }
+        val counterTops = counterTopsController.list(customerOrder)
+
+        counterTops.forEach { counterTop ->
+            counterTopsController.delete(counterTop)
+        }
+
         val counterFrames = counterFramesController.list(customerOrder)
 
         counterFrames.forEach { counterFrame ->
             counterFramesController.delete(counterFrame)
         }
 
-        return orderDAO.delete(customerOrder)
+        orderDAO.delete(customerOrder)
     }
 
     /**
@@ -98,6 +110,9 @@ class OrdersController {
      * @param domesticAppliancesInformation domestic appliances additional information
      * @param intermediateSpacesInformation intermediate spaces additional information
      *
+     * @param counterTopsInformation counter tops information
+     * @param handlesInformation handles information
+     *
      * @param creatorId id of the user who creates this order
      *
      * @return a new order
@@ -120,11 +135,13 @@ class OrdersController {
                 electricProductsInformation: String,
                 domesticAppliancesInformation: String,
                 intermediateSpacesInformation: String,
+                counterTopsInformation: String,
+                handlesInformation: String,
                 creatorId: UUID): CustomerOrder {
 
         return orderDAO.create(
                 UUID.randomUUID(), additionalInformation, deliveryTime, room, socialMediaPermission, city, phoneNumber, deliveryAddress, homeAddress, billingAddress, isHomeBillingAddress, emailAddress, customer, moreInformation,
-                sinksInformation, otherProductsInformation, electricProductsInformation, domesticAppliancesInformation, intermediateSpacesInformation, creatorId
+                sinksInformation, otherProductsInformation, electricProductsInformation, domesticAppliancesInformation, intermediateSpacesInformation, counterTopsInformation, handlesInformation, creatorId
         )
     }
 
@@ -154,6 +171,9 @@ class OrdersController {
      * @param domesticAppliancesInformation domestic appliances additional information
      * @param intermediateSpacesInformation intermediate spaces additional information
      *
+     * @param counterTopsInformation counter tops information
+     * @param handlesInformation handles information
+     *
      * @param modifierId id of the user who updates this order
      *
      * @return an updated order
@@ -177,6 +197,8 @@ class OrdersController {
                 electricProductsInformation: String,
                 domesticAppliancesInformation: String,
                 intermediateSpacesInformation: String,
+                counterTopsInformation: String,
+                handlesInformation: String,
                 modifierId: UUID): CustomerOrder {
 
         orderDAO.updateAdditionalInformation(customerOrder, additionalInformation, modifierId)
@@ -199,6 +221,9 @@ class OrdersController {
         orderDAO.updateHomeAddress(customerOrder, homeAddress, modifierId)
         orderDAO.updateIsHomeBillingAddress(customerOrder, isHomeBillingAddress, modifierId)
         orderDAO.updateBillingAddress(customerOrder, billingAddress, modifierId)
+
+        orderDAO.updateCounterTopsInformation(customerOrder, counterTopsInformation, modifierId)
+        orderDAO.updateHandlesInformation(customerOrder, handlesInformation, modifierId)
 
         return customerOrder
     }
