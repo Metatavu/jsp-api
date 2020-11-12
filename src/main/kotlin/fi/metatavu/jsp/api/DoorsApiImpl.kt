@@ -31,7 +31,6 @@ class DoorsApiImpl: DoorsApi, AbstractApi() {
 
     override fun listDoors(): Response {
         val doors = doorsController.list(null)
-        val translatedDoors = doors.map(doorsTranslator::translate)
-        return createOk(translatedDoors)
+        return createOk(doors.map(doorsTranslator::translate))
     }
 }
