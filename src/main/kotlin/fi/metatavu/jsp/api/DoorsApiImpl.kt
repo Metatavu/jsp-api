@@ -17,6 +17,7 @@ import kotlin.collections.ArrayList
 @RequestScoped
 @Stateful
 class DoorsApiImpl: DoorsApi, AbstractApi() {
+
     @Inject
     private lateinit var doorsController: DoorsController
 
