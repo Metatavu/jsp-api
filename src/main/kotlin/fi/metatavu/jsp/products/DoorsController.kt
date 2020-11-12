@@ -13,6 +13,7 @@ import javax.inject.Inject
  */
 @ApplicationScoped
 class DoorsController {
+
     @Inject
     private lateinit var doorDao: DoorDao
 
