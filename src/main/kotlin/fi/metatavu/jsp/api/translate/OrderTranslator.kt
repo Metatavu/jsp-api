@@ -3,14 +3,19 @@ package fi.metatavu.jsp.api.translate
 import fi.metatavu.jsp.api.spec.model.*
 import fi.metatavu.jsp.orders.OrdersController
 import fi.metatavu.jsp.persistence.model.CustomerOrder
+import fi.metatavu.jsp.products.CounterFramesController
 import fi.metatavu.jsp.products.DoorsController
 import fi.metatavu.jsp.products.GenericProductsController
+import fi.metatavu.jsp.products.HandlesController
+import javax.enterprise.context.ApplicationScoped
 import javax.inject.Inject
 
 /**
  * A translator class for orders
  */
+@ApplicationScoped
 class OrderTranslator: AbstractTranslator<CustomerOrder, Order>() {
+    
     @Inject
     private lateinit var ordersController: OrdersController
 
@@ -19,6 +24,18 @@ class OrderTranslator: AbstractTranslator<CustomerOrder, Order>() {
 
     @Inject
     private lateinit var genericProductsController: GenericProductsController
+
+    @Inject
+    private lateinit var handleTranslator: HandleTranslator
+
+    @Inject
+    private lateinit var handlesController: HandlesController
+
+    @Inject
+    private lateinit var counterFramesController: CounterFramesController
+
+    @Inject
+    private lateinit var counterFrameTranslator: CounterFrameTranslator
 
     @Inject
     private lateinit var doorsController: DoorsController
@@ -74,9 +91,9 @@ class OrderTranslator: AbstractTranslator<CustomerOrder, Order>() {
         order.doors = doorsController.list(entity).map(doorsTranslator::translate)
         order.drawersInfo = drawersInfo
         order.installation = installation
-        order.handles = ArrayList()
+        order.handles = handlesController.list(entity).map(handleTranslator::translate)
         order.counterTops = ArrayList()
-        order.counterFrame = counterFrame
+        order.counterFrame = counterFramesController.list(entity).map(counterFrameTranslator::translate)[0]
 
         order.domesticAppliances = genericProductsController.list(GenericProductType.DOMESTIC_APPLIANCE, entity).map(genericProductTranslator::translate)
         order.otherProducts = genericProductsController.list(GenericProductType.OTHER, entity).map(genericProductTranslator::translate)

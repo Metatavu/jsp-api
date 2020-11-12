@@ -3,6 +3,7 @@ package fi.metatavu.jsp.persistence.dao
 import fi.metatavu.jsp.persistence.model.CustomerOrder
 import fi.metatavu.jsp.persistence.model.Door
 import fi.metatavu.jsp.persistence.model.Door_
+import fi.metatavu.jsp.persistence.model.Handle_
 
 import java.util.*
 import javax.enterprise.context.ApplicationScoped
@@ -109,7 +110,11 @@ class DoorDao: AbstractDAO<Door>() {
 
         criteria.select(root)
         val restrictions = ArrayList<Predicate>()
-        restrictions.add(criteriaBuilder.equal(root.get(Door_.customerOrder), customerOrder))
+
+        if (customerOrder != null) {
+            restrictions.add(criteriaBuilder.equal(root.get(Door_.customerOrder), customerOrder))
+        }
+
         criteria.where(criteriaBuilder.and(*restrictions.toTypedArray()));
 
         val query = entityManager.createQuery(criteria)

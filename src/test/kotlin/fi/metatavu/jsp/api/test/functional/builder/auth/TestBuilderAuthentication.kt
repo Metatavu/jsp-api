@@ -4,8 +4,7 @@ import fi.metatavu.jaxrs.test.functional.builder.AbstractTestBuilder
 import fi.metatavu.jaxrs.test.functional.builder.auth.AccessTokenProvider
 import fi.metatavu.jaxrs.test.functional.builder.auth.AuthorizedTestBuilderAuthentication
 import fi.metatavu.jsp.api.client.infrastructure.ApiClient
-import fi.metatavu.jsp.api.test.functional.builder.impl.GenericProductTestBuilderResource
-import fi.metatavu.jsp.api.test.functional.builder.impl.OrderTestBuilderResource
+import fi.metatavu.jsp.api.test.functional.builder.impl.*
 import fi.metatavu.jsp.api.test.functional.settings.TestSettings
 
 /**
@@ -19,7 +18,11 @@ import fi.metatavu.jsp.api.test.functional.settings.TestSettings
 class TestBuilderAuthentication(testBuilder: AbstractTestBuilder<ApiClient>, accessTokenProvider: AccessTokenProvider) : AuthorizedTestBuilderAuthentication<ApiClient>(testBuilder, accessTokenProvider) {
     private var accessTokenProvider: AccessTokenProvider? = accessTokenProvider
     private var orders: OrderTestBuilderResource? = null
-    private var genericProducts: GenericProductTestBuilderResource ?= null
+    private var genericProducts: GenericProductTestBuilderResource? = null
+    private var handles: HandleTestBuilderResource? = null
+    private var counterFrames: CounterFrameTestBuilderResource? = null
+    private var doors: DoorTestBuilderResource? = null
+
 
     override fun createClient(accessToken: String?): ApiClient {
         val result = ApiClient(TestSettings.apiBasePath)
@@ -53,4 +56,43 @@ class TestBuilderAuthentication(testBuilder: AbstractTestBuilder<ApiClient>, acc
         return genericProducts!!
     }
 
+    /**
+     * Returns a test builder resource for handles
+     *
+     * @return a test builder resource for handles
+     */
+    fun handles(): HandleTestBuilderResource {
+        if (handles == null) {
+            handles = HandleTestBuilderResource(testBuilder, accessTokenProvider, createClient())
+        }
+
+        return handles!!
+    }
+
+    /**
+     * Returns a test builder resource for counter frames
+     *
+     * @return a test builder resource for counter frames
+     */
+    fun counterFrames(): CounterFrameTestBuilderResource {
+        if (counterFrames == null) {
+            counterFrames = CounterFrameTestBuilderResource(testBuilder, accessTokenProvider, createClient())
+        }
+
+        return counterFrames!!
+    }
+
+    /**
+     * Returns a test builder resource for doors
+     *
+     * @return a test builder resource for doors
+     */
+    fun doors(): DoorTestBuilderResource {
+        if (doors == null) {
+            doors = DoorTestBuilderResource(testBuilder, accessTokenProvider, createClient())
+        }
+
+        return doors!!
+    }
 }
+

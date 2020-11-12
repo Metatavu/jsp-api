@@ -36,7 +36,7 @@ class OrderTestsIT: AbstractFunctionalTest() {
             assertEquals(testOrder.otherProductsAdditionalInformation, createdOrder.otherProductsAdditionalInformation)
             assertEquals(testOrder.electricProductsAdditionalInformation, createdOrder.electricProductsAdditionalInformation)
             assertEquals(testOrder.domesticAppliancesAdditionalInformation, createdOrder.domesticAppliancesAdditionalInformation)
-
+            assertEquals(testOrder.doorsAdditionalInformation, createdOrder.doorsAdditionalInformation)
 
             assertNotNull(createdOrder.sinks[0])
             testBuilder.admin().genericProducts().assertGenericProductsEqual(testOrder.sinks[0], createdOrder.sinks[0])
@@ -52,6 +52,11 @@ class OrderTestsIT: AbstractFunctionalTest() {
 
             assertNotNull(createdOrder.intermediateSpaces[0])
             testBuilder.admin().genericProducts().assertGenericProductsEqual(testOrder.intermediateSpaces[0], createdOrder.intermediateSpaces[0])
+                           
+            assertNotNull(createdOrder.handles[0])
+            testBuilder.admin().handles().assertHandlesEqual(testOrder.handles[0], createdOrder.handles[0])          
+            testBuilder.admin().counterFrames().assertCounterFramesEqual(testOrder.counterFrame, createdOrder.counterFrame)
+            testBuilder.admin().doors().assertDoorsEqual(testOrder.doors[0], createdOrder.doors[0])
 
             testBuilder.admin().orders().assertCreateFailStatus(400)
         }
@@ -61,7 +66,6 @@ class OrderTestsIT: AbstractFunctionalTest() {
     fun updateOrderTest() {
         TestBuilder().use { testBuilder ->
             val createdOrder = testBuilder.admin().orders().create()
-
             val testDate = OffsetDateTime.now().plusDays(23).toString().replace("+02:00", "Z").replace("+03:00", "Z")
             val orderInfo2 = OrderInfo(
                     "Asiakas Matti",
@@ -97,13 +101,16 @@ class OrderTestsIT: AbstractFunctionalTest() {
             electricProducts.add(GenericProduct("Electric product 2", "INC_5_U", GenericProductType.eLECTRIC))
 
             val doors = ArrayList<Door>()
+
             val handles = ArrayList<Handle>()
+            handles.add(Handle("Door model 2", "Yellow", true))
+
             val counterTops = ArrayList<CounterTop>()
             val orderFiles = ArrayList<FileInformation>()
 
             val orderToUpdate = Order(
                     orderInfo2,
-                    CounterFrame("", "", "", "", "", null),
+                    CounterFrame("Red", "Strip", "Plinth", "Extra side", "Information", createdOrder.counterFrame.id),
                     doors.toTypedArray(),
                     "",
                     handles.toTypedArray(),
@@ -163,6 +170,11 @@ class OrderTestsIT: AbstractFunctionalTest() {
             assertNotNull(updatedOrder.intermediateSpaces[0])
             testBuilder.admin().genericProducts().assertGenericProductsEqual(orderToUpdate.intermediateSpaces[0], updatedOrder.intermediateSpaces[0])
 
+            assertNotNull(updatedOrder.handles[0])
+            testBuilder.admin().handles().assertHandlesEqual(orderToUpdate.handles[0], updatedOrder.handles[0])
+            testBuilder.admin().counterFrames().assertCounterFramesEqual(orderToUpdate.counterFrame, updatedOrder.counterFrame)
+
+
             testBuilder.admin().orders().assertUpdateFailStatus(400)
         }
     }
@@ -198,7 +210,6 @@ class OrderTestsIT: AbstractFunctionalTest() {
             testBuilder.admin().orders().assertFindFailStatus(orderId, 404)
             testBuilder.admin().orders().assertDeleteFailStatus(orderId, 404)
         }
-
     }
 }
 

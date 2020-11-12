@@ -2,9 +2,7 @@ package fi.metatavu.jsp.api
 
 import fi.metatavu.jsp.api.spec.DoorsApi
 import fi.metatavu.jsp.api.spec.model.Door
-import fi.metatavu.jsp.api.spec.model.GenericProductType
 import fi.metatavu.jsp.api.translate.DoorsTranslator
-import fi.metatavu.jsp.persistence.model.GenericProduct
 import fi.metatavu.jsp.products.DoorsController
 import java.util.*
 import javax.ejb.Stateful
