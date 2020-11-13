@@ -171,7 +171,6 @@ class OrderTestsIT: AbstractFunctionalTest() {
             assertEquals("Updated handles information", updatedOrder.handlesAdditionalInformation)
             assertEquals("Updated doors information", updatedOrder.doorsAdditionalInformation)
 
-
             assertNotNull(updatedOrder.sinks[0])
             testBuilder.admin().genericProducts().assertGenericProductsEqual(orderToUpdate.sinks[0], updatedOrder.sinks[0])
 
