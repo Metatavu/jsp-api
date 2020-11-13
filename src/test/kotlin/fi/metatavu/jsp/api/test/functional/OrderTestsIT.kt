@@ -65,7 +65,6 @@ class OrderTestsIT: AbstractFunctionalTest() {
             assertNotNull(createdOrder.doors[0])
             testBuilder.admin().doors().assertDoorsEqual(testOrder.doors[0], createdOrder.doors[0])
 
-
             testBuilder.admin().counterFrames().assertCounterFramesEqual(testOrder.counterFrame, createdOrder.counterFrame)
             testBuilder.admin().doors().assertDoorsEqual(testOrder.doors[0], createdOrder.doors[0])
 
@@ -234,4 +233,3 @@ class OrderTestsIT: AbstractFunctionalTest() {
         }
     }
 }
-
