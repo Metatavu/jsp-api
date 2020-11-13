@@ -340,7 +340,3 @@ class OrdersApiImpl : OrdersApi, AbstractApi() {
         return createOk(translatedOrder)
     }
 }
-
-
-
-

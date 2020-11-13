@@ -24,8 +24,9 @@ class DoorsController {
      * @param isGlassDoor shows if door is made glass or not
      * @param glassColor glass color
      * @param modelName model name od the door
-     * @param creatorId id of the user who is creating this door
      * @param doorColor
+     * @param creatorId id of the user who is creating this door
+     *
      *
      * @return a created door
      */
@@ -34,7 +35,7 @@ class DoorsController {
     }
 
     /**
-     * Updates a product
+     * Updates a door
      *
      * @param door a door to update
      * @param isGlassDoor new value to show if door is made of glass or not
