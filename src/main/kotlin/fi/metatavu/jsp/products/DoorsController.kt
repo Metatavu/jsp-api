@@ -23,7 +23,7 @@ class DoorsController {
      * @param customerOrder order that this door is related to
      * @param isGlassDoor shows if door is made glass or not
      * @param glassColor glass color
-     * @param modelName model name od the door
+     * @param modelName model name of the door
      * @param creatorId id of the user who is creating this door
      * @param doorColor
      *
