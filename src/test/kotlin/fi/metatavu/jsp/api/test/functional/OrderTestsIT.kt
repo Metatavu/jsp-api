@@ -37,7 +37,6 @@ class OrderTestsIT: AbstractFunctionalTest() {
             assertEquals(testOrder.electricProductsAdditionalInformation, createdOrder.electricProductsAdditionalInformation)
             assertEquals(testOrder.domesticAppliancesAdditionalInformation, createdOrder.domesticAppliancesAdditionalInformation)
 
-
             assertEquals(testOrder.handlesAdditionalInformation, createdOrder.handlesAdditionalInformation)
             assertEquals(testOrder.counterTopsAdditionalInformation, createdOrder.counterTopsAdditionalInformation)
 
@@ -235,5 +234,4 @@ class OrderTestsIT: AbstractFunctionalTest() {
         }
     }
 }
-
 
