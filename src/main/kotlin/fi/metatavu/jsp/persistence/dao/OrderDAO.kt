@@ -197,7 +197,7 @@ class OrderDAO: AbstractDAO<CustomerOrder>() {
      *
      * @return an updated order
      */
-    fun updateDoorsInfromation (customerOrder: CustomerOrder, doorInformation: String, modifierId: UUID): CustomerOrder {
+    fun updateDoorsInfromation(customerOrder: CustomerOrder, doorInformation: String, modifierId: UUID): CustomerOrder {
         customerOrder.doorsInformation = doorInformation
         customerOrder.lastModifierId = modifierId
         return persist(customerOrder)

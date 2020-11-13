@@ -21,7 +21,7 @@ import javax.ws.rs.core.Response
  */
 @Stateful
 @RequestScoped
-class OrdersApiImpl : OrdersApi, AbstractApi() {
+class OrdersApiImpl: OrdersApi, AbstractApi() {
     @Inject
     private lateinit var ordersController: OrdersController
 
@@ -98,13 +98,13 @@ class OrdersApiImpl : OrdersApi, AbstractApi() {
 
         val counterFrame = order.counterFrame
         counterFramesController.create(
-                createdOrder,
-                counterFrame.color,
-                counterFrame.cornerStripe,
-                counterFrame.extraSide,
-                counterFrame.plinth,
-                counterFrame.additionalInformation,
-                loggerUserId!!
+            createdOrder,
+            counterFrame.color,
+            counterFrame.cornerStripe,
+            counterFrame.extraSide,
+            counterFrame.plinth,
+            counterFrame.additionalInformation,
+            loggerUserId!!
         )
 
         val translatedOrder = orderTranslator.translate(createdOrder)
@@ -327,13 +327,13 @@ class OrdersApiImpl : OrdersApi, AbstractApi() {
         val counterFrame = order.counterFrame
         val existingCounterFrame = counterFramesController.find(order.counterFrame.id)!!
         counterFramesController.update(
-                existingCounterFrame,
-                counterFrame.color,
-                counterFrame.cornerStripe,
-                counterFrame.extraSide,
-                counterFrame.plinth,
-                counterFrame.additionalInformation,
-                loggerUserId!!
+            existingCounterFrame,
+            counterFrame.color,
+            counterFrame.cornerStripe,
+            counterFrame.extraSide,
+            counterFrame.plinth,
+            counterFrame.additionalInformation,
+            loggerUserId!!
         )
 
         val translatedOrder = orderTranslator.translate(updatedOrder)
