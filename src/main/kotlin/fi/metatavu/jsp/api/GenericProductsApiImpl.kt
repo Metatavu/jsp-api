@@ -25,8 +25,7 @@ class GenericProductsApiImpl: GenericProductsApi, AbstractApi() {
 
     override fun findGenericProduct(productId: UUID): Response {
         val foundProduct = genericProductsController.find(productId) ?: return createNotFound("The generic product with id $productId not found!")
-        val translatedProduct = genericProductTranslator.translate(foundProduct)
-        return createOk(translatedProduct)
+        return createOk(genericProductTranslator.translate(foundProduct))
     }
 
     override fun listGenericProducts(productType: String?): Response {
@@ -39,7 +38,6 @@ class GenericProductsApiImpl: GenericProductsApi, AbstractApi() {
             products.addAll(genericProductsController.list(GenericProductType.fromValue(productType), null))
         }
 
-        val translatedProducts = products.map(genericProductTranslator::translate)
-        return createOk(translatedProducts)
+        return createOk(products.map(genericProductTranslator::translate))
     }
 }

@@ -33,6 +33,7 @@ class OrderDAO: AbstractDAO<CustomerOrder>() {
      * @param electricProductsInformation electric products additional information
      * @param domesticAppliancesInformation domestic appliances additional information
      * @param intermediateSpacesInformation intermediate spaces additional information
+     * @param doorInformation doors additional information
      *
      * @param counterTopsInformation counter tops information
      * @param handlesInformation handles information
@@ -60,6 +61,7 @@ class OrderDAO: AbstractDAO<CustomerOrder>() {
                 electricProductsInformation: String,
                 domesticAppliancesInformation: String,
                 intermediateSpacesInformation: String,
+                doorsInformation: String,
                 counterTopsInformation: String,
                 handlesInformation: String,
                 creatorId: UUID): CustomerOrder {
@@ -86,6 +88,7 @@ class OrderDAO: AbstractDAO<CustomerOrder>() {
         order.electricProductsInformation = electricProductsInformation
         order.sinksInformation = sinksInformation
         order.otherProductsInformation = otherProductsInformation
+        order.doorsInformation = doorsInformation
 
         order.counterTopsInformation = counterTopsInformation
         order.handlesInformation = handlesInformation
@@ -181,6 +184,21 @@ class OrderDAO: AbstractDAO<CustomerOrder>() {
      */
     fun updateAdditionalInformation (customerOrder: CustomerOrder, additionalInformation: String, modifierId: UUID): CustomerOrder {
         customerOrder.additionalInformation = additionalInformation
+        customerOrder.lastModifierId = modifierId
+        return persist(customerOrder)
+    }
+
+    /**
+     * Updates doors information
+     *
+     * @param customerOrder an order to be updated
+     * @param doorInformation new additional information
+     * @param modifierId of the user who modifies this order
+     *
+     * @return an updated order
+     */
+    fun updateDoorsInfromation(customerOrder: CustomerOrder, doorInformation: String, modifierId: UUID): CustomerOrder {
+        customerOrder.doorsInformation = doorInformation
         customerOrder.lastModifierId = modifierId
         return persist(customerOrder)
     }

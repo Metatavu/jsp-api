@@ -2,10 +2,7 @@ package fi.metatavu.jsp.orders
 
 import fi.metatavu.jsp.persistence.dao.OrderDAO
 import fi.metatavu.jsp.persistence.model.CustomerOrder
-import fi.metatavu.jsp.products.CounterFramesController
-import fi.metatavu.jsp.products.CounterTopsController
-import fi.metatavu.jsp.products.GenericProductsController
-import fi.metatavu.jsp.products.HandlesController
+import fi.metatavu.jsp.products.*
 import java.time.OffsetDateTime
 import java.util.*
 import javax.enterprise.context.ApplicationScoped
@@ -30,6 +27,9 @@ class OrdersController {
 
     @Inject
     private lateinit var counterTopsController: CounterTopsController
+
+    @Inject
+    private lateinit var doorsController: DoorsController
 
 
     /**
@@ -68,7 +68,7 @@ class OrdersController {
 
         handles.forEach { handle ->
             handlesController.delete(handle)
-                         
+
         }
         val counterTops = counterTopsController.list(customerOrder)
 
@@ -80,6 +80,12 @@ class OrdersController {
 
         counterFrames.forEach { counterFrame ->
             counterFramesController.delete(counterFrame)
+        }
+
+        val doors = doorsController.list(customerOrder)
+
+        doors.forEach { door ->
+            doorsController.delete(door)
         }
 
         orderDAO.delete(customerOrder)
@@ -112,6 +118,7 @@ class OrdersController {
      *
      * @param counterTopsInformation counter tops information
      * @param handlesInformation handles information
+     * @param doorsInformation
      *
      * @param creatorId id of the user who creates this order
      *
@@ -135,13 +142,14 @@ class OrdersController {
                 electricProductsInformation: String,
                 domesticAppliancesInformation: String,
                 intermediateSpacesInformation: String,
+                doorsInformation: String,
                 counterTopsInformation: String,
                 handlesInformation: String,
                 creatorId: UUID): CustomerOrder {
 
         return orderDAO.create(
                 UUID.randomUUID(), additionalInformation, deliveryTime, room, socialMediaPermission, city, phoneNumber, deliveryAddress, homeAddress, billingAddress, isHomeBillingAddress, emailAddress, customer, moreInformation,
-                sinksInformation, otherProductsInformation, electricProductsInformation, domesticAppliancesInformation, intermediateSpacesInformation, counterTopsInformation, handlesInformation, creatorId
+                sinksInformation, otherProductsInformation, electricProductsInformation, domesticAppliancesInformation, intermediateSpacesInformation, doorsInformation, counterTopsInformation, handlesInformation, creatorId
         )
     }
 
@@ -173,6 +181,7 @@ class OrdersController {
      *
      * @param counterTopsInformation counter tops information
      * @param handlesInformation handles information
+     * @param doorsInformation
      *
      * @param modifierId id of the user who updates this order
      *
@@ -197,6 +206,7 @@ class OrdersController {
                 electricProductsInformation: String,
                 domesticAppliancesInformation: String,
                 intermediateSpacesInformation: String,
+                doorsInformation: String,
                 counterTopsInformation: String,
                 handlesInformation: String,
                 modifierId: UUID): CustomerOrder {
@@ -224,6 +234,7 @@ class OrdersController {
 
         orderDAO.updateCounterTopsInformation(customerOrder, counterTopsInformation, modifierId)
         orderDAO.updateHandlesInformation(customerOrder, handlesInformation, modifierId)
+        orderDAO.updateDoorsInfromation(customerOrder, doorsInformation, modifierId)
 
         return customerOrder
     }

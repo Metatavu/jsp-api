@@ -23,15 +23,11 @@ class CounterTopsApiImpl: CounterTopsApi, AbstractApi() {
 
     override fun findCounterTop(counterTopId: UUID): Response {
         val foundCounterTop = counterTopsController.find(counterTopId) ?: return createNotFound("A counter top with id $counterTopId not found!")
-        val translatedCounterTop = counterTopTranslator.translate(foundCounterTop)
-
-        return createOk(translatedCounterTop)
+        return createOk(counterTopTranslator.translate(foundCounterTop))
     }
 
     override fun listCounterTops(): Response {
         val counterTops = counterTopsController.list(null)
-        val translatedCounterTops = counterTops.map(counterTopTranslator::translate)
-
-        return createOk(translatedCounterTops)
+        return createOk(counterTops.map(counterTopTranslator::translate))
     }
 }

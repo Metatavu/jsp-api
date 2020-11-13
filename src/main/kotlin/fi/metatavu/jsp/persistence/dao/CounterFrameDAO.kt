@@ -139,5 +139,4 @@ class CounterFrameDAO: AbstractDAO<CounterFrame>() {
         val query = entityManager.createQuery(criteria)
         return query.resultList
     }
-
 }

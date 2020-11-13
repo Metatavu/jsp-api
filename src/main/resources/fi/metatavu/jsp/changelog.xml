@@ -21,7 +21,7 @@
                 <constraints nullable="false"/>
             </column>
             <column name="customer" type="longtext">
-               <constraints nullable="false"/>
+                <constraints nullable="false"/>
             </column>
             <column name="email" type="longtext">
                 <constraints nullable="false"/>
@@ -74,6 +74,9 @@
             <column name="electricproductsinformation" type="longtext">
                 <constraints nullable="false"/>
             </column>
+            <column name="doorsinformation" type="longtext">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
     </changeSet>
 
@@ -109,6 +112,41 @@
         </createTable>
     </changeSet>
 
+    <changeSet id="doors" author="Atte Marttinen">
+        <createTable tableName="door">
+            <column name="id" type="binary(16)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="createdat" type="datetime(6)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modifiedat" type="datetime(6)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="creatorid" type="binary(16)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="lastmodifierid" type="binary(16)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="isglassdoor" type="boolean">
+                <constraints nullable="false"/>
+            </column>
+            <column name="glasscolor" type="longtext">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modelname" type="longtext">
+                <constraints nullable="false"/>
+            </column>
+            <column name="doorcolor" type="longtext">
+                <constraints nullable="false"/>
+            </column>
+            <column name="customerorder_id" type="binary(16)">
+                <constraints nullable="false" foreignKeyName="FK_DOOR_CUSTOMER_ORDER_ID" referencedTableName="customerorder" referencedColumnNames="id"/>
+            </column>
+        </createTable>
+    </changeSet>
+
     <changeSet id="Handles" author="Simeon Platonov">
         <createTable tableName="handle">
             <column name="id" type="binary(16)">
@@ -127,7 +165,7 @@
                 <constraints nullable="false"/>
             </column>
             <column name="customerorder_id" type="binary(16)">
-             <constraints nullable="false" foreignKeyName="FK_HANDLE_CUSTOMER_ORDER_ID" referencedTableName="customerorder" referencedColumnNames="id"/>
+                <constraints nullable="false" foreignKeyName="FK_HANDLE_CUSTOMER_ORDER_ID" referencedTableName="customerorder" referencedColumnNames="id"/>
             </column>
             <column name="doormodelname" type="longtext">
                 <constraints nullable="false"/>

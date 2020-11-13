@@ -4,6 +4,7 @@ import fi.metatavu.jsp.api.spec.model.*
 import fi.metatavu.jsp.orders.OrdersController
 import fi.metatavu.jsp.persistence.model.CustomerOrder
 import fi.metatavu.jsp.products.CounterFramesController
+import fi.metatavu.jsp.products.DoorsController
 import fi.metatavu.jsp.products.CounterTopsController
 import fi.metatavu.jsp.products.GenericProductsController
 import fi.metatavu.jsp.products.HandlesController
@@ -15,6 +16,7 @@ import javax.inject.Inject
  */
 @ApplicationScoped
 class OrderTranslator: AbstractTranslator<CustomerOrder, Order>() {
+    
     @Inject
     private lateinit var ordersController: OrdersController
 
@@ -25,7 +27,6 @@ class OrderTranslator: AbstractTranslator<CustomerOrder, Order>() {
     private lateinit var genericProductsController: GenericProductsController
 
     @Inject
-
     private lateinit var handleTranslator: HandleTranslator
 
     @Inject
@@ -36,6 +37,12 @@ class OrderTranslator: AbstractTranslator<CustomerOrder, Order>() {
 
     @Inject
     private lateinit var counterFrameTranslator: CounterFrameTranslator
+
+    @Inject
+    private lateinit var doorsController: DoorsController
+
+    @Inject
+    private lateinit var doorsTranslator: DoorsTranslator
 
     @Inject
     private lateinit var counterTopTranslator: CounterTopTranslator
@@ -88,7 +95,7 @@ class OrderTranslator: AbstractTranslator<CustomerOrder, Order>() {
         counterFrame.additionalInformation = ""
 
         order.orderInfo = orderInfo
-        order.doors = ArrayList()
+        order.doors = doorsController.list(entity).map(doorsTranslator::translate)
         order.drawersInfo = drawersInfo
         order.installation = installation
         order.handles = handlesController.list(entity).map(handleTranslator::translate)
@@ -107,7 +114,7 @@ class OrderTranslator: AbstractTranslator<CustomerOrder, Order>() {
         order.otherProductsAdditionalInformation = entity.otherProductsInformation
         order.electricProductsAdditionalInformation = entity.electricProductsInformation
 
-        order.doorsAdditionalInformation = ""
+        order.doorsAdditionalInformation = entity.doorsInformation
         order.handlesAdditionalInformation = entity.handlesInformation
         order.counterTopsAdditionalInformation = entity.counterTopsInformation
 

@@ -18,9 +18,10 @@ import fi.metatavu.jsp.api.test.functional.settings.TestSettings
 class TestBuilderAuthentication(testBuilder: AbstractTestBuilder<ApiClient>, accessTokenProvider: AccessTokenProvider) : AuthorizedTestBuilderAuthentication<ApiClient>(testBuilder, accessTokenProvider) {
     private var accessTokenProvider: AccessTokenProvider? = accessTokenProvider
     private var orders: OrderTestBuilderResource? = null
-    private var genericProducts: GenericProductTestBuilderResource ?= null
+    private var genericProducts: GenericProductTestBuilderResource? = null
     private var handles: HandleTestBuilderResource? = null
     private var counterFrames: CounterFrameTestBuilderResource? = null
+    private var doors: DoorTestBuilderResource? = null
     private var counterTops: CounterTopTestBuilderResource? = null
 
     override fun createClient(accessToken: String?): ApiClient {
@@ -82,6 +83,19 @@ class TestBuilderAuthentication(testBuilder: AbstractTestBuilder<ApiClient>, acc
     }
 
     /**
+     * Returns a test builder resource for doors
+     *
+     * @return a test builder resource for doors
+     */
+    fun doors(): DoorTestBuilderResource {
+        if (doors == null) {
+            doors = DoorTestBuilderResource(testBuilder, accessTokenProvider, createClient())
+        }
+
+        return doors!!
+    }
+
+    /**
      * Returns a test builder resource for counter tops
      *
      * @return a test builder resource for counter tops
@@ -93,5 +107,5 @@ class TestBuilderAuthentication(testBuilder: AbstractTestBuilder<ApiClient>, acc
 
         return counterTops!!
     }
-
 }
+

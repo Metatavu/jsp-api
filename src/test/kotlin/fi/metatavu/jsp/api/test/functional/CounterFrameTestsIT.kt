@@ -15,7 +15,6 @@ class CounterFrameTestsIT: AbstractFunctionalTest() {
             val createdOrder = testBuilder.admin().orders().create()
             val foundCounterFrame = testBuilder.admin().counterFrames().find(createdOrder.counterFrame.id!!)
             testBuilder.admin().counterFrames().assertCounterFramesEqual(createdOrder.counterFrame, foundCounterFrame)
-
             testBuilder.admin().counterFrames().assertFindFailsStatus(UUID.randomUUID(), 404)
         }
     }

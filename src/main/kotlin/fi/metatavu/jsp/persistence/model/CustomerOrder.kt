@@ -64,6 +64,9 @@ class CustomerOrder {
     var intermediateSpacesInformation: String? = null
 
     @Column(nullable = false)
+    var doorsInformation: String? = null
+
+    @Column
     var counterTopsInformation: String? = null
 
     @Column(nullable = false)
