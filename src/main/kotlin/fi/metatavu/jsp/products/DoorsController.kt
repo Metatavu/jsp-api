@@ -32,7 +32,6 @@ class DoorsController {
      * @param doorColor door color
      * @param creatorId id of the user who is creating this door
      *
-     *
      * @return a created door
      */
     fun create (customerOrder: CustomerOrder, isGlassDoor: Boolean, glassColor: String, modelName: String, doorColor: String, creatorId: UUID): Door {
