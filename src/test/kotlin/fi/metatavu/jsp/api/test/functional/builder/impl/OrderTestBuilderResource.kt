@@ -208,7 +208,7 @@ class OrderTestBuilderResource(testBuilder: AbstractTestBuilder<ApiClient?>?, pr
                 handles.toTypedArray(),
                 "Handles informations",
                 counterTops.toTypedArray(),
-                "Counter tops informationss",
+                "Counter tops informations",
                 DrawersInfo("", "" , false, ""),
                 domesticAppliances.toTypedArray(),
                 "Domestic appliances additional information",
