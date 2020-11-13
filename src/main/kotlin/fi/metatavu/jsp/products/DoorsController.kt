@@ -29,7 +29,7 @@ class DoorsController {
      * @param modelName model name of the door
      * @param creatorId id of the user who is creating this door
 
-     * @param doorColor
+     * @param doorColor door color
      * @param creatorId id of the user who is creating this door
      *
      *
