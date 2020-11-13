@@ -46,7 +46,7 @@ class DoorsController {
      * @param glassColor new value to glass color
      * @param modelName new value to model name
      * @param doorColor new value to door color
-     * @param lastModifierId
+     * @param lastModifierId last modifier id
      *
      * @return an updated door
      */
