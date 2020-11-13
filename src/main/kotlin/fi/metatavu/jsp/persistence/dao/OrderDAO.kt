@@ -192,7 +192,7 @@ class OrderDAO: AbstractDAO<CustomerOrder>() {
      * Updates doors information
      *
      * @param customerOrder an order to be updated
-     * @param doorInformationa new additional information
+     * @param doorInformation new additional information
      * @param modifierId of the user who modifies this order
      *
      * @return an updated order
