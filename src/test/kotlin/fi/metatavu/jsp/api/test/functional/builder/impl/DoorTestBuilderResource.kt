@@ -40,7 +40,7 @@ class DoorTestBuilderResource (testBuilder: AbstractTestBuilder<ApiClient?>?, pr
     /**
      * Sends a request to the API to find a door
      *
-     *@param door door to find
+     * @param door door to find
      *
      * @return found door
      */
