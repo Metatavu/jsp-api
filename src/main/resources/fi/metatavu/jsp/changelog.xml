@@ -111,6 +111,7 @@
             </column>
         </createTable>
     </changeSet>
+
     <changeSet id="doors" author="Atte Marttinen">
         <createTable tableName="door">
             <column name="id" type="binary(16)">
