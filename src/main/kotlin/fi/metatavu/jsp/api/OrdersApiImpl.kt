@@ -21,7 +21,7 @@ import javax.ws.rs.core.Response
  */
 @Stateful
 @RequestScoped
-class OrdersApiImpl : OrdersApi, AbstractApi() {
+class OrdersApiImpl: OrdersApi, AbstractApi() {
     @Inject
     private lateinit var ordersController: OrdersController
 
@@ -340,7 +340,6 @@ class OrdersApiImpl : OrdersApi, AbstractApi() {
         return createOk(translatedOrder)
     }
 }
-
 
 
 
