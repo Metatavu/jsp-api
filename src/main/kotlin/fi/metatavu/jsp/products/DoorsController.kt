@@ -85,7 +85,7 @@ class DoorsController {
     /**
      * Deletes a door
      *
-     * @param customerOrder door to be deleted
+     * @param door door to be deleted
      */
     fun delete (door: Door) {
         doorDao.delete(door)

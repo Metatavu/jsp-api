@@ -5,11 +5,7 @@ import fi.metatavu.jsp.api.spec.model.*
 import fi.metatavu.jsp.api.translate.OrderTranslator
 import fi.metatavu.jsp.orders.OrdersController
 import fi.metatavu.jsp.persistence.model.CustomerOrder
-import fi.metatavu.jsp.products.CounterFramesController
-import fi.metatavu.jsp.products.DoorsController
-import fi.metatavu.jsp.products.CounterTopsController
-import fi.metatavu.jsp.products.GenericProductsController
-import fi.metatavu.jsp.products.HandlesController
+import fi.metatavu.jsp.products.*
 import java.util.*
 import javax.ejb.Stateful
 import javax.enterprise.context.RequestScoped
@@ -42,6 +38,9 @@ class OrdersApiImpl: OrdersApi, AbstractApi() {
 
     @Inject
     private lateinit var counterTopsController: CounterTopsController
+
+    @Inject
+    private lateinit var drawersInfoController: DrawersInfoController
 
     override fun createOrder(order: Order): Response {
         val orderInfo = order.orderInfo
@@ -95,6 +94,7 @@ class OrdersApiImpl: OrdersApi, AbstractApi() {
         createHandles(order.handles, createdOrder)
         createDoors(order.doors, createdOrder)
         createCounterTops(order.counterTops, createdOrder)
+        createDrawers(order.drawersInfo, createdOrder)
 
         val counterFrame = order.counterFrame
         counterFramesController.create(
@@ -187,6 +187,23 @@ class OrdersApiImpl: OrdersApi, AbstractApi() {
                 counterTopsController.create(order, counterTop.type, counterTop.modelName, counterTop.thickness, loggerUserId!!)
             }
         }
+    }
+
+    /**
+     * Saves drawers to a database from a list
+     *
+     * @param drawersInfo drawers to save to save
+     * @param order the order that these drawers are related to
+     */
+    private fun createDrawers(drawersInfo: DrawersInfo, order: CustomerOrder) {
+            if (drawersInfo.id != null) {
+                val existingDrawers = drawersInfoController.find(drawersInfo.id!!)
+                if (existingDrawers != null) {
+                    drawersInfoController.update(existingDrawers, drawersInfo.trashbins, drawersInfo.cutleryCompartments, drawersInfo.markedInImages, drawersInfo.additionalInformation, loggerUserId!!)
+                }
+            } else {
+                drawersInfoController.create(drawersInfo.trashbins, drawersInfo.cutleryCompartments, drawersInfo.markedInImages, drawersInfo.additionalInformation, order, loggerUserId!!)
+            }
     }
 
     /**
@@ -321,7 +338,7 @@ class OrdersApiImpl: OrdersApi, AbstractApi() {
 
         createHandles(order.handles, updatedOrder)
         createCounterTops(order.counterTops, updatedOrder)
-
+        createDrawers(order.drawersInfo, updatedOrder)
         createDoors(order.doors, updatedOrder)
 
         val counterFrame = order.counterFrame
@@ -336,7 +353,6 @@ class OrdersApiImpl: OrdersApi, AbstractApi() {
             loggerUserId!!
         )
 
-        val translatedOrder = orderTranslator.translate(updatedOrder)
-        return createOk(translatedOrder)
+        return createOk(orderTranslator.translate(updatedOrder))
     }
 }

@@ -9,6 +9,7 @@ import fi.metatavu.jsp.api.client.models.*
 import fi.metatavu.jsp.api.test.functional.settings.TestSettings
 import java.time.OffsetDateTime
 import java.util.*
+import kotlin.collections.ArrayList
 
 class OrderTestBuilderResource(testBuilder: AbstractTestBuilder<ApiClient?>?, private val accessTokenProvider: AccessTokenProvider?, apiClient: ApiClient): ApiTestBuilderResource<Order, ApiClient>(testBuilder, apiClient) {
     override fun clean(order: Order) {
@@ -195,6 +196,8 @@ class OrderTestBuilderResource(testBuilder: AbstractTestBuilder<ApiClient?>?, pr
         val handles = ArrayList<Handle>()
         handles.add(Handle("Door model", "Green", false))
 
+        val drawersInfo = DrawersInfo("trash bins", "Cutlery compartments" , false, "Additional info")
+
         val counterTops = ArrayList<CounterTop>()
         counterTops.add(CounterTop("Counter top model", "35 mm", CounterTopType.aBS))
 
@@ -209,7 +212,7 @@ class OrderTestBuilderResource(testBuilder: AbstractTestBuilder<ApiClient?>?, pr
                 "Handles informations",
                 counterTops.toTypedArray(),
                 "Counter tops informations",
-                DrawersInfo("", "" , false, ""),
+                drawersInfo,
                 domesticAppliances.toTypedArray(),
                 "Domestic appliances additional information",
                 otherProducts.toTypedArray(),
