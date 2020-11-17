@@ -64,7 +64,9 @@ steps:
   args:
   - '-c'
   - |
-    ./awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws
-    && aws eks --region ${_AWS_DEFAULT_REGION} update-kubeconfig --name ${_CLUSTER}
-    && kubectl -n ${_NAMESPACE} set image deployment/${_DEPLOYMENT_NAME} ${_DEPLOYMENT_NAME}=${_DOCKER_REPO_URL}:$(echo ${BUILD_ID} | cut -b 1-8)
+    if [ -n "${_DEPLOYMENT}" ]; then
+      ./awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws &&
+      aws eks --region ${_AWS_DEFAULT_REGION} update-kubeconfig --name ${_CLUSTER} && 
+      kubectl -n ${_NAMESPACE} set image deployment/${_DEPLOYMENT_NAME} ${_DEPLOYMENT_NAME}=${_DOCKER_REPO_URL}:$(echo ${BUILD_ID} | cut -b 1-8)
+    fi
     
