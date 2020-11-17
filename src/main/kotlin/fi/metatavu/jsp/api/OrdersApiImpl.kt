@@ -42,6 +42,9 @@ class OrdersApiImpl: OrdersApi, AbstractApi() {
     @Inject
     private lateinit var drawersInfoController: DrawersInfoController
 
+    @Inject
+    private lateinit var installationsController: InstallationsController
+
     override fun createOrder(order: Order): Response {
         val orderInfo = order.orderInfo
 
@@ -95,6 +98,7 @@ class OrdersApiImpl: OrdersApi, AbstractApi() {
         createDoors(order.doors, createdOrder)
         createCounterTops(order.counterTops, createdOrder)
         createDrawers(order.drawersInfo, createdOrder)
+        createInstallations(order.installation, createdOrder)
 
         val counterFrame = order.counterFrame
         counterFramesController.create(
@@ -204,6 +208,17 @@ class OrdersApiImpl: OrdersApi, AbstractApi() {
             } else {
                 drawersInfoController.create(drawersInfo.trashbins, drawersInfo.cutleryCompartments, drawersInfo.markedInImages, drawersInfo.additionalInformation, order, loggerUserId!!)
             }
+    }
+
+    private fun createInstallations(installation: Installation, order: CustomerOrder) {
+        if (installation.id != null) {
+            val existingInstallations = installationsController.find(installation.id!!)
+            if (existingInstallations != null) {
+                installationsController.update(existingInstallations, installation.isCustomerInstallation, installation.additionalInformation, loggerUserId!!)
+            }
+        } else {
+            installationsController.create(installation.isCustomerInstallation, installation.additionalInformation, order, loggerUserId!!)
+        }
     }
 
     /**
@@ -340,6 +355,7 @@ class OrdersApiImpl: OrdersApi, AbstractApi() {
         createCounterTops(order.counterTops, updatedOrder)
         createDrawers(order.drawersInfo, updatedOrder)
         createDoors(order.doors, updatedOrder)
+        createInstallations(order.installation, updatedOrder)
 
         val counterFrame = order.counterFrame
         val existingCounterFrame = counterFramesController.find(order.counterFrame.id)!!
