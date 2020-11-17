@@ -17,7 +17,7 @@ import javax.ws.rs.core.Response
  */
 @Stateful
 @RequestScoped
-class OrdersApiImpl: OrdersApi, AbstractApi() {
+class OrdersApiImpl : OrdersApi, AbstractApi() {
     @Inject
     private lateinit var ordersController: OrdersController
 
@@ -94,17 +94,26 @@ class OrdersApiImpl: OrdersApi, AbstractApi() {
         createHandles(order.handles, createdOrder)
         createDoors(order.doors, createdOrder)
         createCounterTops(order.counterTops, createdOrder)
-        createDrawers(order.drawersInfo, createdOrder)
 
         val counterFrame = order.counterFrame
         counterFramesController.create(
-            createdOrder,
-            counterFrame.color,
-            counterFrame.cornerStripe,
-            counterFrame.extraSide,
-            counterFrame.plinth,
-            counterFrame.additionalInformation,
-            loggerUserId!!
+                createdOrder,
+                counterFrame.color,
+                counterFrame.cornerStripe,
+                counterFrame.extraSide,
+                counterFrame.plinth,
+                counterFrame.additionalInformation,
+                loggerUserId!!
+        )
+
+        val drawers = order.drawersInfo
+        drawersInfoController.create(
+                drawers.trashbins,
+                drawers.cutleryCompartments,
+                drawers.markedInImages,
+                drawers.additionalInformation,
+                createdOrder,
+                loggerUserId!!
         )
 
         val translatedOrder = orderTranslator.translate(createdOrder)
@@ -188,24 +197,7 @@ class OrdersApiImpl: OrdersApi, AbstractApi() {
             }
         }
     }
-
-    /**
-     * Saves drawers to a database from a list
-     *
-     * @param drawersInfo drawers to save to save
-     * @param order the order that these drawers are related to
-     */
-    private fun createDrawers(drawersInfo: DrawersInfo, order: CustomerOrder) {
-            if (drawersInfo.id != null) {
-                val existingDrawers = drawersInfoController.find(drawersInfo.id!!)
-                if (existingDrawers != null) {
-                    drawersInfoController.update(existingDrawers, drawersInfo.trashbins, drawersInfo.cutleryCompartments, drawersInfo.markedInImages, drawersInfo.additionalInformation, loggerUserId!!)
-                }
-            } else {
-                drawersInfoController.create(drawersInfo.trashbins, drawersInfo.cutleryCompartments, drawersInfo.markedInImages, drawersInfo.additionalInformation, order, loggerUserId!!)
-            }
-    }
-
+    
     /**
      * Checks that products match required type
      *
@@ -338,19 +330,29 @@ class OrdersApiImpl: OrdersApi, AbstractApi() {
 
         createHandles(order.handles, updatedOrder)
         createCounterTops(order.counterTops, updatedOrder)
-        createDrawers(order.drawersInfo, updatedOrder)
         createDoors(order.doors, updatedOrder)
 
         val counterFrame = order.counterFrame
         val existingCounterFrame = counterFramesController.find(order.counterFrame.id)!!
         counterFramesController.update(
-            existingCounterFrame,
-            counterFrame.color,
-            counterFrame.cornerStripe,
-            counterFrame.extraSide,
-            counterFrame.plinth,
-            counterFrame.additionalInformation,
-            loggerUserId!!
+                existingCounterFrame,
+                counterFrame.color,
+                counterFrame.cornerStripe,
+                counterFrame.extraSide,
+                counterFrame.plinth,
+                counterFrame.additionalInformation,
+                loggerUserId!!
+        )
+
+        val drawers = order.drawersInfo
+        val existingDrawers = drawersInfoController.find(order.drawersInfo.id)!!
+        drawersInfoController.update(
+                existingDrawers,
+                drawers.trashbins,
+                drawers.cutleryCompartments,
+                drawers.markedInImages,
+                drawers.additionalInformation,
+                loggerUserId!!
         )
 
         return createOk(orderTranslator.translate(updatedOrder))

@@ -10,7 +10,7 @@ import javax.enterprise.context.ApplicationScoped
 import javax.persistence.criteria.Predicate
 
 @ApplicationScoped
-class DrawersInfoDao: AbstractDAO<DrawersInfo>() {
+class DrawersInfoDao : AbstractDAO<DrawersInfo>() {
 
 
     /**
@@ -20,14 +20,24 @@ class DrawersInfoDao: AbstractDAO<DrawersInfo>() {
      * @param cutleryCompartments cutlery compartments
      * @param isMarkedInImages is drawer marked in images
      * @param trashBins trash bins
+     * @param additionalInformation
      * @param customerOrder an order to which this handle belongs to
      * @param creatorId id of the user who is creating this handle
      *
      * @return created drawers
      */
-    fun create (id: UUID, trashBins: String, cutleryCompartments: String, isMarkedInImages: Boolean, additionalInformation: String, customerOrder: CustomerOrder, creatorId: UUID): DrawersInfo {
+    fun create(
+            id: UUID,
+            trashBins: String,
+            cutleryCompartments: String,
+            isMarkedInImages: Boolean,
+            additionalInformation: String,
+            customerOrder: CustomerOrder,
+            creatorId: UUID
+    ): DrawersInfo {
+
         val drawersInfo = DrawersInfo()
-        drawersInfo.id =  id
+        drawersInfo.id = id
         drawersInfo.trashBins = trashBins
         drawersInfo.cutleryCompartments = cutleryCompartments
         drawersInfo.isMarkedInImages = isMarkedInImages
@@ -46,7 +56,7 @@ class DrawersInfoDao: AbstractDAO<DrawersInfo>() {
      * @param trashBins new trash bins for drawer
      * @param lastModifierId id of the user who is modifying this drawers
      *
-     * @return updated handle
+     * @return updated drawer
      */
     fun UpdateTrashBins (drawersInfo: DrawersInfo, trashBins: String, lastModifierId: UUID): DrawersInfo {
         drawersInfo.trashBins = trashBins
@@ -80,7 +90,7 @@ class DrawersInfoDao: AbstractDAO<DrawersInfo>() {
      *
      * @return updated drawer
      */
-    fun UpdateIsMarkedInImages (drawersinfo: DrawersInfo, isMarkedInImages: Boolean, lastModifierId: UUID): DrawersInfo {
+    fun UpdateIsMarkedInImages(drawersinfo: DrawersInfo, isMarkedInImages: Boolean, lastModifierId: UUID): DrawersInfo {
         drawersinfo.isMarkedInImages = isMarkedInImages
         drawersinfo.lastModifierId = lastModifierId
 
@@ -90,13 +100,13 @@ class DrawersInfoDao: AbstractDAO<DrawersInfo>() {
     /**
      * Updates additional information
      *
-     * @param drawers drawers to update
+     * @param drawersInfo drawers to update
      * @param additionalInformation is marked in images
      * @param lastModifierId id of the user who is modifying this drawers
      *
      * @return updated drawer
      */
-    fun UpdateAdditionalInformation (drawersInfo: DrawersInfo, additionalInformation: String, lastModifierId: UUID): DrawersInfo {
+    fun UpdateAdditionalInformation(drawersInfo: DrawersInfo, additionalInformation: String, lastModifierId: UUID): DrawersInfo {
         drawersInfo.additionalInformation = additionalInformation
         drawersInfo.lastModifierId
 

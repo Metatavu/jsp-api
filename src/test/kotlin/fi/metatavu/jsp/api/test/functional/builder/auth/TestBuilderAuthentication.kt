@@ -109,6 +109,11 @@ class TestBuilderAuthentication(testBuilder: AbstractTestBuilder<ApiClient>, acc
         return counterTops!!
     }
 
+    /**
+     * Returns a test builder resource for drawers
+     *
+     * @return a test builder resource for drawers
+     */
     fun drawers(): DrawersTestBuilderResource {
         if (drawers == null) {
             drawers = DrawersTestBuilderResource(testBuilder, accessTokenProvider, createClient())

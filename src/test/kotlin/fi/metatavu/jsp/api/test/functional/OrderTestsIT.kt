@@ -122,20 +122,18 @@ class OrderTestsIT: AbstractFunctionalTest() {
             val counterTops = ArrayList<CounterTop>()
             counterTops.add(CounterTop("Update counter top model", "55 mm", CounterTopType.sT))
 
-            val drawersInfo = DrawersInfo("updated trash bins", "updated cutlery", true, "updated info")
-
             val orderFiles = ArrayList<FileInformation>()
 
             val orderToUpdate = Order(
                     orderInfo2,
-                    CounterFrame("Red", "Strip", "Plinth", "Extra side", "Information", createdOrder.counterFrame.id),
+                    CounterFrame("Red2", "Strip2", "Plinth2", "Extra side2", "Information", createdOrder.counterFrame.id),
                     doors.toTypedArray(),
                     "Updated doors information",
                     handles.toTypedArray(),
                     "Updated handles information",
                     counterTops.toTypedArray(),
                     "Updated counter tops information",
-                    drawersInfo,
+                    DrawersInfo("updated trash bins", "updated cutlery", true, "updated info", createdOrder.drawersInfo.id),
                     domesticAppliances.toTypedArray(),
                     "Domestic appliances additional information 2",
                     otherProducts.toTypedArray(),
@@ -200,7 +198,7 @@ class OrderTestsIT: AbstractFunctionalTest() {
             assertNotNull(updatedOrder.doors)
             testBuilder.admin().doors().assertDoorsEqual(orderToUpdate.doors[0], updatedOrder.doors[0])
 
-            assertNotNull(createdOrder.drawersInfo)
+            assertNotNull(updatedOrder.drawersInfo)
             testBuilder.admin().drawers().assertDrawersEqual(orderToUpdate.drawersInfo, updatedOrder.drawersInfo)
 
             testBuilder.admin().counterFrames().assertCounterFramesEqual(orderToUpdate.counterFrame, updatedOrder.counterFrame)

@@ -36,11 +36,20 @@ class DrawersInfoController {
      * @param trashBins new trash bins for drawers
      * @param cutleryCompartments new cutlery compartments for drawers
      * @param isMarkedInImages new value for is marked in images
+     * @param additionalInformation additional information
      * @param lastModifierId id of the user who is modifying this drawers
      *
      * @return updated drawers
      */
-    fun update (drawersInfo: DrawersInfo, trashBins: String, cutleryCompartments: String, isMarkedInImages: Boolean, additionalInformation: String, lastModifierId: UUID): DrawersInfo {
+    fun update (
+            drawersInfo: DrawersInfo,
+            trashBins: String,
+            cutleryCompartments: String,
+            isMarkedInImages: Boolean,
+            additionalInformation: String,
+            lastModifierId: UUID
+        ): DrawersInfo {
+
         drawersInfoDao.UpdateCutleryCompartments(drawersInfo, cutleryCompartments, lastModifierId)
         drawersInfoDao.UpdateIsMarkedInImages(drawersInfo, isMarkedInImages, lastModifierId)
         drawersInfoDao.UpdateTrashBins(drawersInfo, trashBins, lastModifierId)
