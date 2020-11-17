@@ -25,7 +25,14 @@ class DrawersInfoController {
      *
      * @return created drawers
      */
-    fun create (trashBins: String, cutleryCompartments: String, isMarkedInImages: Boolean, additionalInformation: String, customerOrder: CustomerOrder, creatorId: UUID): DrawersInfo {
+    fun create (
+            trashBins: String,
+            cutleryCompartments: String,
+            isMarkedInImages: Boolean,
+            additionalInformation: String,
+            customerOrder: CustomerOrder,
+            creatorId: UUID
+    ): DrawersInfo {
         return drawersInfoDao.create(UUID.randomUUID(), trashBins, cutleryCompartments, isMarkedInImages, additionalInformation, customerOrder, creatorId)
     }
 
@@ -36,11 +43,20 @@ class DrawersInfoController {
      * @param trashBins new trash bins for drawers
      * @param cutleryCompartments new cutlery compartments for drawers
      * @param isMarkedInImages new value for is marked in images
+     * @param additionalInformation additional information
      * @param lastModifierId id of the user who is modifying this drawers
      *
      * @return updated drawers
      */
-    fun update (drawersInfo: DrawersInfo, trashBins: String, cutleryCompartments: String, isMarkedInImages: Boolean, additionalInformation: String, lastModifierId: UUID): DrawersInfo {
+    fun update (
+            drawersInfo: DrawersInfo,
+            trashBins: String,
+            cutleryCompartments: String,
+            isMarkedInImages: Boolean,
+            additionalInformation: String,
+            lastModifierId: UUID
+        ): DrawersInfo {
+
         drawersInfoDao.UpdateCutleryCompartments(drawersInfo, cutleryCompartments, lastModifierId)
         drawersInfoDao.UpdateIsMarkedInImages(drawersInfo, isMarkedInImages, lastModifierId)
         drawersInfoDao.UpdateTrashBins(drawersInfo, trashBins, lastModifierId)

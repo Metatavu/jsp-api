@@ -42,6 +42,8 @@ class DrawersTestBuilderResource (testBuilder: AbstractTestBuilder<ApiClient?>?,
     /**
      * Sends a request to the API to find drawers
      *
+     * @param drawersId id of the drawers to find
+     *
      * @return found drawers
      */
     fun find (drawersId: UUID): DrawersInfo {

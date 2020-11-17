@@ -196,8 +196,6 @@ class OrderTestBuilderResource(testBuilder: AbstractTestBuilder<ApiClient?>?, pr
         val handles = ArrayList<Handle>()
         handles.add(Handle("Door model", "Green", false))
 
-        val drawersInfo = DrawersInfo("trash bins", "Cutlery compartments" , false, "Additional info")
-
         val counterTops = ArrayList<CounterTop>()
         counterTops.add(CounterTop("Counter top model", "35 mm", CounterTopType.aBS))
 
@@ -212,7 +210,7 @@ class OrderTestBuilderResource(testBuilder: AbstractTestBuilder<ApiClient?>?, pr
                 "Handles informations",
                 counterTops.toTypedArray(),
                 "Counter tops informations",
-                drawersInfo,
+                DrawersInfo("trash bins", "Cutlery compartments" , false, "Additional info"),
                 domesticAppliances.toTypedArray(),
                 "Domestic appliances additional information",
                 otherProducts.toTypedArray(),
@@ -223,7 +221,7 @@ class OrderTestBuilderResource(testBuilder: AbstractTestBuilder<ApiClient?>?, pr
                 "Sinks additional information",
                 electricProducts.toTypedArray(),
                 "Electric products additional information",
-                Installation(false, null, ""),
+                Installation(false, null, "additional information"),
                 "More information",
                 orderFiles.toTypedArray(),
                 orderFiles.toTypedArray()

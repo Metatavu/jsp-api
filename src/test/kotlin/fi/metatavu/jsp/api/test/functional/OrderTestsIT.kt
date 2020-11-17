@@ -68,6 +68,9 @@ class OrderTestsIT: AbstractFunctionalTest() {
             assertNotNull(createdOrder.drawersInfo)
             testBuilder.admin().drawers().assertDrawersEqual(testOrder.drawersInfo, createdOrder.drawersInfo)
 
+            assertNotNull(createdOrder.installation)
+            testBuilder.admin().installations().assertInstallationsEqual(testOrder.installation, createdOrder.installation)
+
             testBuilder.admin().counterFrames().assertCounterFramesEqual(testOrder.counterFrame, createdOrder.counterFrame)
             testBuilder.admin().doors().assertDoorsEqual(testOrder.doors[0], createdOrder.doors[0])
 
@@ -122,20 +125,18 @@ class OrderTestsIT: AbstractFunctionalTest() {
             val counterTops = ArrayList<CounterTop>()
             counterTops.add(CounterTop("Update counter top model", "55 mm", CounterTopType.sT))
 
-            val drawersInfo = DrawersInfo("updated trash bins", "updated cutlery", true, "updated info")
-
             val orderFiles = ArrayList<FileInformation>()
 
             val orderToUpdate = Order(
                     orderInfo2,
-                    CounterFrame("Red", "Strip", "Plinth", "Extra side", "Information", createdOrder.counterFrame.id),
+                    CounterFrame("Red2", "Strip2", "Plinth2", "Extra side2", "Information", createdOrder.counterFrame.id),
                     doors.toTypedArray(),
                     "Updated doors information",
                     handles.toTypedArray(),
                     "Updated handles information",
                     counterTops.toTypedArray(),
                     "Updated counter tops information",
-                    drawersInfo,
+                    DrawersInfo("updated trash bins", "updated cutlery", true, "updated info", createdOrder.drawersInfo.id),
                     domesticAppliances.toTypedArray(),
                     "Domestic appliances additional information 2",
                     otherProducts.toTypedArray(),
@@ -146,7 +147,7 @@ class OrderTestsIT: AbstractFunctionalTest() {
                     "Sinks additional information 2",
                     electricProducts.toTypedArray(),
                     "Electric products additional information 2",
-                    Installation(false, null, ""),
+                    Installation(false, createdOrder.installation.id, "updated additional information"),
                     "*** Updated information ***",
                     orderFiles.toTypedArray(),
                     orderFiles.toTypedArray(),
@@ -202,6 +203,9 @@ class OrderTestsIT: AbstractFunctionalTest() {
 
             assertNotNull(updatedOrder.drawersInfo)
             testBuilder.admin().drawers().assertDrawersEqual(orderToUpdate.drawersInfo, updatedOrder.drawersInfo)
+
+            assertNotNull(updatedOrder.installation)
+            testBuilder.admin().installations().assertInstallationsEqual(orderToUpdate.installation, updatedOrder.installation)
 
             testBuilder.admin().counterFrames().assertCounterFramesEqual(orderToUpdate.counterFrame, updatedOrder.counterFrame)
 

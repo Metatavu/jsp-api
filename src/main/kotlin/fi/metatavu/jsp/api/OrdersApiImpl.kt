@@ -17,7 +17,7 @@ import javax.ws.rs.core.Response
  */
 @Stateful
 @RequestScoped
-class OrdersApiImpl: OrdersApi, AbstractApi() {
+class OrdersApiImpl : OrdersApi, AbstractApi() {
     @Inject
     private lateinit var ordersController: OrdersController
 
@@ -97,22 +97,37 @@ class OrdersApiImpl: OrdersApi, AbstractApi() {
         createHandles(order.handles, createdOrder)
         createDoors(order.doors, createdOrder)
         createCounterTops(order.counterTops, createdOrder)
-        createDrawers(order.drawersInfo, createdOrder)
-        createInstallations(order.installation, createdOrder)
 
         val counterFrame = order.counterFrame
         counterFramesController.create(
-            createdOrder,
-            counterFrame.color,
-            counterFrame.cornerStripe,
-            counterFrame.extraSide,
-            counterFrame.plinth,
-            counterFrame.additionalInformation,
-            loggerUserId!!
+                createdOrder,
+                counterFrame.color,
+                counterFrame.cornerStripe,
+                counterFrame.extraSide,
+                counterFrame.plinth,
+                counterFrame.additionalInformation,
+                loggerUserId!!
         )
 
-        val translatedOrder = orderTranslator.translate(createdOrder)
-        return createOk(translatedOrder)
+        val drawers = order.drawersInfo
+        drawersInfoController.create(
+                drawers.trashbins,
+                drawers.cutleryCompartments,
+                drawers.markedInImages,
+                drawers.additionalInformation,
+                createdOrder,
+                loggerUserId!!
+        )
+
+        val installations = order.installation
+        installationsController.create(
+                installations.isCustomerInstallation,
+                installations.additionalInformation,
+                createdOrder,
+                loggerUserId!!
+        )
+
+        return createOk(orderTranslator.translate(createdOrder))
     }
 
     /**
@@ -190,34 +205,6 @@ class OrdersApiImpl: OrdersApi, AbstractApi() {
             } else {
                 counterTopsController.create(order, counterTop.type, counterTop.modelName, counterTop.thickness, loggerUserId!!)
             }
-        }
-    }
-
-    /**
-     * Saves drawers to a database from a list
-     *
-     * @param drawersInfo drawers to save to save
-     * @param order the order that these drawers are related to
-     */
-    private fun createDrawers(drawersInfo: DrawersInfo, order: CustomerOrder) {
-            if (drawersInfo.id != null) {
-                val existingDrawers = drawersInfoController.find(drawersInfo.id!!)
-                if (existingDrawers != null) {
-                    drawersInfoController.update(existingDrawers, drawersInfo.trashbins, drawersInfo.cutleryCompartments, drawersInfo.markedInImages, drawersInfo.additionalInformation, loggerUserId!!)
-                }
-            } else {
-                drawersInfoController.create(drawersInfo.trashbins, drawersInfo.cutleryCompartments, drawersInfo.markedInImages, drawersInfo.additionalInformation, order, loggerUserId!!)
-            }
-    }
-
-    private fun createInstallations(installation: Installation, order: CustomerOrder) {
-        if (installation.id != null) {
-            val existingInstallations = installationsController.find(installation.id!!)
-            if (existingInstallations != null) {
-                installationsController.update(existingInstallations, installation.isCustomerInstallation, installation.additionalInformation, loggerUserId!!)
-            }
-        } else {
-            installationsController.create(installation.isCustomerInstallation, installation.additionalInformation, order, loggerUserId!!)
         }
     }
 
@@ -353,20 +340,38 @@ class OrdersApiImpl: OrdersApi, AbstractApi() {
 
         createHandles(order.handles, updatedOrder)
         createCounterTops(order.counterTops, updatedOrder)
-        createDrawers(order.drawersInfo, updatedOrder)
         createDoors(order.doors, updatedOrder)
-        createInstallations(order.installation, updatedOrder)
 
         val counterFrame = order.counterFrame
         val existingCounterFrame = counterFramesController.find(order.counterFrame.id)!!
         counterFramesController.update(
-            existingCounterFrame,
-            counterFrame.color,
-            counterFrame.cornerStripe,
-            counterFrame.extraSide,
-            counterFrame.plinth,
-            counterFrame.additionalInformation,
-            loggerUserId!!
+                existingCounterFrame,
+                counterFrame.color,
+                counterFrame.cornerStripe,
+                counterFrame.extraSide,
+                counterFrame.plinth,
+                counterFrame.additionalInformation,
+                loggerUserId!!
+        )
+
+        val drawers = order.drawersInfo
+        val existingDrawers = drawersInfoController.find(order.drawersInfo.id)!!
+        drawersInfoController.update(
+                existingDrawers,
+                drawers.trashbins,
+                drawers.cutleryCompartments,
+                drawers.markedInImages,
+                drawers.additionalInformation,
+                loggerUserId!!
+        )
+
+        val installations = order.installation
+        val existingInstallations = installationsController.find(order.installation.id)!!
+        installationsController.update(
+                existingInstallations,
+                installations.isCustomerInstallation,
+                installations.additionalInformation,
+                loggerUserId!!
         )
 
         return createOk(orderTranslator.translate(updatedOrder))

@@ -24,6 +24,7 @@ class TestBuilderAuthentication(testBuilder: AbstractTestBuilder<ApiClient>, acc
     private var doors: DoorTestBuilderResource? = null
     private var counterTops: CounterTopTestBuilderResource? = null
     private var drawers: DrawersTestBuilderResource? = null
+    private var installations: InstallationTestBuilderResource? = null
 
     override fun createClient(accessToken: String?): ApiClient {
         val result = ApiClient(TestSettings.apiBasePath)
@@ -109,6 +110,11 @@ class TestBuilderAuthentication(testBuilder: AbstractTestBuilder<ApiClient>, acc
         return counterTops!!
     }
 
+    /**
+     * Returns a test builder resource for drawers
+     *
+     * @return a test builder resource for drawers
+     */
     fun drawers(): DrawersTestBuilderResource {
         if (drawers == null) {
             drawers = DrawersTestBuilderResource(testBuilder, accessTokenProvider, createClient())
@@ -116,5 +122,16 @@ class TestBuilderAuthentication(testBuilder: AbstractTestBuilder<ApiClient>, acc
 
         return drawers!!
     }
+
+    fun installations(): InstallationTestBuilderResource {
+        if (installations == null) {
+            installations = InstallationTestBuilderResource(testBuilder, accessTokenProvider, createClient())
+        }
+
+        return installations!!
+    }
+
+
+
 }
 
