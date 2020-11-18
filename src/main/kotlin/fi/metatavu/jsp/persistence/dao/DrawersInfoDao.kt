@@ -12,7 +12,6 @@ import javax.persistence.criteria.Predicate
 @ApplicationScoped
 class DrawersInfoDao : AbstractDAO<DrawersInfo>() {
 
-
     /**
      * Saves drawers to database
      *
