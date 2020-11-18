@@ -71,7 +71,7 @@ class DrawersInfoDao : AbstractDAO<DrawersInfo>() {
      *
      * @return updated drawer
      */
-    fun UpdateCutleryCompartments (drawersInfo: DrawersInfo, cutleryCompartments: String, lastModifierId: UUID): DrawersInfo {
+    fun UpdateCutleryCompartments(drawersInfo: DrawersInfo, cutleryCompartments: String, lastModifierId: UUID): DrawersInfo {
         drawersInfo.cutleryCompartments = cutleryCompartments
         drawersInfo.lastModifierId = lastModifierId
 
