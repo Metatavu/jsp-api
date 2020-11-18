@@ -66,7 +66,7 @@ class InstallationsController {
     *
     * @return installations
     */
-    fun list (customerOrder: CustomerOrder?): List<Installation> {
+    fun list(customerOrder: CustomerOrder?): List<Installation> {
         return installationDAO.list(customerOrder)
     }
 
