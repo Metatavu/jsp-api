@@ -55,7 +55,7 @@ class DrawersInfoDao : AbstractDAO<DrawersInfo>() {
      *
      * @return updated drawer
      */
-    fun UpdateTrashBins (drawersInfo: DrawersInfo, trashBins: String, lastModifierId: UUID): DrawersInfo {
+    fun UpdateTrashBins(drawersInfo: DrawersInfo, trashBins: String, lastModifierId: UUID): DrawersInfo {
         drawersInfo.trashBins = trashBins
         drawersInfo.lastModifierId
 
