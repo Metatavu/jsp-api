@@ -49,7 +49,7 @@ class InstallationDAO: AbstractDAO<Installation>() {
      *
      * @return updated installation information
      */
-    fun updateIsCustomerInstallation (installation: Installation, isCustomerInstallation: Boolean, lastModifierId: UUID): Installation {
+    fun updateIsCustomerInstallation(installation: Installation, isCustomerInstallation: Boolean, lastModifierId: UUID): Installation {
         installation.isCustomerInstallation = isCustomerInstallation
         installation.lastModifierId = lastModifierId
         return persist(installation)
