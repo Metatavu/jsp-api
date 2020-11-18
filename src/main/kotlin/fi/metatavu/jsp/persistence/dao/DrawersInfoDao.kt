@@ -3,8 +3,6 @@ package fi.metatavu.jsp.persistence.dao
 import fi.metatavu.jsp.persistence.model.CustomerOrder
 import fi.metatavu.jsp.persistence.model.DrawersInfo
 import fi.metatavu.jsp.persistence.model.DrawersInfo_
-
-
 import java.util.*
 import javax.enterprise.context.ApplicationScoped
 import javax.persistence.criteria.Predicate
