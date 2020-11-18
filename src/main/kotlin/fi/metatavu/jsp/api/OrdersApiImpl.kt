@@ -5,11 +5,7 @@ import fi.metatavu.jsp.api.spec.model.*
 import fi.metatavu.jsp.api.translate.OrderTranslator
 import fi.metatavu.jsp.orders.OrdersController
 import fi.metatavu.jsp.persistence.model.CustomerOrder
-import fi.metatavu.jsp.products.CounterFramesController
-import fi.metatavu.jsp.products.DoorsController
-import fi.metatavu.jsp.products.CounterTopsController
-import fi.metatavu.jsp.products.GenericProductsController
-import fi.metatavu.jsp.products.HandlesController
+import fi.metatavu.jsp.products.*
 import java.util.*
 import javax.ejb.Stateful
 import javax.enterprise.context.RequestScoped
@@ -42,6 +38,9 @@ class OrdersApiImpl: OrdersApi, AbstractApi() {
 
     @Inject
     private lateinit var counterTopsController: CounterTopsController
+
+    @Inject
+    private lateinit var drawersInfoController: DrawersInfoController
 
     override fun createOrder(order: Order): Response {
         val orderInfo = order.orderInfo
@@ -104,6 +103,16 @@ class OrdersApiImpl: OrdersApi, AbstractApi() {
             counterFrame.extraSide,
             counterFrame.plinth,
             counterFrame.additionalInformation,
+            loggerUserId!!
+        )
+
+        val drawers = order.drawersInfo
+        drawersInfoController.create(
+            drawers.trashbins,
+            drawers.cutleryCompartments,
+            drawers.markedInImages,
+            drawers.additionalInformation,
+            createdOrder,
             loggerUserId!!
         )
 
@@ -187,7 +196,6 @@ class OrdersApiImpl: OrdersApi, AbstractApi() {
             }
         }
     }
-
     /**
      * Checks that products match required type
      *
@@ -320,7 +328,6 @@ class OrdersApiImpl: OrdersApi, AbstractApi() {
 
         createHandles(order.handles, updatedOrder)
         createCounterTops(order.counterTops, updatedOrder)
-
         createDoors(order.doors, updatedOrder)
 
         val counterFrame = order.counterFrame
@@ -335,7 +342,17 @@ class OrdersApiImpl: OrdersApi, AbstractApi() {
             loggerUserId!!
         )
 
-        val translatedOrder = orderTranslator.translate(updatedOrder)
-        return createOk(translatedOrder)
+        val drawers = order.drawersInfo
+        val existingDrawers = drawersInfoController.find(order.drawersInfo.id)!!
+        drawersInfoController.update(
+            existingDrawers,
+            drawers.trashbins,
+            drawers.cutleryCompartments,
+            drawers.markedInImages,
+            drawers.additionalInformation,
+            loggerUserId!!
+        )
+
+        return createOk(orderTranslator.translate(updatedOrder))
     }
 }

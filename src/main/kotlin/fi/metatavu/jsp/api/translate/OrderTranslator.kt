@@ -3,11 +3,7 @@ package fi.metatavu.jsp.api.translate
 import fi.metatavu.jsp.api.spec.model.*
 import fi.metatavu.jsp.orders.OrdersController
 import fi.metatavu.jsp.persistence.model.CustomerOrder
-import fi.metatavu.jsp.products.CounterFramesController
-import fi.metatavu.jsp.products.DoorsController
-import fi.metatavu.jsp.products.CounterTopsController
-import fi.metatavu.jsp.products.GenericProductsController
-import fi.metatavu.jsp.products.HandlesController
+import fi.metatavu.jsp.products.*
 import javax.enterprise.context.ApplicationScoped
 import javax.inject.Inject
 
@@ -50,6 +46,12 @@ class OrderTranslator: AbstractTranslator<CustomerOrder, Order>() {
     @Inject
     private lateinit var counterTopsController: CounterTopsController
 
+    @Inject
+    private lateinit var drawersInfoController: DrawersInfoController
+
+    @Inject
+    private lateinit var drawersInfoInfoTranslator: DrawersInfoTranslator
+
     /**
      * Translates JPA orders into REST orders
      *
@@ -77,12 +79,6 @@ class OrderTranslator: AbstractTranslator<CustomerOrder, Order>() {
         orderInfo.room = entity.room
         orderInfo.socialMediaPermission = entity.socialMediaPermission
 
-        val drawersInfo = DrawersInfo()
-        drawersInfo.additionalInformation = ""
-        drawersInfo.trashbins = ""
-        drawersInfo.cutleryCompartments = ""
-        drawersInfo.markedInImages = false
-
         val installation = Installation()
         installation.isCustomerInstallation = false
         installation.additionalInformation = ""
@@ -96,7 +92,7 @@ class OrderTranslator: AbstractTranslator<CustomerOrder, Order>() {
 
         order.orderInfo = orderInfo
         order.doors = doorsController.list(entity).map(doorsTranslator::translate)
-        order.drawersInfo = drawersInfo
+        order.drawersInfo = drawersInfoController.list(entity).map(drawersInfoInfoTranslator::translate)[0]
         order.installation = installation
         order.handles = handlesController.list(entity).map(handleTranslator::translate)
         order.counterTops = counterTopsController.list(entity).map(counterTopTranslator::translate)
