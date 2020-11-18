@@ -123,6 +123,11 @@ class TestBuilderAuthentication(testBuilder: AbstractTestBuilder<ApiClient>, acc
         return drawers!!
     }
 
+    /**
+     * Returns a test builder resource for installations
+     *
+     * @return a test builder resource for installations
+     */
     fun installations(): InstallationTestBuilderResource {
         if (installations == null) {
             installations = InstallationTestBuilderResource(testBuilder, accessTokenProvider, createClient())
@@ -130,8 +135,5 @@ class TestBuilderAuthentication(testBuilder: AbstractTestBuilder<ApiClient>, acc
 
         return installations!!
     }
-
-
-
 }
 

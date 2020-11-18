@@ -19,6 +19,9 @@ class InstallationTestBuilderResource(testBuilder: AbstractTestBuilder<ApiClient
 
     /**
      * Asserts that two installations have identical properties
+     *
+     * @param expected an expected installation
+     * @param actual an actual installation
      */
     fun assertInstallationsEqual(expected: Installation, actual: Installation) {
         Assert.assertEquals(expected.additionalInformation, actual.additionalInformation)
