@@ -64,7 +64,7 @@ class InstallationDAO: AbstractDAO<Installation>() {
      *
      * @return updated installation information
      */
-    fun updateAdditionalInformation (installation: Installation, additionalInformation: String, lastModifierId: UUID): Installation {
+    fun updateAdditionalInformation(installation: Installation, additionalInformation: String, lastModifierId: UUID): Installation {
         installation.additionalInformation = additionalInformation
         installation.lastModifierId = lastModifierId
         return persist(installation)
