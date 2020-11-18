@@ -24,13 +24,13 @@ class DrawersInfoDao : AbstractDAO<DrawersInfo>() {
      * @return created drawers
      */
     fun create(
-            id: UUID,
-            trashBins: String,
-            cutleryCompartments: String,
-            isMarkedInImages: Boolean,
-            additionalInformation: String,
-            customerOrder: CustomerOrder,
-            creatorId: UUID
+        id: UUID,
+        trashBins: String,
+        cutleryCompartments: String,
+        isMarkedInImages: Boolean,
+        additionalInformation: String,
+        customerOrder: CustomerOrder,
+        creatorId: UUID
     ): DrawersInfo {
 
         val drawersInfo = DrawersInfo()
