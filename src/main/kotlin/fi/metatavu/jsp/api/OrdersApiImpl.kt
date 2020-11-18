@@ -97,13 +97,13 @@ class OrdersApiImpl: OrdersApi, AbstractApi() {
 
         val counterFrame = order.counterFrame
         counterFramesController.create(
-                createdOrder,
-                counterFrame.color,
-                counterFrame.cornerStripe,
-                counterFrame.extraSide,
-                counterFrame.plinth,
-                counterFrame.additionalInformation,
-                loggerUserId!!
+            createdOrder,
+            counterFrame.color,
+            counterFrame.cornerStripe,
+            counterFrame.extraSide,
+            counterFrame.plinth,
+            counterFrame.additionalInformation,
+            loggerUserId!!
         )
 
         val drawers = order.drawersInfo
