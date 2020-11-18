@@ -77,7 +77,7 @@ class InstallationsController {
      *
      * @return found installation or null if not found
      */
-    fun find (installationId: UUID): Installation? {
+    fun find(installationId: UUID): Installation? {
         return installationDAO.findById(installationId)
     }
 
