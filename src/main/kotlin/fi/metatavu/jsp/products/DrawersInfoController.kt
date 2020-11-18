@@ -25,7 +25,14 @@ class DrawersInfoController {
      *
      * @return created drawers
      */
-    fun create (trashBins: String, cutleryCompartments: String, isMarkedInImages: Boolean, additionalInformation: String, customerOrder: CustomerOrder, creatorId: UUID): DrawersInfo {
+    fun create(
+        trashBins: String,
+        cutleryCompartments: String,
+        isMarkedInImages: Boolean,
+        additionalInformation: String,
+        customerOrder: CustomerOrder,
+        creatorId: UUID
+    ): DrawersInfo {
         return drawersInfoDao.create(UUID.randomUUID(), trashBins, cutleryCompartments, isMarkedInImages, additionalInformation, customerOrder, creatorId)
     }
 
