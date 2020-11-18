@@ -16,10 +16,10 @@ class DrawersInfoController {
     /**
      * Saves drawers to database
      *
+     * @param trashBins trash bins
      * @param cutleryCompartments cutlery compartments
      * @param isMarkedInImages is drawer marked in images
-     * @param additionalInformation
-     * @param trashBins trash bins
+     * @param additionalInformation additional information
      * @param customerOrder an order to which this handle belongs to
      * @param creatorId id of the user who is creating this handle
      *
