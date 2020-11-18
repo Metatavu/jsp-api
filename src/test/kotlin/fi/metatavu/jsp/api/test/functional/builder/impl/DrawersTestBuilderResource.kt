@@ -7,7 +7,6 @@ import fi.metatavu.jsp.api.client.infrastructure.ApiClient
 import fi.metatavu.jsp.api.client.infrastructure.ClientException
 import fi.metatavu.jsp.api.client.models.DrawersInfo
 import fi.metatavu.jsp.api.test.functional.settings.TestSettings
-
 import org.junit.Assert
 import java.util.*
 
