@@ -14,7 +14,7 @@ import java.util.*
 /**
  * A test builder resource for installations
  */
-class InstallationTestBuilderResource (testBuilder: AbstractTestBuilder<ApiClient?>?,private val accessTokenProvider: AccessTokenProvider?, apiClient: ApiClient): ApiTestBuilderResource<Installation, ApiClient>(testBuilder, apiClient) {
+class InstallationTestBuilderResource(testBuilder: AbstractTestBuilder<ApiClient?>?, private val accessTokenProvider: AccessTokenProvider?, apiClient: ApiClient): ApiTestBuilderResource<Installation, ApiClient>(testBuilder, apiClient) {
     override fun clean(t: Installation?) {}
 
     /**
@@ -65,4 +65,3 @@ class InstallationTestBuilderResource (testBuilder: AbstractTestBuilder<ApiClien
         return InstallationsApi(TestSettings.apiBasePath)
     }
 }
-
