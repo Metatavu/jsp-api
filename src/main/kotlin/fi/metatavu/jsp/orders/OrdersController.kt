@@ -37,7 +37,6 @@ class OrdersController {
     @Inject
     private lateinit var installationsController: InstallationsController
 
-
     /**
      * Lists all orders
      *
