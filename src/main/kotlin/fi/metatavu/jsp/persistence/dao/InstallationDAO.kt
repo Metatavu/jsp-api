@@ -77,7 +77,7 @@ class InstallationDAO: AbstractDAO<Installation>() {
      *
      * @return handles
      */
-    fun list (customerOrder: CustomerOrder?): List<Installation> {
+    fun list(customerOrder: CustomerOrder?): List<Installation> {
         val entityManager = getEntityManager()
         val criteriaBuilder = entityManager.criteriaBuilder
         val criteria = criteriaBuilder.createQuery(Installation::class.java)
