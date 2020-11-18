@@ -14,9 +14,9 @@ class DrawersInfoDao: AbstractDAO<DrawersInfo>() {
      * Saves drawers to database
      *
      * @param id An UUID for identification
+     * @param trashBins trash bins
      * @param cutleryCompartments cutlery compartments
      * @param isMarkedInImages is drawer marked in images
-     * @param trashBins trash bins
      * @param additionalInformation
      * @param customerOrder an order to which this handle belongs to
      * @param creatorId id of the user who is creating this handle
