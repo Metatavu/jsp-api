@@ -86,7 +86,7 @@ class InstallationsController {
      *
      * @param installation a handle to delete
      */
-    fun delete (installation: Installation) {
+    fun delete(installation: Installation) {
         installationDAO.delete(installation)
     }
 }
