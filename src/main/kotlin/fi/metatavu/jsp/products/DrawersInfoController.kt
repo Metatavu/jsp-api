@@ -72,7 +72,7 @@ class DrawersInfoController {
      *
      * @return drawers
      */
-    fun list (customerOrder: CustomerOrder?): List<DrawersInfo> {
+    fun list(customerOrder: CustomerOrder?): List<DrawersInfo> {
         return drawersInfoDao.list(customerOrder)
     }
 
