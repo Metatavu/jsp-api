@@ -346,12 +346,12 @@ class OrdersApiImpl: OrdersApi, AbstractApi() {
         val drawers = order.drawersInfo
         val existingDrawers = drawersInfoController.find(order.drawersInfo.id)!!
         drawersInfoController.update(
-                existingDrawers,
-                drawers.trashbins,
-                drawers.cutleryCompartments,
-                drawers.markedInImages,
-                drawers.additionalInformation,
-                loggerUserId!!
+            existingDrawers,
+            drawers.trashbins,
+            drawers.cutleryCompartments,
+            drawers.markedInImages,
+            drawers.additionalInformation,
+            loggerUserId!!
         )
 
         return createOk(orderTranslator.translate(updatedOrder))
