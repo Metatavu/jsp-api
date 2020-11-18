@@ -116,8 +116,6 @@ class OrdersApiImpl: OrdersApi, AbstractApi() {
             loggerUserId!!
         )
 
-
-
         val translatedOrder = orderTranslator.translate(createdOrder)
         return createOk(translatedOrder)
     }
