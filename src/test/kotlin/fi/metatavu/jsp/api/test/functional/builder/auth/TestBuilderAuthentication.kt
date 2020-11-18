@@ -136,4 +136,3 @@ class TestBuilderAuthentication(testBuilder: AbstractTestBuilder<ApiClient>, acc
         return installations!!
     }
 }
-

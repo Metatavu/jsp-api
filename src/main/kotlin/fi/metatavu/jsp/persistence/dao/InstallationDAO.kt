@@ -49,7 +49,7 @@ class InstallationDAO: AbstractDAO<Installation>() {
      *
      * @return updated installation information
      */
-    fun updateIsCustomerInstallation (installation: Installation, isCustomerInstallation: Boolean, lastModifierId: UUID): Installation {
+    fun updateIsCustomerInstallation(installation: Installation, isCustomerInstallation: Boolean, lastModifierId: UUID): Installation {
         installation.isCustomerInstallation = isCustomerInstallation
         installation.lastModifierId = lastModifierId
         return persist(installation)
@@ -64,7 +64,7 @@ class InstallationDAO: AbstractDAO<Installation>() {
      *
      * @return updated installation information
      */
-    fun updateAdditionalInformation (installation: Installation, additionalInformation: String, lastModifierId: UUID): Installation {
+    fun updateAdditionalInformation(installation: Installation, additionalInformation: String, lastModifierId: UUID): Installation {
         installation.additionalInformation = additionalInformation
         installation.lastModifierId = lastModifierId
         return persist(installation)
@@ -77,7 +77,7 @@ class InstallationDAO: AbstractDAO<Installation>() {
      *
      * @return handles
      */
-    fun list (customerOrder: CustomerOrder?): List<Installation> {
+    fun list(customerOrder: CustomerOrder?): List<Installation> {
         val entityManager = getEntityManager()
         val criteriaBuilder = entityManager.criteriaBuilder
         val criteria = criteriaBuilder.createQuery(Installation::class.java)

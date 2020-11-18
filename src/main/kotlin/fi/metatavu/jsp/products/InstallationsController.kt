@@ -66,7 +66,7 @@ class InstallationsController {
     *
     * @return installations
     */
-    fun list (customerOrder: CustomerOrder?): List<Installation> {
+    fun list(customerOrder: CustomerOrder?): List<Installation> {
         return installationDAO.list(customerOrder)
     }
 
@@ -77,7 +77,7 @@ class InstallationsController {
      *
      * @return found installation or null if not found
      */
-    fun find (installationId: UUID): Installation? {
+    fun find(installationId: UUID): Installation? {
         return installationDAO.findById(installationId)
     }
 
@@ -86,7 +86,7 @@ class InstallationsController {
      *
      * @param installation a handle to delete
      */
-    fun delete (installation: Installation) {
+    fun delete(installation: Installation) {
         installationDAO.delete(installation)
     }
 }
