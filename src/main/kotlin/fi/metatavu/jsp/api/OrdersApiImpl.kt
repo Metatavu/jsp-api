@@ -197,7 +197,6 @@ class OrdersApiImpl : OrdersApi, AbstractApi() {
             }
         }
     }
-    
     /**
      * Checks that products match required type
      *
