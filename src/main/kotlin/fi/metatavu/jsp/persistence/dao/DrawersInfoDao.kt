@@ -117,7 +117,7 @@ class DrawersInfoDao: AbstractDAO<DrawersInfo>() {
      *
      * @return drawers
      */
-    fun list (customerOrder: CustomerOrder?): List<DrawersInfo> {
+    fun list(customerOrder: CustomerOrder?): List<DrawersInfo> {
         val entityManager = getEntityManager()
         val criteriaBuilder = entityManager.criteriaBuilder
         val criteria = criteriaBuilder.createQuery(DrawersInfo::class.java)
