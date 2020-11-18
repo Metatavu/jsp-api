@@ -81,17 +81,17 @@ class DrawersInfoDao: AbstractDAO<DrawersInfo>() {
     /**
      * Updates a a value for isMarkedInImages
      *
-     * @param drawersinfo drawers to update
+     * @param drawersInfo drawers to update
      * @param isMarkedInImages is marked in images
      * @param lastModifierId id of the user who is modifying this drawers
      *
      * @return updated drawer
      */
-    fun UpdateIsMarkedInImages(drawersinfo: DrawersInfo, isMarkedInImages: Boolean, lastModifierId: UUID): DrawersInfo {
-        drawersinfo.isMarkedInImages = isMarkedInImages
-        drawersinfo.lastModifierId = lastModifierId
+    fun UpdateIsMarkedInImages(drawersInfo: DrawersInfo, isMarkedInImages: Boolean, lastModifierId: UUID): DrawersInfo {
+        drawersInfo.isMarkedInImages = isMarkedInImages
+        drawersInfo.lastModifierId = lastModifierId
 
-        return persist(drawersinfo)
+        return persist(drawersInfo)
     }
 
     /**

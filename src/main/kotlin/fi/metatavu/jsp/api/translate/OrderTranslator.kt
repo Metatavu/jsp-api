@@ -52,6 +52,12 @@ class OrderTranslator: AbstractTranslator<CustomerOrder, Order>() {
     @Inject
     private lateinit var drawersInfoInfoTranslator: DrawersInfoTranslator
 
+    @Inject
+    private lateinit var installationsController: InstallationsController
+
+    @Inject
+    private lateinit var installationTranslator: InstallationTranslator
+
     /**
      * Translates JPA orders into REST orders
      *
@@ -93,7 +99,7 @@ class OrderTranslator: AbstractTranslator<CustomerOrder, Order>() {
         order.orderInfo = orderInfo
         order.doors = doorsController.list(entity).map(doorsTranslator::translate)
         order.drawersInfo = drawersInfoController.list(entity).map(drawersInfoInfoTranslator::translate)[0]
-        order.installation = installation
+        order.installation = installationsController.list(entity).map(installationTranslator::translate)[0]
         order.handles = handlesController.list(entity).map(handleTranslator::translate)
         order.counterTops = counterTopsController.list(entity).map(counterTopTranslator::translate)
         order.counterFrame = counterFramesController.list(entity).map(counterFrameTranslator::translate)[0]

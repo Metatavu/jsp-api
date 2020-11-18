@@ -42,6 +42,9 @@ class OrdersApiImpl: OrdersApi, AbstractApi() {
     @Inject
     private lateinit var drawersInfoController: DrawersInfoController
 
+    @Inject
+    private lateinit var installationsController: InstallationsController
+
     override fun createOrder(order: Order): Response {
         val orderInfo = order.orderInfo
 
@@ -116,8 +119,15 @@ class OrdersApiImpl: OrdersApi, AbstractApi() {
             loggerUserId!!
         )
 
-        val translatedOrder = orderTranslator.translate(createdOrder)
-        return createOk(translatedOrder)
+        val installations = order.installation
+        installationsController.create(
+            installations.isCustomerInstallation,
+            installations.additionalInformation,
+            createdOrder,
+            loggerUserId!!
+        )
+
+        return createOk(orderTranslator.translate(createdOrder))
     }
 
     /**
@@ -196,6 +206,7 @@ class OrdersApiImpl: OrdersApi, AbstractApi() {
             }
         }
     }
+
     /**
      * Checks that products match required type
      *
@@ -350,6 +361,15 @@ class OrdersApiImpl: OrdersApi, AbstractApi() {
             drawers.cutleryCompartments,
             drawers.markedInImages,
             drawers.additionalInformation,
+            loggerUserId!!
+        )
+
+        val installations = order.installation
+        val existingInstallations = installationsController.find(order.installation.id)!!
+        installationsController.update(
+            existingInstallations,
+            installations.isCustomerInstallation,
+            installations.additionalInformation,
             loggerUserId!!
         )
 

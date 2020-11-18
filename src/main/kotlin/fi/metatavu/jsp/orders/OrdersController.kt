@@ -34,6 +34,8 @@ class OrdersController {
     @Inject
     private lateinit var drawersInfoController: DrawersInfoController
 
+    @Inject
+    private lateinit var installationsController: InstallationsController
 
     /**
      * Lists all orders
@@ -95,6 +97,12 @@ class OrdersController {
 
         drawersInfo.forEach { drawers ->
             drawersInfoController.delete(drawers)
+        }
+
+        val installations = installationsController.list(customerOrder)
+
+        installations.forEach { installation ->
+            installationsController.delete(installation)
         }
 
         orderDAO.delete(customerOrder)

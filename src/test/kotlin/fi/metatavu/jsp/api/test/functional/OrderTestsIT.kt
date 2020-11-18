@@ -68,6 +68,9 @@ class OrderTestsIT: AbstractFunctionalTest() {
             assertNotNull(createdOrder.drawersInfo)
             testBuilder.admin().drawers().assertDrawersEqual(testOrder.drawersInfo, createdOrder.drawersInfo)
 
+            assertNotNull(createdOrder.installation)
+            testBuilder.admin().installations().assertInstallationsEqual(testOrder.installation, createdOrder.installation)
+
             testBuilder.admin().counterFrames().assertCounterFramesEqual(testOrder.counterFrame, createdOrder.counterFrame)
             testBuilder.admin().doors().assertDoorsEqual(testOrder.doors[0], createdOrder.doors[0])
 
@@ -144,7 +147,7 @@ class OrderTestsIT: AbstractFunctionalTest() {
                     "Sinks additional information 2",
                     electricProducts.toTypedArray(),
                     "Electric products additional information 2",
-                    Installation(false, null, ""),
+                    Installation(false, createdOrder.installation.id, "updated additional information"),
                     "*** Updated information ***",
                     orderFiles.toTypedArray(),
                     orderFiles.toTypedArray(),
@@ -200,6 +203,9 @@ class OrderTestsIT: AbstractFunctionalTest() {
 
             assertNotNull(updatedOrder.drawersInfo)
             testBuilder.admin().drawers().assertDrawersEqual(orderToUpdate.drawersInfo, updatedOrder.drawersInfo)
+
+            assertNotNull(updatedOrder.installation)
+            testBuilder.admin().installations().assertInstallationsEqual(orderToUpdate.installation, updatedOrder.installation)
 
             testBuilder.admin().counterFrames().assertCounterFramesEqual(orderToUpdate.counterFrame, updatedOrder.counterFrame)
 
