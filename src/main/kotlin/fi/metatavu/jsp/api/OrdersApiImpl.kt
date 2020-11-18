@@ -334,13 +334,13 @@ class OrdersApiImpl: OrdersApi, AbstractApi() {
         val counterFrame = order.counterFrame
         val existingCounterFrame = counterFramesController.find(order.counterFrame.id)!!
         counterFramesController.update(
-                existingCounterFrame,
-                counterFrame.color,
-                counterFrame.cornerStripe,
-                counterFrame.extraSide,
-                counterFrame.plinth,
-                counterFrame.additionalInformation,
-                loggerUserId!!
+            existingCounterFrame,
+            counterFrame.color,
+            counterFrame.cornerStripe,
+            counterFrame.extraSide,
+            counterFrame.plinth,
+            counterFrame.additionalInformation,
+            loggerUserId!!
         )
 
         val drawers = order.drawersInfo
