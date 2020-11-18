@@ -14,13 +14,13 @@ import java.util.*
 /**
  * A test builder resource for installations
  */
-class InstallationTestBuilderResource (testBuilder: AbstractTestBuilder<ApiClient?>?, private val accessTokenProvider: AccessTokenProvider?, apiClient: ApiClient): ApiTestBuilderResource<Installation, ApiClient>(testBuilder, apiClient) {
+class InstallationTestBuilderResource (testBuilder: AbstractTestBuilder<ApiClient?>?,private val accessTokenProvider: AccessTokenProvider?, apiClient: ApiClient): ApiTestBuilderResource<Installation, ApiClient>(testBuilder, apiClient) {
     override fun clean(t: Installation?) {}
 
     /**
      * Asserts that two installations have identical properties
      */
-    fun assertInstallationsEqual (expected: Installation, actual: Installation) {
+    fun assertInstallationsEqual(expected: Installation, actual: Installation) {
         Assert.assertEquals(expected.additionalInformation, actual.additionalInformation)
         Assert.assertEquals(expected.isCustomerInstallation, actual.isCustomerInstallation)
     }
@@ -30,7 +30,7 @@ class InstallationTestBuilderResource (testBuilder: AbstractTestBuilder<ApiClien
      *
      * @return installations
      */
-    fun list (): Array<Installation> {
+    fun list(): Array<Installation> {
         return api.listInstallations()
     }
 
@@ -41,7 +41,7 @@ class InstallationTestBuilderResource (testBuilder: AbstractTestBuilder<ApiClien
      *
      * @return found installations
      */
-    fun find (installationsId: UUID): Installation {
+    fun find(installationsId: UUID): Installation {
         return api.findInstallation(installationsId)
     }
 
@@ -51,7 +51,7 @@ class InstallationTestBuilderResource (testBuilder: AbstractTestBuilder<ApiClien
      * @param installationsId id of a installation to test
      * @param status expected status code
      */
-    fun assertFindFailStatus (installationsId: UUID, status: Int) {
+    fun assertFindFailStatus(installationsId: UUID, status: Int) {
         try {
             api.findInstallation(installationsId)
             throw Exception("Should have failed with status $status")

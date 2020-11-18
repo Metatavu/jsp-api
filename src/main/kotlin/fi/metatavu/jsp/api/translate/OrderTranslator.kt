@@ -55,8 +55,8 @@ class OrderTranslator: AbstractTranslator<CustomerOrder, Order>() {
     @Inject
     private lateinit var installationsController: InstallationsController
 
-     @Inject
-     private lateinit var installationTranslator: InstallationTranslator
+    @Inject
+    private lateinit var installationTranslator: InstallationTranslator
 
     /**
      * Translates JPA orders into REST orders

@@ -29,7 +29,6 @@ class InstallationsApiImpl: InstallationsApi, AbstractApi() {
 
     override fun listInstallations(): Response {
         val installations = installationsController.list(null)
-
         return createOk(installations.map(installationTranslator::translate))
     }
 }
