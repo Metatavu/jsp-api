@@ -21,13 +21,14 @@ class InstallationDAO: AbstractDAO<Installation>() {
      *
      * @return created installation information
      */
-    fun create (
-            id: UUID,
-            isCustomerInstallation: Boolean,
-            additionalInformation: String,
-            customerOrder: CustomerOrder,
-            creatorId: UUID
+    fun create(
+        id: UUID,
+        isCustomerInstallation: Boolean,
+        additionalInformation: String,
+        customerOrder: CustomerOrder,
+        creatorId: UUID
     ): Installation {
+
         val installation = Installation()
         installation.id = id
         installation.isCustomerInstallation = isCustomerInstallation

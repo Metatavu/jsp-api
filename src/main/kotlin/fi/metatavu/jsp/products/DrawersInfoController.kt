@@ -16,22 +16,22 @@ class DrawersInfoController {
     /**
      * Saves drawers to database
      *
+     * @param trashBins trash bins
      * @param cutleryCompartments cutlery compartments
      * @param isMarkedInImages is drawer marked in images
-     * @param additionalInformation
-     * @param trashBins trash bins
+     * @param additionalInformation additional information
      * @param customerOrder an order to which this handle belongs to
      * @param creatorId id of the user who is creating this handle
      *
      * @return created drawers
      */
-    fun create (
-            trashBins: String,
-            cutleryCompartments: String,
-            isMarkedInImages: Boolean,
-            additionalInformation: String,
-            customerOrder: CustomerOrder,
-            creatorId: UUID
+    fun create(
+        trashBins: String,
+        cutleryCompartments: String,
+        isMarkedInImages: Boolean,
+        additionalInformation: String,
+        customerOrder: CustomerOrder,
+        creatorId: UUID
     ): DrawersInfo {
         return drawersInfoDao.create(UUID.randomUUID(), trashBins, cutleryCompartments, isMarkedInImages, additionalInformation, customerOrder, creatorId)
     }
@@ -48,14 +48,14 @@ class DrawersInfoController {
      *
      * @return updated drawers
      */
-    fun update (
-            drawersInfo: DrawersInfo,
-            trashBins: String,
-            cutleryCompartments: String,
-            isMarkedInImages: Boolean,
-            additionalInformation: String,
-            lastModifierId: UUID
-        ): DrawersInfo {
+    fun update(
+        drawersInfo: DrawersInfo,
+        trashBins: String,
+        cutleryCompartments: String,
+        isMarkedInImages: Boolean,
+        additionalInformation: String,
+        lastModifierId: UUID
+    ): DrawersInfo {
 
         drawersInfoDao.UpdateCutleryCompartments(drawersInfo, cutleryCompartments, lastModifierId)
         drawersInfoDao.UpdateIsMarkedInImages(drawersInfo, isMarkedInImages, lastModifierId)
@@ -72,7 +72,7 @@ class DrawersInfoController {
      *
      * @return drawers
      */
-    fun list (customerOrder: CustomerOrder?): List<DrawersInfo> {
+    fun list(customerOrder: CustomerOrder?): List<DrawersInfo> {
         return drawersInfoDao.list(customerOrder)
     }
 
@@ -83,7 +83,7 @@ class DrawersInfoController {
      *
      * @return found drawers or null if not found
      */
-    fun find (drawersId: UUID): DrawersInfo? {
+    fun find(drawersId: UUID): DrawersInfo? {
         return drawersInfoDao.findById(drawersId)
     }
 
@@ -92,7 +92,7 @@ class DrawersInfoController {
      *
      * @param drawersInfo drawers to delete
      */
-    fun delete (drawersInfo: DrawersInfo) {
+    fun delete(drawersInfo: DrawersInfo) {
         drawersInfoDao.delete(drawersInfo)
     }
 }

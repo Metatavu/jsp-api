@@ -22,21 +22,11 @@ class DrawersApiImpl: DrawersApi, AbstractApi() {
     @Inject
     private lateinit var drawersInfoController: DrawersInfoController
 
-    /**
-     * Finds drawers
-     *
-     * @return found drawers
-     */
     override fun findDrawersInfo(drawersInfoId: UUID): Response {
         val foundDrawers = drawersInfoController.find(drawersInfoId) ?: return createNotFound("Drawers with id $drawersInfoId not found")
         return createOk(drawersInfoTranslator.translate(foundDrawers))
     }
 
-    /**
-     * Lists drawers
-     *
-     * @return translated drawers
-     */
     override fun listDrawerInfos(): Response {
         val drawers = drawersInfoController.list(null)
         return createOk(drawers.map(drawersInfoTranslator::translate))

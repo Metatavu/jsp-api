@@ -26,12 +26,13 @@ class InstallationsController {
      *
      * @return created installation information
      */
-    fun create (
-            isCustomerInstallation: Boolean,
-            additionalInformation: String,
-            customerOrder: CustomerOrder,
-            creatorId: UUID
+    fun create(
+        isCustomerInstallation: Boolean,
+        additionalInformation: String,
+        customerOrder: CustomerOrder,
+        creatorId: UUID
     ): Installation {
+
         return installationDAO.create(UUID.randomUUID(), isCustomerInstallation, additionalInformation, customerOrder, creatorId)
     }
 
@@ -45,12 +46,13 @@ class InstallationsController {
      *
      * @return updated installation information
      */
-    fun update (
-            installation: Installation,
-            isCustomerInstallation: Boolean,
-            additionalInformation: String,
-            lastModifierId: UUID
+    fun update(
+        installation: Installation,
+        isCustomerInstallation: Boolean,
+        additionalInformation: String,
+        lastModifierId: UUID
     ): Installation {
+
         installationDAO.updateAdditionalInformation(installation, additionalInformation, lastModifierId)
         installationDAO.updateIsCustomerInstallation(installation, isCustomerInstallation, lastModifierId)
 

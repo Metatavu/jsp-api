@@ -29,9 +29,8 @@ class DoorsController {
      * @param modelName model name of the door
      * @param creatorId id of the user who is creating this door
 
-     * @param doorColor
+     * @param doorColor door color
      * @param creatorId id of the user who is creating this door
-     *
      *
      * @return a created door
      */
@@ -47,7 +46,7 @@ class DoorsController {
      * @param glassColor new value to glass color
      * @param modelName new value to model name
      * @param doorColor new value to door color
-     * @param lastModifierId
+     * @param lastModifierId last modifier id
      *
      * @return an updated door
      */

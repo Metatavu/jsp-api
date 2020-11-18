@@ -17,7 +17,7 @@ import javax.ws.rs.core.Response
  */
 @Stateful
 @RequestScoped
-class OrdersApiImpl : OrdersApi, AbstractApi() {
+class OrdersApiImpl: OrdersApi, AbstractApi() {
     @Inject
     private lateinit var ordersController: OrdersController
 
@@ -100,31 +100,31 @@ class OrdersApiImpl : OrdersApi, AbstractApi() {
 
         val counterFrame = order.counterFrame
         counterFramesController.create(
-                createdOrder,
-                counterFrame.color,
-                counterFrame.cornerStripe,
-                counterFrame.extraSide,
-                counterFrame.plinth,
-                counterFrame.additionalInformation,
-                loggerUserId!!
+            createdOrder,
+            counterFrame.color,
+            counterFrame.cornerStripe,
+            counterFrame.extraSide,
+            counterFrame.plinth,
+            counterFrame.additionalInformation,
+            loggerUserId!!
         )
 
         val drawers = order.drawersInfo
         drawersInfoController.create(
-                drawers.trashbins,
-                drawers.cutleryCompartments,
-                drawers.markedInImages,
-                drawers.additionalInformation,
-                createdOrder,
-                loggerUserId!!
+            drawers.trashbins,
+            drawers.cutleryCompartments,
+            drawers.markedInImages,
+            drawers.additionalInformation,
+            createdOrder,
+            loggerUserId!!
         )
 
         val installations = order.installation
         installationsController.create(
-                installations.isCustomerInstallation,
-                installations.additionalInformation,
-                createdOrder,
-                loggerUserId!!
+            installations.isCustomerInstallation,
+            installations.additionalInformation,
+            createdOrder,
+            loggerUserId!!
         )
 
         return createOk(orderTranslator.translate(createdOrder))
@@ -170,7 +170,6 @@ class OrdersApiImpl : OrdersApi, AbstractApi() {
 
     /**
      * Saves generic products to a database from a list
-    =======
      * Saves handles to a database from a list
      *
      * @param handles handles to save
@@ -345,33 +344,33 @@ class OrdersApiImpl : OrdersApi, AbstractApi() {
         val counterFrame = order.counterFrame
         val existingCounterFrame = counterFramesController.find(order.counterFrame.id)!!
         counterFramesController.update(
-                existingCounterFrame,
-                counterFrame.color,
-                counterFrame.cornerStripe,
-                counterFrame.extraSide,
-                counterFrame.plinth,
-                counterFrame.additionalInformation,
-                loggerUserId!!
+            existingCounterFrame,
+            counterFrame.color,
+            counterFrame.cornerStripe,
+            counterFrame.extraSide,
+            counterFrame.plinth,
+            counterFrame.additionalInformation,
+            loggerUserId!!
         )
 
         val drawers = order.drawersInfo
         val existingDrawers = drawersInfoController.find(order.drawersInfo.id)!!
         drawersInfoController.update(
-                existingDrawers,
-                drawers.trashbins,
-                drawers.cutleryCompartments,
-                drawers.markedInImages,
-                drawers.additionalInformation,
-                loggerUserId!!
+            existingDrawers,
+            drawers.trashbins,
+            drawers.cutleryCompartments,
+            drawers.markedInImages,
+            drawers.additionalInformation,
+            loggerUserId!!
         )
 
         val installations = order.installation
         val existingInstallations = installationsController.find(order.installation.id)!!
         installationsController.update(
-                existingInstallations,
-                installations.isCustomerInstallation,
-                installations.additionalInformation,
-                loggerUserId!!
+            existingInstallations,
+            installations.isCustomerInstallation,
+            installations.additionalInformation,
+            loggerUserId!!
         )
 
         return createOk(orderTranslator.translate(updatedOrder))

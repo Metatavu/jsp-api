@@ -3,23 +3,20 @@ package fi.metatavu.jsp.persistence.dao
 import fi.metatavu.jsp.persistence.model.CustomerOrder
 import fi.metatavu.jsp.persistence.model.DrawersInfo
 import fi.metatavu.jsp.persistence.model.DrawersInfo_
-
-
 import java.util.*
 import javax.enterprise.context.ApplicationScoped
 import javax.persistence.criteria.Predicate
 
 @ApplicationScoped
-class DrawersInfoDao : AbstractDAO<DrawersInfo>() {
-
+class DrawersInfoDao: AbstractDAO<DrawersInfo>() {
 
     /**
      * Saves drawers to database
      *
      * @param id An UUID for identification
+     * @param trashBins trash bins
      * @param cutleryCompartments cutlery compartments
      * @param isMarkedInImages is drawer marked in images
-     * @param trashBins trash bins
      * @param additionalInformation
      * @param customerOrder an order to which this handle belongs to
      * @param creatorId id of the user who is creating this handle
@@ -27,13 +24,13 @@ class DrawersInfoDao : AbstractDAO<DrawersInfo>() {
      * @return created drawers
      */
     fun create(
-            id: UUID,
-            trashBins: String,
-            cutleryCompartments: String,
-            isMarkedInImages: Boolean,
-            additionalInformation: String,
-            customerOrder: CustomerOrder,
-            creatorId: UUID
+        id: UUID,
+        trashBins: String,
+        cutleryCompartments: String,
+        isMarkedInImages: Boolean,
+        additionalInformation: String,
+        customerOrder: CustomerOrder,
+        creatorId: UUID
     ): DrawersInfo {
 
         val drawersInfo = DrawersInfo()
