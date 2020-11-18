@@ -92,7 +92,7 @@ class DrawersInfoController {
      *
      * @param drawersInfo drawers to delete
      */
-    fun delete (drawersInfo: DrawersInfo) {
+    fun delete(drawersInfo: DrawersInfo) {
         drawersInfoDao.delete(drawersInfo)
     }
 }
