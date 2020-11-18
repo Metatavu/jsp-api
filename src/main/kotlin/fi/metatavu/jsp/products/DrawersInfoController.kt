@@ -42,13 +42,13 @@ class DrawersInfoController {
      * @return updated drawers
      */
     fun update (
-            drawersInfo: DrawersInfo,
-            trashBins: String,
-            cutleryCompartments: String,
-            isMarkedInImages: Boolean,
-            additionalInformation: String,
-            lastModifierId: UUID
-        ): DrawersInfo {
+        drawersInfo: DrawersInfo,
+        trashBins: String,
+        cutleryCompartments: String,
+        isMarkedInImages: Boolean,
+        additionalInformation: String,
+        lastModifierId: UUID
+    ): DrawersInfo {
 
         drawersInfoDao.UpdateCutleryCompartments(drawersInfo, cutleryCompartments, lastModifierId)
         drawersInfoDao.UpdateIsMarkedInImages(drawersInfo, isMarkedInImages, lastModifierId)
