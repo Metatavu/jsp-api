@@ -48,7 +48,7 @@ class DrawersInfoController {
      *
      * @return updated drawers
      */
-    fun update (
+    fun update(
         drawersInfo: DrawersInfo,
         trashBins: String,
         cutleryCompartments: String,
