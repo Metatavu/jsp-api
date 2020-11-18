@@ -17,7 +17,7 @@ import javax.ws.rs.core.Response
  */
 @Stateful
 @RequestScoped
-class OrdersApiImpl : OrdersApi, AbstractApi() {
+class OrdersApiImpl: OrdersApi, AbstractApi() {
     @Inject
     private lateinit var ordersController: OrdersController
 
@@ -108,13 +108,15 @@ class OrdersApiImpl : OrdersApi, AbstractApi() {
 
         val drawers = order.drawersInfo
         drawersInfoController.create(
-                drawers.trashbins,
-                drawers.cutleryCompartments,
-                drawers.markedInImages,
-                drawers.additionalInformation,
-                createdOrder,
-                loggerUserId!!
+            drawers.trashbins,
+            drawers.cutleryCompartments,
+            drawers.markedInImages,
+            drawers.additionalInformation,
+            createdOrder,
+            loggerUserId!!
         )
+
+
 
         val translatedOrder = orderTranslator.translate(createdOrder)
         return createOk(translatedOrder)
