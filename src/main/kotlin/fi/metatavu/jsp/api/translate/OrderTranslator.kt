@@ -85,17 +85,6 @@ class OrderTranslator: AbstractTranslator<CustomerOrder, Order>() {
         orderInfo.room = entity.room
         orderInfo.socialMediaPermission = entity.socialMediaPermission
 
-        val installation = Installation()
-        installation.isCustomerInstallation = false
-        installation.additionalInformation = ""
-
-        val counterFrame = CounterFrame()
-        counterFrame.color = ""
-        counterFrame.cornerStripe = ""
-        counterFrame.extraSide = ""
-        counterFrame.plinth = ""
-        counterFrame.additionalInformation = ""
-
         order.orderInfo = orderInfo
         order.doors = doorsController.list(entity).map(doorsTranslator::translate)
         order.drawersInfo = drawersInfoController.list(entity).map(drawersInfoInfoTranslator::translate)[0]
