@@ -190,6 +190,9 @@ class OrderTestBuilderResource(testBuilder: AbstractTestBuilder<ApiClient?>?, pr
         val electricProducts = ArrayList<GenericProduct>()
         electricProducts.add(GenericProduct("Electric product", "INC_5", GenericProductType.eLECTRIC))
 
+        val mechanisms = ArrayList<GenericProduct>()
+        mechanisms.add(GenericProduct("Mechanism", "INC_6", GenericProductType.mECHANISM))
+
         val doors = ArrayList<Door>()
         doors.add(Door("Door model", "White", false, "" ))
 
@@ -221,6 +224,8 @@ class OrderTestBuilderResource(testBuilder: AbstractTestBuilder<ApiClient?>?, pr
                 "Sinks additional information",
                 electricProducts.toTypedArray(),
                 "Electric products additional information",
+                mechanisms.toTypedArray(),
+                "mechanisms additional information",
                 Installation(false, null, "additional information"),
                 "More information",
                 orderFiles.toTypedArray(),

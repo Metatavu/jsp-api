@@ -98,12 +98,14 @@ class OrderTranslator: AbstractTranslator<CustomerOrder, Order>() {
         order.intermediateSpaces = genericProductsController.list(GenericProductType.INTERMEDIATE_SPACE, entity).map(genericProductTranslator::translate)
         order.sinks = genericProductsController.list(GenericProductType.SINK, entity).map(genericProductTranslator::translate)
         order.electricProducts = genericProductsController.list(GenericProductType.ELECTRIC, entity).map(genericProductTranslator::translate)
+        order.mechanisms = genericProductsController.list(GenericProductType.MECHANISM, entity).map(genericProductTranslator::translate)
 
         order.domesticAppliancesAdditionalInformation = entity.domesticAppliancesInformation
         order.intermediateSpacesAdditionalInformation = entity.intermediateSpacesInformation
         order.sinksAdditionalInformation = entity.sinksInformation
         order.otherProductsAdditionalInformation = entity.otherProductsInformation
         order.electricProductsAdditionalInformation = entity.electricProductsInformation
+        order.mechanismsAdditionalInformation = entity.mechanismsInformation
 
         order.doorsAdditionalInformation = entity.doorsInformation
         order.handlesAdditionalInformation = entity.handlesInformation

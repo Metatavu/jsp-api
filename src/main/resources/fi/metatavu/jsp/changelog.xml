@@ -321,4 +321,12 @@
             </column>
         </createTable>
     </changeSet>
+
+    <changeSet id="Mechanisms" author="Atte Marttinen">
+        <addColumn tableName="customerorder">
+            <column name="mechanismsinformation" type="longtext">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>
