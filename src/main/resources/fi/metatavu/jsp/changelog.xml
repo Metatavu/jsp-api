@@ -74,9 +74,6 @@
             <column name="electricproductsinformation" type="longtext">
                 <constraints nullable="false"/>
             </column>
-            <column name="mechanismsinformation" type="longtext">
-                <constraints nullable="false"/>
-            </column>
             <column name="doorsinformation" type="longtext">
                 <constraints nullable="false"/>
             </column>
@@ -323,5 +320,13 @@
                 <constraints nullable="false" foreignKeyName="FK_INSTALLATION_CUSTOMER_ORDER_ID" referencedTableName="customerorder" referencedColumnNames="id"/>
             </column>
         </createTable>
+    </changeSet>
+
+    <changeSet id="Mechanisms" author="Atte Marttinen">
+        <addColumn tableName="customerorder">
+            <column name="mechanismsinformation" type="longtext">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
     </changeSet>
 </databaseChangeLog>
