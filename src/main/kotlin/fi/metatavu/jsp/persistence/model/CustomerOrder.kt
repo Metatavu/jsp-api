@@ -55,6 +55,9 @@ class CustomerOrder {
     var electricProductsInformation: String? = null
 
     @Column(nullable = false)
+    var mechanismsInformation: String? = null
+
+    @Column(nullable = false)
     var domesticAppliancesInformation: String? = null
 
     @Column(nullable = false)

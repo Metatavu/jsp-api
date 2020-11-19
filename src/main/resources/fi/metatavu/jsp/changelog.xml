@@ -74,6 +74,9 @@
             <column name="electricproductsinformation" type="longtext">
                 <constraints nullable="false"/>
             </column>
+            <column name="mechanismsinformation" type="longtext">
+                <constraints nullable="false"/>
+            </column>
             <column name="doorsinformation" type="longtext">
                 <constraints nullable="false"/>
             </column>

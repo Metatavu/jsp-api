@@ -36,6 +36,7 @@ class OrderTestsIT: AbstractFunctionalTest() {
             assertEquals(testOrder.otherProductsAdditionalInformation, createdOrder.otherProductsAdditionalInformation)
             assertEquals(testOrder.electricProductsAdditionalInformation, createdOrder.electricProductsAdditionalInformation)
             assertEquals(testOrder.domesticAppliancesAdditionalInformation, createdOrder.domesticAppliancesAdditionalInformation)
+            assertEquals(testOrder.mechanismsAdditionalInformation, createdOrder.mechanismsAdditionalInformation)
 
             assertEquals(testOrder.handlesAdditionalInformation, createdOrder.handlesAdditionalInformation)
             assertEquals(testOrder.counterTopsAdditionalInformation, createdOrder.counterTopsAdditionalInformation)
@@ -55,7 +56,10 @@ class OrderTestsIT: AbstractFunctionalTest() {
 
             assertNotNull(createdOrder.intermediateSpaces[0])
             testBuilder.admin().genericProducts().assertGenericProductsEqual(testOrder.intermediateSpaces[0], createdOrder.intermediateSpaces[0])
-                           
+
+            assertNotNull(createdOrder.mechanisms[0])
+            testBuilder.admin().genericProducts().assertGenericProductsEqual(testOrder.mechanisms[0], createdOrder.mechanisms[0])
+
             assertNotNull(createdOrder.handles[0])
             testBuilder.admin().handles().assertHandlesEqual(testOrder.handles[0], createdOrder.handles[0])
 
@@ -116,6 +120,9 @@ class OrderTestsIT: AbstractFunctionalTest() {
             val electricProducts = ArrayList<GenericProduct>()
             electricProducts.add(GenericProduct("Electric product 2", "INC_5_U", GenericProductType.eLECTRIC))
 
+            val mechanisms = ArrayList<GenericProduct>()
+            mechanisms.add(GenericProduct("Mechanisms 2", "INC_6_U", GenericProductType.mECHANISM))
+
             val doors = ArrayList<Door>()
             doors.add(Door("model name", "White", true, "green"))
 
@@ -147,6 +154,8 @@ class OrderTestsIT: AbstractFunctionalTest() {
                     "Sinks additional information 2",
                     electricProducts.toTypedArray(),
                     "Electric products additional information 2",
+                    mechanisms.toTypedArray(),
+                    "Mechanisms additional information 2",
                     Installation(false, createdOrder.installation.id, "updated additional information"),
                     "*** Updated information ***",
                     orderFiles.toTypedArray(),
@@ -173,6 +182,7 @@ class OrderTestsIT: AbstractFunctionalTest() {
             assertEquals("Intermediate spaces additional information 2", updatedOrder.intermediateSpacesAdditionalInformation)
             assertEquals("Sinks additional information 2", updatedOrder.sinksAdditionalInformation)
             assertEquals("Electric products additional information 2", updatedOrder.electricProductsAdditionalInformation)
+            assertEquals("Mechanisms additional information 2", updatedOrder.mechanismsAdditionalInformation)
             assertEquals("Updated counter tops information", updatedOrder.counterTopsAdditionalInformation)
             assertEquals("Updated handles information", updatedOrder.handlesAdditionalInformation)
             assertEquals("Updated doors information", updatedOrder.doorsAdditionalInformation)
@@ -191,6 +201,9 @@ class OrderTestsIT: AbstractFunctionalTest() {
 
             assertNotNull(updatedOrder.intermediateSpaces[0])
             testBuilder.admin().genericProducts().assertGenericProductsEqual(orderToUpdate.intermediateSpaces[0], updatedOrder.intermediateSpaces[0])
+
+            assertNotNull(updatedOrder.mechanisms[0])
+            testBuilder.admin().genericProducts().assertGenericProductsEqual(orderToUpdate.mechanisms[0], updatedOrder.mechanisms[0])
 
             assertNotNull(updatedOrder.handles[0])
             testBuilder.admin().handles().assertHandlesEqual(orderToUpdate.handles[0], updatedOrder.handles[0])

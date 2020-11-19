@@ -132,6 +132,7 @@ class OrdersController {
      * @param electricProductsInformation electric products additional information
      * @param domesticAppliancesInformation domestic appliances additional information
      * @param intermediateSpacesInformation intermediate spaces additional information
+     * @param mechanismsInformation mechanisms additional information
      *
      * @param counterTopsInformation counter tops information
      * @param handlesInformation handles information
@@ -162,11 +163,12 @@ class OrdersController {
                 doorsInformation: String,
                 counterTopsInformation: String,
                 handlesInformation: String,
+                mechanismsInformation: String,
                 creatorId: UUID): CustomerOrder {
 
         return orderDAO.create(
                 UUID.randomUUID(), additionalInformation, deliveryTime, room, socialMediaPermission, city, phoneNumber, deliveryAddress, homeAddress, billingAddress, isHomeBillingAddress, emailAddress, customer, moreInformation,
-                sinksInformation, otherProductsInformation, electricProductsInformation, domesticAppliancesInformation, intermediateSpacesInformation, doorsInformation, counterTopsInformation, handlesInformation, creatorId
+                sinksInformation, otherProductsInformation, electricProductsInformation, domesticAppliancesInformation, intermediateSpacesInformation, doorsInformation, counterTopsInformation, handlesInformation, mechanismsInformation, creatorId
         )
     }
 
@@ -195,6 +197,7 @@ class OrdersController {
      * @param electricProductsInformation electric products additional information
      * @param domesticAppliancesInformation domestic appliances additional information
      * @param intermediateSpacesInformation intermediate spaces additional information
+     * @param mechanismsInformation mechanisms additional information
      *
      * @param counterTopsInformation counter tops information
      * @param handlesInformation handles information
@@ -226,6 +229,7 @@ class OrdersController {
                 doorsInformation: String,
                 counterTopsInformation: String,
                 handlesInformation: String,
+                mechanismsInformation: String,
                 modifierId: UUID): CustomerOrder {
 
         orderDAO.updateAdditionalInformation(customerOrder, additionalInformation, modifierId)
@@ -244,6 +248,7 @@ class OrdersController {
         orderDAO.updateOtherProductsInformation(customerOrder, otherProductsInformation, modifierId)
         orderDAO.updateElectricProductsInformation(customerOrder, electricProductsInformation, modifierId)
         orderDAO.updateIntermediateSpacesInformation(customerOrder, intermediateSpacesInformation, modifierId)
+        orderDAO.updateMechanismsInformation(customerOrder, mechanismsInformation, modifierId)
 
         orderDAO.updateHomeAddress(customerOrder, homeAddress, modifierId)
         orderDAO.updateIsHomeBillingAddress(customerOrder, isHomeBillingAddress, modifierId)

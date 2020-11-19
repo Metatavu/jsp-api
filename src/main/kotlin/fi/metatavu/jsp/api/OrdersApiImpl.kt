@@ -63,6 +63,9 @@ class OrdersApiImpl: OrdersApi, AbstractApi() {
         checkGenericProductsType(order.otherProducts, GenericProductType.OTHER)
                 ?: return createBadRequest("Other products list can only contain products of type OTHER")
 
+        checkGenericProductsType(order.mechanisms, GenericProductType.MECHANISM)
+                ?: return createBadRequest("Mechanisms list can only contain products of type MECHANISM")
+
         val createdOrder = ordersController.create(
                 orderInfo.additionalInformation,
                 orderInfo.deliveryTime,
@@ -85,6 +88,7 @@ class OrdersApiImpl: OrdersApi, AbstractApi() {
                 order.doorsAdditionalInformation,
                 order.counterTopsAdditionalInformation,
                 order.handlesAdditionalInformation,
+                order.mechanismsAdditionalInformation,
                 loggerUserId!!
         )
 
@@ -93,6 +97,7 @@ class OrdersApiImpl: OrdersApi, AbstractApi() {
         createGenericProducts(order.domesticAppliances, createdOrder)
         createGenericProducts(order.electricProducts, createdOrder)
         createGenericProducts(order.intermediateSpaces, createdOrder)
+        createGenericProducts(order.mechanisms, createdOrder)
 
         createHandles(order.handles, createdOrder)
         createDoors(order.doors, createdOrder)
@@ -263,12 +268,16 @@ class OrdersApiImpl: OrdersApi, AbstractApi() {
         checkGenericProductsType(order.otherProducts, GenericProductType.OTHER)
                 ?: return createBadRequest("Other products list can only contain products of type OTHER")
 
+        checkGenericProductsType(order.mechanisms, GenericProductType.MECHANISM)
+                ?: return createBadRequest("Mechanisms list can only contain products of type MECHANISM")
+
         existingGenericProducts.forEach { genericProduct ->
             val products = order.electricProducts
             products.addAll(order.sinks)
             products.addAll(order.intermediateSpaces)
             products.addAll(order.otherProducts)
             products.addAll(order.domesticAppliances)
+            products.addAll(order.mechanisms)
 
             val save = products.any { product -> product.id == genericProduct.id }
 
@@ -328,6 +337,7 @@ class OrdersApiImpl: OrdersApi, AbstractApi() {
                 order.doorsAdditionalInformation,
                 order.counterTopsAdditionalInformation,
                 order.handlesAdditionalInformation,
+                order.mechanismsAdditionalInformation,
                 loggerUserId!!
         )
 
@@ -336,6 +346,7 @@ class OrdersApiImpl: OrdersApi, AbstractApi() {
         createGenericProducts(order.domesticAppliances, updatedOrder)
         createGenericProducts(order.electricProducts, updatedOrder)
         createGenericProducts(order.intermediateSpaces, updatedOrder)
+        createGenericProducts(order.mechanisms, updatedOrder)
 
         createHandles(order.handles, updatedOrder)
         createCounterTops(order.counterTops, updatedOrder)

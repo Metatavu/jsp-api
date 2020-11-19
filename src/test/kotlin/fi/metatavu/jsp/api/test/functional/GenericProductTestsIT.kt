@@ -27,7 +27,7 @@ class GenericProductTestsIT: AbstractFunctionalTest() {
         TestBuilder().use { testBuilder ->
             testBuilder.admin().orders().create()
             val products = testBuilder.admin().genericProducts().list(null)
-            assertEquals(5, products.size)
+            assertEquals(6, products.size)
 
             val domesticAppliances = testBuilder.admin().genericProducts().list("DOMESTIC_APPLIANCE")
             assertEquals(1, domesticAppliances.size)
