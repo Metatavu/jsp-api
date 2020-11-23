@@ -1,3 +1,4 @@
+timeout: '1200s'
 steps:
 #-Testing
 - id: git-submodule
