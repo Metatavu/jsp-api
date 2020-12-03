@@ -179,6 +179,7 @@ class OrdersController {
      * Updates order details to the database
      *
      * @param customerOrder an order to updated
+     * @param orderStatus order status
      * @param additionalInformation additional information
      * @param deliveryTime time of the delivery
      * @param room room
