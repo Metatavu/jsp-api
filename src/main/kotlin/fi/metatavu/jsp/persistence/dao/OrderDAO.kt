@@ -1,5 +1,6 @@
 package fi.metatavu.jsp.persistence.dao
 
+import fi.metatavu.jsp.api.spec.model.OrderStatus
 import fi.metatavu.jsp.persistence.model.CustomerOrder
 import java.time.OffsetDateTime
 import java.util.*
@@ -14,6 +15,7 @@ class OrderDAO: AbstractDAO<CustomerOrder>() {
      * Saves a new order to the database
      *
      * @param id an id for identification
+     * @param orderStatus order status
      * @param additionalInformation additional information
      * @param deliveryTime time of the delivery
      * @param room room
@@ -44,6 +46,7 @@ class OrderDAO: AbstractDAO<CustomerOrder>() {
      * @return a new order
      */
     fun create (id: UUID,
+                orderStatus: OrderStatus,
                 additionalInformation: String,
                 deliveryTime: OffsetDateTime,
                 room: String,
@@ -70,6 +73,7 @@ class OrderDAO: AbstractDAO<CustomerOrder>() {
 
         val order = CustomerOrder()
         order.id = id
+        order.orderStatus = orderStatus
         order.additionalInformation = additionalInformation
         order.deliveryTime = deliveryTime
         order.room = room
@@ -100,6 +104,21 @@ class OrderDAO: AbstractDAO<CustomerOrder>() {
         order.lastModifierId = creatorId
 
         return persist(order)
+    }
+
+    /**
+     * Updates order status
+     *
+     * @param customerOrder an order to be updated
+     * @param orderStatus new status
+     * @param modifierId of the user who modifies this order
+     *
+     * @return an updated order
+     */
+    fun updateOrderStatus (customerOrder: CustomerOrder, orderStatus: OrderStatus, modifierId: UUID): CustomerOrder {
+        customerOrder.orderStatus = orderStatus
+        customerOrder.lastModifierId = modifierId
+        return persist(customerOrder)
     }
 
     /**
@@ -214,7 +233,7 @@ class OrderDAO: AbstractDAO<CustomerOrder>() {
      *
      * @return an updated order
      */
-    fun updateDoorsInfromation(customerOrder: CustomerOrder, doorInformation: String, modifierId: UUID): CustomerOrder {
+    fun updateDoorsInformation(customerOrder: CustomerOrder, doorInformation: String, modifierId: UUID): CustomerOrder {
         customerOrder.doorsInformation = doorInformation
         customerOrder.lastModifierId = modifierId
         return persist(customerOrder)

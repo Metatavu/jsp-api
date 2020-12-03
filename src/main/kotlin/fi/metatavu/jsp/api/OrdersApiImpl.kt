@@ -67,6 +67,7 @@ class OrdersApiImpl: OrdersApi, AbstractApi() {
                 ?: return createBadRequest("Mechanisms list can only contain products of type MECHANISM")
 
         val createdOrder = ordersController.create(
+                order.orderStatus,
                 orderInfo.additionalInformation,
                 orderInfo.deliveryTime,
                 orderInfo.room,
@@ -318,6 +319,7 @@ class OrdersApiImpl: OrdersApi, AbstractApi() {
         val orderInfo = order.orderInfo
         val updatedOrder = ordersController.update(
                 existingOrder,
+                order.orderStatus,
                 orderInfo.additionalInformation,
                 orderInfo.deliveryTime, orderInfo.room,
                 orderInfo.socialMediaPermission, orderInfo.city,

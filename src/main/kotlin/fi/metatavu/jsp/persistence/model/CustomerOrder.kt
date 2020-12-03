@@ -1,5 +1,6 @@
 package fi.metatavu.jsp.persistence.model
 
+import fi.metatavu.jsp.api.spec.model.OrderStatus
 import java.time.OffsetDateTime
 import java.util.*
 import javax.persistence.*
@@ -8,6 +9,9 @@ import javax.persistence.*
 class CustomerOrder {
     @Id
     var id: UUID? = null
+
+    @Column(nullable = false)
+    var orderStatus: OrderStatus? = null
 
     @Column(nullable = false)
     var additionalInformation: String? = null

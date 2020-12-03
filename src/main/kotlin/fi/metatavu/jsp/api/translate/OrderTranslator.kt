@@ -68,6 +68,7 @@ class OrderTranslator: AbstractTranslator<CustomerOrder, Order>() {
     override fun translate(entity: CustomerOrder): Order {
         val order = Order()
         order.id = entity.id
+        order.orderStatus = entity.orderStatus
 
         val orderInfo = OrderInfo()
         orderInfo.additionalInformation = entity.additionalInformation

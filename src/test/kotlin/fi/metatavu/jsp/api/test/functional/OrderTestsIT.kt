@@ -18,6 +18,7 @@ class OrderTestsIT: AbstractFunctionalTest() {
             val createdOrder = testBuilder.admin().orders().create(testOrder)
 
             assertEquals(testOrder.orderInfo.customer, createdOrder.orderInfo.customer)
+            assertEquals(testOrder.orderStatus, createdOrder.orderStatus)
             assertEquals(testOrder.orderInfo.email, createdOrder.orderInfo.email)
             assertEquals(testOrder.orderInfo.deliveryAddress, createdOrder.orderInfo.deliveryAddress)
             assertEquals(testOrder.orderInfo.phoneNumber, createdOrder.orderInfo.phoneNumber)
@@ -135,6 +136,7 @@ class OrderTestsIT: AbstractFunctionalTest() {
             val orderFiles = ArrayList<FileInformation>()
 
             val orderToUpdate = Order(
+                    OrderStatus.oRDER,
                     orderInfo2,
                     CounterFrame("Red2", "Strip2", "Plinth2", "Extra side2", "Information", createdOrder.counterFrame.id),
                     doors.toTypedArray(),
@@ -164,6 +166,7 @@ class OrderTestsIT: AbstractFunctionalTest() {
             val updatedOrder = testBuilder.admin().orders().update(orderToUpdate)
 
             assertEquals("Asiakas Matti", updatedOrder.orderInfo.customer)
+            assertEquals(OrderStatus.oRDER, updatedOrder.orderStatus)
             assertEquals("matti@matti.matti", updatedOrder.orderInfo.email)
             assertEquals("Hallituskatu 712", updatedOrder.orderInfo.deliveryAddress)
             assertEquals("Hallituskatu 713", updatedOrder.orderInfo.homeAddress)

@@ -205,6 +205,7 @@ class OrderTestBuilderResource(testBuilder: AbstractTestBuilder<ApiClient?>?, pr
         val orderFiles = ArrayList<FileInformation>()
 
         return Order(
+                OrderStatus.dRAFT,
                 orderInfo,
                 CounterFrame("Red", "Strip", "Plinth", "Extra side", "Information", null),
                 doors.toTypedArray(),
