@@ -329,4 +329,12 @@
             </column>
         </addColumn>
     </changeSet>
+
+    <changeSet id="AddOrderStatus" author="Antti Leinonen">
+        <addColumn tableName="customerorder">
+            <column name="orderstatus" type="longtext">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>

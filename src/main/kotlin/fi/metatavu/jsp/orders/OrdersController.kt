@@ -1,5 +1,6 @@
 package fi.metatavu.jsp.orders
 
+import fi.metatavu.jsp.api.spec.model.OrderStatus
 import fi.metatavu.jsp.persistence.dao.OrderDAO
 import fi.metatavu.jsp.persistence.model.CustomerOrder
 import fi.metatavu.jsp.products.*
@@ -111,6 +112,7 @@ class OrdersController {
     /**
      * Saves a new order to the database
      *
+     * @param orderStatus orderStatus
      * @param additionalInformation additional information
      * @param deliveryTime time of the delivery
      * @param room room
@@ -142,7 +144,8 @@ class OrdersController {
      *
      * @return a new order
      */
-    fun create (additionalInformation: String,
+    fun create (orderStatus: OrderStatus,
+                additionalInformation: String,
                 deliveryTime: OffsetDateTime,
                 room: String,
                 socialMediaPermission: Boolean,
@@ -167,7 +170,7 @@ class OrdersController {
                 creatorId: UUID): CustomerOrder {
 
         return orderDAO.create(
-                UUID.randomUUID(), additionalInformation, deliveryTime, room, socialMediaPermission, city, phoneNumber, deliveryAddress, homeAddress, billingAddress, isHomeBillingAddress, emailAddress, customer, moreInformation,
+                UUID.randomUUID(), orderStatus, additionalInformation, deliveryTime, room, socialMediaPermission, city, phoneNumber, deliveryAddress, homeAddress, billingAddress, isHomeBillingAddress, emailAddress, customer, moreInformation,
                 sinksInformation, otherProductsInformation, electricProductsInformation, domesticAppliancesInformation, intermediateSpacesInformation, doorsInformation, counterTopsInformation, handlesInformation, mechanismsInformation, creatorId
         )
     }
@@ -176,6 +179,7 @@ class OrdersController {
      * Updates order details to the database
      *
      * @param customerOrder an order to updated
+     * @param orderStatus order status
      * @param additionalInformation additional information
      * @param deliveryTime time of the delivery
      * @param room room
@@ -208,6 +212,7 @@ class OrdersController {
      * @return an updated order
      */
     fun update (customerOrder: CustomerOrder,
+                orderStatus: OrderStatus,
                 additionalInformation: String,
                 deliveryTime: OffsetDateTime,
                 room: String,
@@ -233,6 +238,7 @@ class OrdersController {
                 modifierId: UUID): CustomerOrder {
 
         orderDAO.updateAdditionalInformation(customerOrder, additionalInformation, modifierId)
+        orderDAO.updateOrderStatus(customerOrder, orderStatus, modifierId)
         orderDAO.updateCity(customerOrder, city, modifierId)
         orderDAO.updateCustomer(customerOrder, customer, modifierId)
         orderDAO.updateDeliveryAddress(customerOrder, deliveryAddress, modifierId)
@@ -256,7 +262,7 @@ class OrdersController {
 
         orderDAO.updateCounterTopsInformation(customerOrder, counterTopsInformation, modifierId)
         orderDAO.updateHandlesInformation(customerOrder, handlesInformation, modifierId)
-        orderDAO.updateDoorsInfromation(customerOrder, doorsInformation, modifierId)
+        orderDAO.updateDoorsInformation(customerOrder, doorsInformation, modifierId)
 
         return customerOrder
     }
