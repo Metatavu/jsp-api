@@ -68,6 +68,8 @@ class OrdersApiImpl: OrdersApi, AbstractApi() {
 
         val createdOrder = ordersController.create(
                 order.orderStatus,
+                order.seenByManagerAt,
+                order.sentToCustomerAt,
                 orderInfo.additionalInformation,
                 orderInfo.deliveryTime,
                 orderInfo.room,
@@ -80,6 +82,8 @@ class OrdersApiImpl: OrdersApi, AbstractApi() {
                 orderInfo.isHomeBillingAddress,
                 orderInfo.email,
                 orderInfo.customer,
+                orderInfo.price,
+                orderInfo.priceTaxFree,
                 order.moreInformation,
                 order.sinksAdditionalInformation,
                 order.otherProductsAdditionalInformation,
@@ -320,6 +324,8 @@ class OrdersApiImpl: OrdersApi, AbstractApi() {
         val updatedOrder = ordersController.update(
                 existingOrder,
                 order.orderStatus,
+                order.seenByManagerAt,
+                order.sentToCustomerAt,
                 orderInfo.additionalInformation,
                 orderInfo.deliveryTime, orderInfo.room,
                 orderInfo.socialMediaPermission, orderInfo.city,

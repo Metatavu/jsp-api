@@ -170,7 +170,9 @@ class OrderTestBuilderResource(testBuilder: AbstractTestBuilder<ApiClient?>?, pr
                 false,
                 "3",
                 OffsetDateTime.now().toString().replace("+02:00", "Z").replace("+03:00", "Z"),
-                "ABC")
+                "ABC",
+                23000.00,
+                2000.00)
 
         val exceptionsFromPlans = ArrayList<String>()
         exceptionsFromPlans.add("-------------")
@@ -230,7 +232,9 @@ class OrderTestBuilderResource(testBuilder: AbstractTestBuilder<ApiClient?>?, pr
                 Installation(false, null, "additional information"),
                 "More information",
                 orderFiles.toTypedArray(),
-                orderFiles.toTypedArray()
+                orderFiles.toTypedArray(),
+                seenByManagerAt = null,
+                sentToCustomerAt = null
                 )
     }
 }

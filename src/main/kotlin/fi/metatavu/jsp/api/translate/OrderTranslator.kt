@@ -68,7 +68,10 @@ class OrderTranslator: AbstractTranslator<CustomerOrder, Order>() {
     override fun translate(entity: CustomerOrder): Order {
         val order = Order()
         order.id = entity.id
+
         order.orderStatus = entity.orderStatus
+        order.seenByManagerAt = entity.seenByManagerAt
+        order.sentToCustomerAt = entity.sentToCustomerAt
 
         val orderInfo = OrderInfo()
         orderInfo.additionalInformation = entity.additionalInformation
@@ -85,6 +88,9 @@ class OrderTranslator: AbstractTranslator<CustomerOrder, Order>() {
         orderInfo.phoneNumber = entity.phoneNumber
         orderInfo.room = entity.room
         orderInfo.socialMediaPermission = entity.socialMediaPermission
+
+        orderInfo.price = entity.price
+        orderInfo.priceTaxFree = entity.priceTaxFree
 
         order.orderInfo = orderInfo
         order.doors = doorsController.list(entity).map(doorsTranslator::translate)
