@@ -343,7 +343,7 @@
             <column name="seenbymanagerat" type="datetime(6)"/>
             <column name="senttocustomerat" type="datetime(6)"/>
             <column name="price" type="double"/>
-            <column name="priceTaxFree" type="double"/>
+            <column name="pricetaxfree" type="double"/>
         </addColumn>
     </changeSet>
 </databaseChangeLog>
