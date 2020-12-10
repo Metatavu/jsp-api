@@ -16,6 +16,8 @@ class OrderDAO: AbstractDAO<CustomerOrder>() {
      *
      * @param id an id for identification
      * @param orderStatus order status
+     * @param seenByManagerAt: seen by manager timestamp,
+     * @param sentToCustomerAt: sent to customer at timestamp
      * @param additionalInformation additional information
      * @param deliveryTime time of the delivery
      * @param room room
@@ -47,6 +49,8 @@ class OrderDAO: AbstractDAO<CustomerOrder>() {
      */
     fun create (id: UUID,
                 orderStatus: OrderStatus,
+                seenByManagerAt: OffsetDateTime?,
+                sentToCustomerAt: OffsetDateTime?,
                 additionalInformation: String,
                 deliveryTime: OffsetDateTime,
                 room: String,
@@ -59,6 +63,8 @@ class OrderDAO: AbstractDAO<CustomerOrder>() {
                 isHomeBillingAddress: Boolean,
                 emailAddress: String,
                 customer: String,
+                price: Double,
+                priceTaxFree: Double,
                 moreInformation: String,
                 sinksInformation: String,
                 otherProductsInformation: String,
@@ -74,6 +80,8 @@ class OrderDAO: AbstractDAO<CustomerOrder>() {
         val order = CustomerOrder()
         order.id = id
         order.orderStatus = orderStatus
+        order.seenByManagerAt = seenByManagerAt
+        order.sentToCustomerAt = sentToCustomerAt
         order.additionalInformation = additionalInformation
         order.deliveryTime = deliveryTime
         order.room = room
@@ -86,6 +94,9 @@ class OrderDAO: AbstractDAO<CustomerOrder>() {
         order.isHomeBillingAddress = isHomeBillingAddress
         order.email = emailAddress
         order.customer = customer
+        order.price = price
+        order.priceTaxFree = priceTaxFree
+
         order.creatorId = creatorId
         order.moreInformation = moreInformation
 
@@ -121,6 +132,35 @@ class OrderDAO: AbstractDAO<CustomerOrder>() {
         return persist(customerOrder)
     }
 
+    /**
+     * Updates order seen by manager at time stamp
+     *
+     * @param customerOrder an order to be updated
+     * @param seenByManagerAt new timestamp
+     * @param modifierId of the user who modifies this order
+     *
+     * @return an updated order
+     */
+    fun updateSeenByManagerAt (customerOrder: CustomerOrder, seenByManagerAt: OffsetDateTime, modifierId: UUID): CustomerOrder {
+        customerOrder.seenByManagerAt = seenByManagerAt
+        customerOrder.lastModifierId = modifierId
+        return persist(customerOrder)
+    }
+
+    /**
+     * Updates order sent to customer at time stamp
+     *
+     * @param customerOrder an order to be updated
+     * @param sentToCustomerAt new timestamp
+     * @param modifierId of the user who modifies this order
+     *
+     * @return an updated order
+     */
+    fun updateSentToCustomerAt (customerOrder: CustomerOrder, sentToCustomerAt: OffsetDateTime, modifierId: UUID): CustomerOrder {
+        customerOrder.seenByManagerAt = sentToCustomerAt
+        customerOrder.lastModifierId = modifierId
+        return persist(customerOrder)
+    }
     /**
      * Updates intermediate spaces information
      *

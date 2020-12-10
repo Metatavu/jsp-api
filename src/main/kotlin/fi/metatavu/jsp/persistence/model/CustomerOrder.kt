@@ -13,6 +13,10 @@ class CustomerOrder {
     @Column(nullable = false)
     var orderStatus: OrderStatus? = null
 
+    var seenByManagerAt: OffsetDateTime? = null
+
+    var sentToCustomerAt: OffsetDateTime? = null
+
     @Column(nullable = false)
     var additionalInformation: String? = null
 
@@ -48,6 +52,12 @@ class CustomerOrder {
 
     @Column(nullable = false)
     var customer: String? = null
+
+    @Column(nullable = false)
+    var price: Double? = null
+
+    @Column(nullable = false)
+    var priceTaxFree: Double? = null
 
     @Column(nullable = false)
     var moreInformation: String? = null

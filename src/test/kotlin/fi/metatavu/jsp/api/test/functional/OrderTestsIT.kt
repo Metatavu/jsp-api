@@ -2,10 +2,13 @@ package fi.metatavu.jsp.api.test.functional
 
 import fi.metatavu.jsp.api.client.models.*
 import fi.metatavu.jsp.api.test.functional.builder.TestBuilder
+import org.joda.time.tz.ZoneInfoProvider
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Test
 import java.time.OffsetDateTime
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 
 /**
  * Tests for orders
@@ -18,6 +21,10 @@ class OrderTestsIT: AbstractFunctionalTest() {
             val createdOrder = testBuilder.admin().orders().create(testOrder)
 
             assertEquals(testOrder.orderInfo.customer, createdOrder.orderInfo.customer)
+            assertEquals(testOrder.orderInfo.price, createdOrder.orderInfo.price)
+            assertEquals(testOrder.orderInfo.priceTaxFree, createdOrder.orderInfo.priceTaxFree)
+            assertEquals(testOrder.sentToCustomerAt, createdOrder.sentToCustomerAt)
+            assertEquals(testOrder.seenByManagerAt, createdOrder.seenByManagerAt)
             assertEquals(testOrder.orderStatus, createdOrder.orderStatus)
             assertEquals(testOrder.orderInfo.email, createdOrder.orderInfo.email)
             assertEquals(testOrder.orderInfo.deliveryAddress, createdOrder.orderInfo.deliveryAddress)
@@ -162,7 +169,9 @@ class OrderTestsIT: AbstractFunctionalTest() {
                     "*** Updated information ***",
                     orderFiles.toTypedArray(),
                     orderFiles.toTypedArray(),
-                    createdOrder.id)
+                    createdOrder.id,
+                    seenByManagerAt = OffsetDateTime.now().toString(),
+                    sentToCustomerAt = OffsetDateTime.now().toString())
             val updatedOrder = testBuilder.admin().orders().update(orderToUpdate)
 
             assertEquals("Asiakas Matti", updatedOrder.orderInfo.customer)
@@ -189,6 +198,9 @@ class OrderTestsIT: AbstractFunctionalTest() {
             assertEquals("Updated counter tops information", updatedOrder.counterTopsAdditionalInformation)
             assertEquals("Updated handles information", updatedOrder.handlesAdditionalInformation)
             assertEquals("Updated doors information", updatedOrder.doorsAdditionalInformation)
+
+            assertEquals(OffsetDateTime.parse(orderToUpdate.seenByManagerAt).compareTo(OffsetDateTime.parse(orderToUpdate.seenByManagerAt)), 0)
+            assertEquals(OffsetDateTime.parse(orderToUpdate.sentToCustomerAt).compareTo(OffsetDateTime.parse(orderToUpdate.sentToCustomerAt)), 0)
 
             assertNotNull(updatedOrder.sinks[0])
             testBuilder.admin().genericProducts().assertGenericProductsEqual(orderToUpdate.sinks[0], updatedOrder.sinks[0])

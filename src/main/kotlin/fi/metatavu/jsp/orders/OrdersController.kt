@@ -113,6 +113,8 @@ class OrdersController {
      * Saves a new order to the database
      *
      * @param orderStatus orderStatus
+     * @param seenByManagerAt seen by manager at timestamp
+     * @param sentToCustomerAt sent to customer at timestamp
      * @param additionalInformation additional information
      * @param deliveryTime time of the delivery
      * @param room room
@@ -145,6 +147,8 @@ class OrdersController {
      * @return a new order
      */
     fun create (orderStatus: OrderStatus,
+                seenByManagerAt: OffsetDateTime?,
+                sentToCustomerAt: OffsetDateTime?,
                 additionalInformation: String,
                 deliveryTime: OffsetDateTime,
                 room: String,
@@ -157,6 +161,8 @@ class OrdersController {
                 isHomeBillingAddress: Boolean,
                 emailAddress: String,
                 customer: String,
+                price: Double,
+                priceTaxFree: Double,
                 moreInformation: String,
                 sinksInformation: String,
                 otherProductsInformation: String,
@@ -170,7 +176,7 @@ class OrdersController {
                 creatorId: UUID): CustomerOrder {
 
         return orderDAO.create(
-                UUID.randomUUID(), orderStatus, additionalInformation, deliveryTime, room, socialMediaPermission, city, phoneNumber, deliveryAddress, homeAddress, billingAddress, isHomeBillingAddress, emailAddress, customer, moreInformation,
+                UUID.randomUUID(), orderStatus, seenByManagerAt, sentToCustomerAt, additionalInformation, deliveryTime, room, socialMediaPermission, city, phoneNumber, deliveryAddress, homeAddress, billingAddress, isHomeBillingAddress, emailAddress, customer,price, priceTaxFree, moreInformation,
                 sinksInformation, otherProductsInformation, electricProductsInformation, domesticAppliancesInformation, intermediateSpacesInformation, doorsInformation, counterTopsInformation, handlesInformation, mechanismsInformation, creatorId
         )
     }
@@ -213,6 +219,8 @@ class OrdersController {
      */
     fun update (customerOrder: CustomerOrder,
                 orderStatus: OrderStatus,
+                seenByManagerAt: OffsetDateTime,
+                sentToCustomerAt: OffsetDateTime,
                 additionalInformation: String,
                 deliveryTime: OffsetDateTime,
                 room: String,
@@ -237,8 +245,12 @@ class OrdersController {
                 mechanismsInformation: String,
                 modifierId: UUID): CustomerOrder {
 
-        orderDAO.updateAdditionalInformation(customerOrder, additionalInformation, modifierId)
+
         orderDAO.updateOrderStatus(customerOrder, orderStatus, modifierId)
+        orderDAO.updateSeenByManagerAt(customerOrder, seenByManagerAt, modifierId)
+        orderDAO.updateSentToCustomerAt(customerOrder, sentToCustomerAt, modifierId)
+
+        orderDAO.updateAdditionalInformation(customerOrder, additionalInformation, modifierId)
         orderDAO.updateCity(customerOrder, city, modifierId)
         orderDAO.updateCustomer(customerOrder, customer, modifierId)
         orderDAO.updateDeliveryAddress(customerOrder, deliveryAddress, modifierId)
