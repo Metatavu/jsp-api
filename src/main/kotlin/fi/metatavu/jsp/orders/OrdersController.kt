@@ -161,8 +161,8 @@ class OrdersController {
                 isHomeBillingAddress: Boolean,
                 emailAddress: String,
                 customer: String,
-                price: Double,
-                priceTaxFree: Double,
+                price: Double?,
+                priceTaxFree: Double?,
                 moreInformation: String,
                 sinksInformation: String,
                 otherProductsInformation: String,
@@ -200,6 +200,8 @@ class OrdersController {
      *
      * @param emailAddress customer email address
      * @param customer new customer name
+     * @param price new price
+     * @param priceTaxFree new tax free price
      * @param moreInformation a new value for moreInformation-field
      *
      * @param sinksInformation sinks additional information
@@ -219,8 +221,8 @@ class OrdersController {
      */
     fun update (customerOrder: CustomerOrder,
                 orderStatus: OrderStatus,
-                seenByManagerAt: OffsetDateTime,
-                sentToCustomerAt: OffsetDateTime,
+                seenByManagerAt: OffsetDateTime?,
+                sentToCustomerAt: OffsetDateTime?,
                 additionalInformation: String,
                 deliveryTime: OffsetDateTime,
                 room: String,
@@ -233,6 +235,8 @@ class OrdersController {
                 isHomeBillingAddress: Boolean,
                 emailAddress: String,
                 customer: String,
+                price: Double?,
+                priceTaxFree: Double?,
                 moreInformation: String,
                 sinksInformation: String,
                 otherProductsInformation: String,
@@ -260,6 +264,9 @@ class OrdersController {
         orderDAO.updatePhoneNumber(customerOrder, phoneNumber, modifierId)
         orderDAO.updateSocialMediaPermission(customerOrder, socialMediaPermission, modifierId)
         orderDAO.updateMoreInformation(customerOrder, moreInformation, modifierId)
+
+        orderDAO.updatePrice(customerOrder,price, modifierId)
+        orderDAO.updatePriceTaxFree(customerOrder,priceTaxFree, modifierId)
 
         orderDAO.updateDomesticAppliancesInformation(customerOrder, domesticAppliancesInformation, modifierId)
         orderDAO.updateSinksInformation(customerOrder, sinksInformation, modifierId)

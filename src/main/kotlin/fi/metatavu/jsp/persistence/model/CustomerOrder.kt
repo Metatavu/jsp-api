@@ -53,10 +53,8 @@ class CustomerOrder {
     @Column(nullable = false)
     var customer: String? = null
 
-    @Column(nullable = false)
     var price: Double? = null
 
-    @Column(nullable = false)
     var priceTaxFree: Double? = null
 
     @Column(nullable = false)

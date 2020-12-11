@@ -107,7 +107,9 @@ class OrderTestsIT: AbstractFunctionalTest() {
                     true,
                     "32",
                     testDate,
-                    "ABCD")
+                    "ABCD",
+                    23.00,
+                    21.00)
 
             val exceptionsFromPlans = ArrayList<String>()
             exceptionsFromPlans.add("Updated notes")
@@ -188,7 +190,8 @@ class OrderTestsIT: AbstractFunctionalTest() {
             assertEquals(testDate.split(".")[0], updatedOrder.orderInfo.deliveryTime.split(".")[0])
             assertEquals("ABCD", updatedOrder.orderInfo.additionalInformation)
             assertEquals("*** Updated information ***", updatedOrder.moreInformation)
-
+            assertEquals(orderToUpdate.orderInfo.price, updatedOrder.orderInfo.price)
+            assertEquals(orderToUpdate.orderInfo.priceTaxFree, updatedOrder.orderInfo.priceTaxFree)
             assertEquals("Domestic appliances additional information 2", updatedOrder.domesticAppliancesAdditionalInformation)
             assertEquals("Other products additional information 2", updatedOrder.otherProductsAdditionalInformation)
             assertEquals("Intermediate spaces additional information 2", updatedOrder.intermediateSpacesAdditionalInformation)

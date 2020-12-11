@@ -336,6 +336,8 @@ class OrdersApiImpl: OrdersApi, AbstractApi() {
                 orderInfo.isHomeBillingAddress,
                 orderInfo.email,
                 orderInfo.customer,
+                orderInfo.price,
+                orderInfo.priceTaxFree,
                 order.moreInformation,
                 order.sinksAdditionalInformation,
                 order.otherProductsAdditionalInformation,

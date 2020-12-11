@@ -30,6 +30,8 @@ class OrderDAO: AbstractDAO<CustomerOrder>() {
      * @param isHomeBillingAddress is home address billing address
      * @param emailAddress customer email address
      * @param customer customer name
+     * @param price: price
+     * @param priceTaxFree: priceTaxFree
      * @param moreInformation more information
      *
      * @param sinksInformation sinks additional information
@@ -63,8 +65,8 @@ class OrderDAO: AbstractDAO<CustomerOrder>() {
                 isHomeBillingAddress: Boolean,
                 emailAddress: String,
                 customer: String,
-                price: Double,
-                priceTaxFree: Double,
+                price: Double?,
+                priceTaxFree: Double?,
                 moreInformation: String,
                 sinksInformation: String,
                 otherProductsInformation: String,
@@ -141,7 +143,7 @@ class OrderDAO: AbstractDAO<CustomerOrder>() {
      *
      * @return an updated order
      */
-    fun updateSeenByManagerAt (customerOrder: CustomerOrder, seenByManagerAt: OffsetDateTime, modifierId: UUID): CustomerOrder {
+    fun updateSeenByManagerAt (customerOrder: CustomerOrder, seenByManagerAt: OffsetDateTime?, modifierId: UUID): CustomerOrder {
         customerOrder.seenByManagerAt = seenByManagerAt
         customerOrder.lastModifierId = modifierId
         return persist(customerOrder)
@@ -156,7 +158,7 @@ class OrderDAO: AbstractDAO<CustomerOrder>() {
      *
      * @return an updated order
      */
-    fun updateSentToCustomerAt (customerOrder: CustomerOrder, sentToCustomerAt: OffsetDateTime, modifierId: UUID): CustomerOrder {
+    fun updateSentToCustomerAt (customerOrder: CustomerOrder, sentToCustomerAt: OffsetDateTime?, modifierId: UUID): CustomerOrder {
         customerOrder.seenByManagerAt = sentToCustomerAt
         customerOrder.lastModifierId = modifierId
         return persist(customerOrder)
@@ -455,6 +457,36 @@ class OrderDAO: AbstractDAO<CustomerOrder>() {
      */
     fun updateMoreInformation (customerOrder: CustomerOrder, moreInformation: String, modifierId: UUID): CustomerOrder {
         customerOrder.moreInformation = moreInformation
+        customerOrder.lastModifierId = modifierId
+        return persist(customerOrder)
+    }
+
+    /**
+     * Updates price
+     *
+     * @param customerOrder an order to be updated
+     * @param price updated price
+     * @param modifierId of the user who modifies this order
+     *
+     * @return an updated order
+     */
+    fun updatePrice(customerOrder: CustomerOrder, price: Double?, modifierId: UUID): CustomerOrder {
+        customerOrder.price = price
+        customerOrder.lastModifierId = modifierId
+        return persist(customerOrder)
+    }
+
+    /**
+     * Updates price
+     *
+     * @param customerOrder an order to be updated
+     * @param priceTaxFree updated tax free price
+     * @param modifierId of the user who modifies this order
+     *
+     * @return an updated order
+     */
+    fun updatePriceTaxFree(customerOrder: CustomerOrder, priceTaxFree: Double?, modifierId: UUID): CustomerOrder {
+        customerOrder.priceTaxFree = priceTaxFree
         customerOrder.lastModifierId = modifierId
         return persist(customerOrder)
     }
