@@ -170,9 +170,7 @@ class OrderTestBuilderResource(testBuilder: AbstractTestBuilder<ApiClient?>?, pr
                 false,
                 "3",
                 OffsetDateTime.now().toString().replace("+02:00", "Z").replace("+03:00", "Z"),
-                "ABC",
-                23000.00,
-                2000.00)
+                "ABC")
 
         val exceptionsFromPlans = ArrayList<String>()
         exceptionsFromPlans.add("-------------")

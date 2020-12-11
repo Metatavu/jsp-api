@@ -161,8 +161,8 @@ class OrdersController {
                 isHomeBillingAddress: Boolean,
                 emailAddress: String,
                 customer: String,
-                price: Double,
-                priceTaxFree: Double,
+                price: Double?,
+                priceTaxFree: Double?,
                 moreInformation: String,
                 sinksInformation: String,
                 otherProductsInformation: String,
@@ -219,8 +219,8 @@ class OrdersController {
      */
     fun update (customerOrder: CustomerOrder,
                 orderStatus: OrderStatus,
-                seenByManagerAt: OffsetDateTime,
-                sentToCustomerAt: OffsetDateTime,
+                seenByManagerAt: OffsetDateTime?,
+                sentToCustomerAt: OffsetDateTime?,
                 additionalInformation: String,
                 deliveryTime: OffsetDateTime,
                 room: String,
@@ -233,6 +233,8 @@ class OrdersController {
                 isHomeBillingAddress: Boolean,
                 emailAddress: String,
                 customer: String,
+                price: Double?,
+                priceTaxFree: Double?,
                 moreInformation: String,
                 sinksInformation: String,
                 otherProductsInformation: String,
@@ -260,6 +262,9 @@ class OrdersController {
         orderDAO.updatePhoneNumber(customerOrder, phoneNumber, modifierId)
         orderDAO.updateSocialMediaPermission(customerOrder, socialMediaPermission, modifierId)
         orderDAO.updateMoreInformation(customerOrder, moreInformation, modifierId)
+
+        orderDAO.updatePrice(customerOrder,price, modifierId)
+        orderDAO.updatePriceTaxFree(customerOrder,priceTaxFree, modifierId)
 
         orderDAO.updateDomesticAppliancesInformation(customerOrder, domesticAppliancesInformation, modifierId)
         orderDAO.updateSinksInformation(customerOrder, sinksInformation, modifierId)
