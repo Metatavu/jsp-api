@@ -108,7 +108,8 @@ class OrderTestsIT: AbstractFunctionalTest() {
                     "32",
                     testDate,
                     "ABCD",
-            23.00, 21.00)
+                    23.00,
+                    21.00)
 
             val exceptionsFromPlans = ArrayList<String>()
             exceptionsFromPlans.add("Updated notes")
