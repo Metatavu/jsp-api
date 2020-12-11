@@ -459,12 +459,30 @@ class OrderDAO: AbstractDAO<CustomerOrder>() {
         return persist(customerOrder)
     }
 
+    /**
+     * Updates price
+     *
+     * @param customerOrder an order to be updated
+     * @param price updated price
+     * @param modifierId of the user who modifies this order
+     *
+     * @return an updated order
+     */
     fun updatePrice(customerOrder: CustomerOrder, price: Double?, modifierId: UUID): CustomerOrder {
         customerOrder.price = price
         customerOrder.lastModifierId = modifierId
         return persist(customerOrder)
     }
 
+    /**
+     * Updates price
+     *
+     * @param customerOrder an order to be updated
+     * @param priceTaxFree updated tax free price
+     * @param modifierId of the user who modifies this order
+     *
+     * @return an updated order
+     */
     fun updatePriceTaxFree(customerOrder: CustomerOrder, priceTaxFree: Double?, modifierId: UUID): CustomerOrder {
         customerOrder.priceTaxFree = priceTaxFree
         customerOrder.lastModifierId = modifierId
