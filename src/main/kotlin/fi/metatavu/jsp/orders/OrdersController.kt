@@ -200,6 +200,8 @@ class OrdersController {
      *
      * @param emailAddress customer email address
      * @param customer new customer name
+     * @param price new price
+     * @param priceTaxFree new tax free price
      * @param moreInformation a new value for moreInformation-field
      *
      * @param sinksInformation sinks additional information

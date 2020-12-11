@@ -30,6 +30,8 @@ class OrderDAO: AbstractDAO<CustomerOrder>() {
      * @param isHomeBillingAddress is home address billing address
      * @param emailAddress customer email address
      * @param customer customer name
+     * @param price: price
+     * @param priceTaxFree: priceTaxFree
      * @param moreInformation more information
      *
      * @param sinksInformation sinks additional information
