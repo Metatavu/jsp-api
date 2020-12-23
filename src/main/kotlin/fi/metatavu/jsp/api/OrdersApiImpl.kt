@@ -3,6 +3,7 @@ package fi.metatavu.jsp.api
 import fi.metatavu.jsp.api.spec.OrdersApi
 import fi.metatavu.jsp.api.spec.model.*
 import fi.metatavu.jsp.api.translate.OrderTranslator
+import fi.metatavu.jsp.orders.FilesController
 import fi.metatavu.jsp.orders.OrdersController
 import fi.metatavu.jsp.persistence.model.CustomerOrder
 import fi.metatavu.jsp.products.*
@@ -29,6 +30,9 @@ class OrdersApiImpl: OrdersApi, AbstractApi() {
 
     @Inject
     private lateinit var handlesController: HandlesController
+
+    @Inject
+    private lateinit var filesController: FilesController
 
     @Inject
     private lateinit var orderTranslator: OrderTranslator
@@ -96,6 +100,8 @@ class OrdersApiImpl: OrdersApi, AbstractApi() {
                 order.mechanismsAdditionalInformation,
                 loggerUserId!!
         )
+        createFiles(order.customerFiles, true, createdOrder)
+        createFiles(order.orderFiles, false, createdOrder)
 
         createGenericProducts(order.sinks, createdOrder)
         createGenericProducts(order.otherProducts, createdOrder)
@@ -194,6 +200,26 @@ class OrdersApiImpl: OrdersApi, AbstractApi() {
                 }
             } else {
                 handlesController.create(handle.doorModelName, handle.color, handle.markedInImages, order, loggerUserId!!)
+            }
+        }
+    }
+
+    /**
+     * Saves files list to database
+     *
+     * @param files files to save
+     * @param customerFiles if the files are customer files
+     * @param order the order that the files are in
+     */
+    private fun createFiles(files: List<FileInformation>, customerFiles: Boolean, order: CustomerOrder) {
+        for (file in files) {
+            if (file.id != null) {
+                val existingFile = filesController.find(file.id)
+                if (existingFile != null){
+                    filesController.update(existingFile,file.name, file.url, loggerUserId!!)
+                }
+            } else {
+                filesController.create(file.name, file.url, customerFiles, order, loggerUserId!!)
             }
         }
     }
@@ -393,6 +419,22 @@ class OrdersApiImpl: OrdersApi, AbstractApi() {
             installations.additionalInformation,
             loggerUserId!!
         )
+
+        val existingCustomerFiles = filesController.list(existingOrder, true)
+        existingCustomerFiles.forEach { savedFile ->
+            if(!order.customerFiles.any{ newFile -> savedFile.id == newFile.id }){
+                filesController.delete(savedFile)
+            }
+        }
+        createFiles( order.customerFiles, true, updatedOrder)
+
+        val existingOrderFiles = filesController.list(existingOrder, false)
+        existingOrderFiles.forEach { savedFile ->
+            if(!order.orderFiles.any{ newFile -> savedFile.id == newFile.id }){
+                filesController.delete(savedFile)
+            }
+        }
+        createFiles( order.orderFiles, false, updatedOrder)
 
         return createOk(orderTranslator.translate(updatedOrder))
     }

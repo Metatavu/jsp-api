@@ -1,6 +1,7 @@
 package fi.metatavu.jsp.api.translate
 
 import fi.metatavu.jsp.api.spec.model.*
+import fi.metatavu.jsp.orders.FilesController
 import fi.metatavu.jsp.orders.OrdersController
 import fi.metatavu.jsp.persistence.model.CustomerOrder
 import fi.metatavu.jsp.products.*
@@ -57,6 +58,12 @@ class OrderTranslator: AbstractTranslator<CustomerOrder, Order>() {
 
     @Inject
     private lateinit var installationTranslator: InstallationTranslator
+
+    @Inject
+    private lateinit var filesController: FilesController
+
+    @Inject
+    private lateinit var fileTranslator: FileTranslator
 
     /**
      * Translates JPA orders into REST orders
@@ -119,8 +126,8 @@ class OrderTranslator: AbstractTranslator<CustomerOrder, Order>() {
         order.counterTopsAdditionalInformation = entity.counterTopsInformation
 
         order.moreInformation = entity.moreInformation
-        order.customerFiles = ArrayList()
-        order.orderFiles = ArrayList()
+        order.customerFiles = filesController.list(entity, true).map(fileTranslator::translate)
+        order.orderFiles = filesController.list(entity, false).map(fileTranslator::translate)
         order.createdAt = entity.createdAt
         order.modifiedAt = entity.modifiedAt
         order.creatorId = entity.creatorId

@@ -38,6 +38,8 @@ class OrdersController {
     @Inject
     private lateinit var installationsController: InstallationsController
 
+    @Inject
+    private lateinit var filesController: FilesController
     /**
      * Lists all orders
      *
@@ -101,6 +103,16 @@ class OrdersController {
         }
 
         val installations = installationsController.list(customerOrder)
+
+        installations.forEach { installation ->
+            installationsController.delete(installation)
+        }
+
+        val customerFiles = filesController.list(customerOrder, true)
+        customerFiles.forEach { filesController.delete(it) }
+
+        val orderFiles = filesController.list(customerOrder, false)
+        orderFiles.forEach { filesController.delete(it) }
 
         installations.forEach { installation ->
             installationsController.delete(installation)

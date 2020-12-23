@@ -50,6 +50,9 @@ class OrderTestsIT: AbstractFunctionalTest() {
             assertEquals(testOrder.counterTopsAdditionalInformation, createdOrder.counterTopsAdditionalInformation)
             assertEquals(testOrder.doorsAdditionalInformation, createdOrder.doorsAdditionalInformation)
 
+            assertEquals(testOrder.customerFiles[0].name, createdOrder.customerFiles[0].name)
+            assertEquals(testOrder.orderFiles[0].name, createdOrder.orderFiles[0].name)
+
             assertNotNull(createdOrder.sinks[0])
             testBuilder.admin().genericProducts().assertGenericProductsEqual(testOrder.sinks[0], createdOrder.sinks[0])
 
@@ -142,7 +145,8 @@ class OrderTestsIT: AbstractFunctionalTest() {
             val counterTops = ArrayList<CounterTop>()
             counterTops.add(CounterTop("Update counter top model", "55 mm", CounterTopType.sT))
 
-            val orderFiles = ArrayList<FileInformation>()
+            val orderFiles = createdOrder.orderFiles
+            val customerFiles = ArrayList<FileInformation>()
 
             val orderToUpdate = Order(
                     OrderStatus.oRDER,
@@ -169,9 +173,9 @@ class OrderTestsIT: AbstractFunctionalTest() {
                     "Mechanisms additional information 2",
                     Installation(false, createdOrder.installation.id, "updated additional information"),
                     "*** Updated information ***",
-                    orderFiles.toTypedArray(),
-                    orderFiles.toTypedArray(),
-                    createdOrder.id,
+                    customerFiles = customerFiles.toTypedArray(),
+                    orderFiles = orderFiles,
+                    id = createdOrder.id,
                     seenByManagerAt = OffsetDateTime.now().toString(),
                     sentToCustomerAt = OffsetDateTime.now().toString())
             val updatedOrder = testBuilder.admin().orders().update(orderToUpdate)
@@ -204,6 +208,10 @@ class OrderTestsIT: AbstractFunctionalTest() {
 
             assertEquals(OffsetDateTime.parse(orderToUpdate.seenByManagerAt).compareTo(OffsetDateTime.parse(orderToUpdate.seenByManagerAt)), 0)
             assertEquals(OffsetDateTime.parse(orderToUpdate.sentToCustomerAt).compareTo(OffsetDateTime.parse(orderToUpdate.sentToCustomerAt)), 0)
+
+            assertEquals(updatedOrder.orderFiles.count(), orderToUpdate.orderFiles.count())
+            assertEquals(updatedOrder.customerFiles.count(), orderToUpdate.customerFiles.count())
+
 
             assertNotNull(updatedOrder.sinks[0])
             testBuilder.admin().genericProducts().assertGenericProductsEqual(orderToUpdate.sinks[0], updatedOrder.sinks[0])
