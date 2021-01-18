@@ -422,7 +422,7 @@ class OrdersApiImpl: OrdersApi, AbstractApi() {
 
         val existingCustomerFiles = filesController.list(existingOrder, true)
         existingCustomerFiles.forEach { savedFile ->
-            if(!order.customerFiles.any{ newFile -> savedFile.id == newFile.id }){
+            if (!order.customerFiles.any{ newFile -> savedFile.id == newFile.id }) {
                 filesController.delete(savedFile)
             }
         }
