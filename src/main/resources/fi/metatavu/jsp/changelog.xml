@@ -346,4 +346,36 @@
             <column name="pricetaxfree" type="double"/>
         </addColumn>
     </changeSet>
+
+    <changeSet id="Files" author="Antti Leinonen">
+        <createTable tableName="file">
+            <column name="id" type="binary(16)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="createdat" type="datetime(6)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modifiedat" type="datetime(6)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="creatorid" type="binary(16)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="lastmodifierid" type="binary(16)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="customerorder_id" type="binary(16)">
+                <constraints nullable="false" foreignKeyName="FK_FILE_CUSTOMER_ORDER_ID" referencedTableName="customerorder" referencedColumnNames="id"/>
+            </column>
+            <column name="name" type="longtext">
+                <constraints nullable="false"/>
+            </column>
+            <column name="url" type="longtext">
+                <constraints nullable="false"/>
+            </column>
+            <column name="customerfile" type="boolean">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
 </databaseChangeLog>

@@ -203,6 +203,10 @@ class OrderTestBuilderResource(testBuilder: AbstractTestBuilder<ApiClient?>?, pr
         counterTops.add(CounterTop("Counter top model", "35 mm", CounterTopType.aBS))
 
         val orderFiles = ArrayList<FileInformation>()
+        orderFiles.add(FileInformation("Tiedosto 1", null,  "https://upload.wikimedia.org/wikipedia/commons/a/a3/June_odd-eyed-cat.jpg"))
+
+        val customerFiles = ArrayList<FileInformation>()
+        customerFiles.add(FileInformation("Tiedosto 2", null,  "https://upload.wikimedia.org/wikipedia/commons/a/a3/June_odd-eyed-cat.jpg"))
 
         return Order(
                 OrderStatus.dRAFT,
@@ -229,8 +233,8 @@ class OrderTestBuilderResource(testBuilder: AbstractTestBuilder<ApiClient?>?, pr
                 "mechanisms additional information",
                 Installation(false, null, "additional information"),
                 "More information",
-                orderFiles.toTypedArray(),
-                orderFiles.toTypedArray(),
+                orderFiles = orderFiles.toTypedArray(),
+                customerFiles = customerFiles.toTypedArray(),
                 seenByManagerAt = null,
                 sentToCustomerAt = null
                 )
