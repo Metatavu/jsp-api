@@ -426,7 +426,7 @@ class OrdersApiImpl: OrdersApi, AbstractApi() {
                 filesController.delete(savedFile)
             }
         }
-        createFiles( order.customerFiles, true, updatedOrder)
+        createFiles(order.customerFiles, true, updatedOrder)
 
         val existingOrderFiles = filesController.list(existingOrder, false)
         existingOrderFiles.forEach { savedFile ->
