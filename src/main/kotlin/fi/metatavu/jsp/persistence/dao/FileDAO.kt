@@ -22,6 +22,8 @@ class FileDAO: AbstractDAO<File>() {
      * @param customerFile customerFile
      * @param customerOrder order that this file is related to
      * @param creatorId id of the user who is creating this file
+     *
+     * @return created file
      */
     fun create (id: UUID, name: String, url: String, customerFile: Boolean, customerOrder: CustomerOrder, creatorId: UUID): File {
         val file = File()
