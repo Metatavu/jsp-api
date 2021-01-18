@@ -212,7 +212,6 @@ class OrderTestsIT: AbstractFunctionalTest() {
             assertEquals(updatedOrder.orderFiles.count(), orderToUpdate.orderFiles.count())
             assertEquals(updatedOrder.customerFiles.count(), orderToUpdate.customerFiles.count())
 
-
             assertNotNull(updatedOrder.sinks[0])
             testBuilder.admin().genericProducts().assertGenericProductsEqual(orderToUpdate.sinks[0], updatedOrder.sinks[0])
 
