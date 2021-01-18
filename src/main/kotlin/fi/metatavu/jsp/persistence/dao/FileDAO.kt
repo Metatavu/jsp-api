@@ -40,7 +40,7 @@ class FileDAO: AbstractDAO<File>() {
      *
      * @param file file to update
      * @param modifierId id of user who made the modification
-     * @param name new new
+     * @param name new name
      * @param url new url
      *
      * @return an updated file
