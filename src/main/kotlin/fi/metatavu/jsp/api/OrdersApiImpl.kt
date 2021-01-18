@@ -430,7 +430,7 @@ class OrdersApiImpl: OrdersApi, AbstractApi() {
 
         val existingOrderFiles = filesController.list(existingOrder, false)
         existingOrderFiles.forEach { savedFile ->
-            if(!order.orderFiles.any{ newFile -> savedFile.id == newFile.id }){
+            if (!order.orderFiles.any{ newFile -> savedFile.id == newFile.id }) {
                 filesController.delete(savedFile)
             }
         }
