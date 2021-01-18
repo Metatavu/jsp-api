@@ -434,7 +434,7 @@ class OrdersApiImpl: OrdersApi, AbstractApi() {
                 filesController.delete(savedFile)
             }
         }
-        createFiles( order.orderFiles, false, updatedOrder)
+        createFiles(order.orderFiles, false, updatedOrder)
 
         return createOk(orderTranslator.translate(updatedOrder))
     }
