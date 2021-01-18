@@ -215,7 +215,7 @@ class OrdersApiImpl: OrdersApi, AbstractApi() {
         for (file in files) {
             if (file.id != null) {
                 val existingFile = filesController.find(file.id)
-                if (existingFile != null){
+                if (existingFile != null) {
                     filesController.update(existingFile,file.name, file.url, loggerUserId!!)
                 }
             } else {
